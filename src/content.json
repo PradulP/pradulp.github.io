@@ -1,0 +1,164 @@
+{
+  "hero": {
+    "name": "PRADUL P",
+    "headline": "Civil Engineer | BIM Explorer | Tech Learner",
+    "tagline": "I design and build in both the physical world (infrastructure, BIM) and the digital world (web apps, automations). I love turning everyday engineering workflows into smart, simple tools.",
+    "status": "Currently: Junior Engineer @ Paradigm (Infrastructure) · Infopark Phase 2, Ernakulam",
+    "location": "Kerala, India",
+    "role": "Junior Engineer · Infrastructure",
+    "focus": "BIM · CAD · Web Apps",
+    "cvLink": "#",
+    "openTo": "Open to collaborations · BIM · Web tools · Automation",
+    "avatar": "/pradul-avatar.jpg"
+  },
+
+  "about": {
+    "paragraphs": [
+      "I'm a Civil Engineer and Junior Engineer currently working at Paradigm @ Infopark, Ernakulam, focusing on infrastructure projects, CAD drawings, soil layering, and geotechnical drawings.",
+      "I enjoy working with BIM tools (Revit, ACC, CAD) and exploring web development & automation—building utilities like money tracking apps, Google Sheets–integrated tools, and BIM-related scripts that reduce repetitive work.",
+      "I'm focused on becoming a future-ready engineer who can combine civil engineering fundamentals with digital tools, automation, and efficient workflows."
+    ]
+  },
+
+  "whatIDo": [
+    {
+      "title": "Civil Engineering",
+      "items": [
+        "Infrastructure drawings and detailing",
+        "Soil layering & geotechnical drawing support",
+        "Construction documentation & coordination"
+      ]
+    },
+    {
+      "title": "BIM & CAD",
+      "items": [
+        "Revit modeling & BIM experiments",
+        "2D drafting with AutoCAD",
+        "Exploring BIM automation with tools like pyRevit & Dynamo"
+      ]
+    },
+    {
+      "title": "Web & Digital Tools",
+      "items": [
+        "Simple web apps using React and JavaScript",
+        "Google Sheets + Apps Script integrations",
+        "Idea prototypes for engineering workflows"
+      ]
+    }
+  ],
+
+  "experience": [
+    {
+      "type": "job",
+      "role": "Junior Engineer – Paradigm (Infrastructure)",
+      "period": "2025 – Present",
+      "location": "Infopark Phase 2, Ernakulam, Kerala, India",
+      "points": [
+        "Working on infrastructure projects involving CAD drawings and detailing.",
+        "Handling soil layering, geotechnical drawings, and coordination with site teams.",
+        "Exploring BIM workflows and Revit-based processes to improve documentation."
+      ]
+    },
+    {
+      "type": "education",
+      "role": "B.Tech in Civil Engineering",
+      "period": "Completed: 2024",
+      "location": "Register No: STM20CE037",
+      "points": [
+        "Final year project on an energy-efficient college building using advanced BIM tools.",
+        "Focused on sustainability, energy performance, and digital modeling workflows."
+      ]
+    }
+  ],
+    "education": [
+    {
+      "degree": "B.Tech – Civil Engineering",
+      "place": "St. Thomas College of Engineering & Technology, Sivapuram, Kannur",
+      "period": "2020 – 2024",
+      "note": "Placement Cell – Coordinator. NSS 512 – Volunteer. Tech Fest – Coordinator. VBLAZE – Developer."
+    },
+    {
+      "degree": "Higher Secondary – Science",
+      "place": "Anjarakandy Higher Secondary School",
+      "period": "2018 – 2020",
+      "note": "NSS Volunteer."
+    }
+  ],
+
+
+  "projects": [
+    {
+      "title": "Money Tracking Web App",
+      "badge": "Google Sheets + JS",
+      "description": "A custom money tracking system connected to Google Sheets using Apps Script, designed to log income/expenses, filter transactions, and generate simple reports—built as a practical tool for daily use.",
+      "tech": "HTML, CSS, JavaScript, Google Apps Script, Google Sheets",
+      "link": ""
+    },
+    {
+      "title": "BIM & Revit Experiments",
+      "badge": "BIM · Automation",
+      "description": "Learning-focused experiments with Revit, BIM modeling, and early-stage automation ideas using tools like pyRevit & Dynamo, aiming to reduce repetitive tasks and improve coordination.",
+      "tech": "Revit, BIM, pyRevit (learning), Dynamo (exploring)",
+      "link": ""
+    },
+    {
+      "title": "Energy Efficient College Building",
+      "badge": "Academic · BIM",
+      "description": "Final year project focusing on sustainable campus design, energy efficiency, and BIM-based modeling workflow to analyze building performance and documentation.",
+      "tech": "BIM tools, energy analysis concepts",
+      "link": ""
+    }
+  ],
+
+  "skills": {
+    "civilBim": ["AutoCAD", "Revit", "BIM Modeling", "Infrastructure Drawings", "Geotechnical Drawings"],
+    "web": ["HTML", "CSS", "JavaScript", "React", "Tailwind CSS", "GitHub Pages"],
+    "tools": ["Google Sheets", "Google Apps Script", "Git & GitHub", "ACC (Autodesk Construction Cloud)"]
+  },
+
+  "innovation": [
+    {
+      "title": "Site Data → Digital Tools",
+      "description": "I’m interested in converting raw site-level information (drawings, quantities, notes) into simple digital tools—like planners, trackers, and dashboards—to make daily work faster."
+    },
+    {
+      "title": "BIM Automation Ideas",
+      "description": "Exploring ideas like parameter standardization, naming conventions, and quantity extraction using pyRevit/Dynamo to automate repetitive Revit tasks."
+    }
+  ],
+
+  "learning": {
+    "currently": [
+      "Strengthening core BIM workflows in Revit.",
+      "Improving JavaScript & React skills for building better tools.",
+      "Exploring pyRevit and Dynamo basics."
+    ],
+    "next": [
+      "Create at least one small public tool or template that others can use.",
+      "Build a stronger portfolio of digital + engineering mini projects."
+    ]
+  },
+
+  "blog": [
+    {
+      "title": "Why I Care About Digital Tools as a Civil Engineer",
+      "date": "2025-11-01",
+      "summary": "A short reflection on how even simple tools like a money tracker or a Google Sheets workflow can save time in real projects.",
+      "link": ""
+    },
+    {
+      "title": "First Steps Into BIM & Revit Automation",
+      "date": "2025-11-10",
+      "summary": "Notes from my early experiments with Revit, pyRevit, and the idea of automating small repetitive tasks.",
+      "link": ""
+    }
+  ],
+
+  "contact": {
+    "email": "pradul.p123@gmail.com",
+    "whatsapp": "918078376902",
+    "linkedin": "https://www.linkedin.com/in/your-profile",
+    "github": "https://github.com/pradul-p",
+    "location": "Kannur, Kerala, India"
+  }
+}

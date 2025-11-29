@@ -1,0 +1,60 @@
+{
+  "sectionId": "skills",
+  "eyebrow": "Skills",
+  "title": "What I work with",
+  "description": "A mix of civil engineering, BIM workflows, and front-end development to bridge construction and technology.",
+  "badges": [
+    "Junior Engineer @ Paradigm",
+    "Licensed Civil Engineer",
+    "BIM & Web Enthusiast"
+  ],
+  "note": "Constantly improving – especially in Revit automation and modern web tooling.",
+  "groups": [
+    {
+      "title": "Civil Engineering & BIM",
+      "skills": [
+        { "name": "Revit (Architecture / Structure)", "level": "Advanced" },
+        { "name": "BIM Modeling & Coordination", "level": "Intermediate" },
+        { "name": "AutoCAD 2D Drafting", "level": "Advanced" },
+        { "name": "Navisworks (Clash Review)", "level": "Intermediate" },
+        { "name": "Construction Drawings & Detailing", "level": "Advanced" }
+      ]
+    },
+    {
+      "title": "Revit Automation & Tools",
+      "skills": [
+        { "name": "pyRevit Scripts", "level": "Intermediate" },
+        { "name": "Dynamo (Visual Scripting)", "level": "Intermediate" },
+        { "name": "Excel ↔ Revit Workflows", "level": "Intermediate" },
+        { "name": "Custom Revit Tools (Python)", "level": "Learning" }
+      ]
+    },
+    {
+      "title": "Web & Front-End",
+      "skills": [
+        { "name": "HTML, CSS, JavaScript", "level": "Intermediate" },
+        { "name": "React.js", "level": "Intermediate" },
+        { "name": "Tailwind CSS", "level": "Intermediate" },
+        { "name": "Git & GitHub", "level": "Working" }
+      ]
+    },
+    {
+      "title": "Tools & Platforms",
+      "skills": [
+        { "name": "Autodesk Construction Cloud (ACC)", "level": "Working" },
+        { "name": "MS Excel & Google Sheets", "level": "Advanced" },
+        { "name": "VS Code", "level": "Daily Driver" },
+        { "name": "Notion / Task Management", "level": "Working" }
+      ]
+    },
+    {
+      "title": "Soft Skills",
+      "skills": [
+        { "name": "Site Coordination", "level": "Working" },
+        { "name": "Client Communication", "level": "Working" },
+        { "name": "Team Collaboration", "level": "Strong" },
+        { "name": "Problem Solving", "level": "Strong" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "projects": [
+    {
+      "id": "energy-efficient-college",
+      "title": "Energy Efficient College Building",
+      "subtitle": "Integrated planning, analysis, design & energy optimisation",
+      "type": "Civil / BIM",
+      "category": "civil",
+      "year": "2024",
+      "role": "Final year B.Tech project – BIM, analysis & documentation",
+      "summary": "A complete BIM-based workflow for an energy-efficient educational building – from site study, planning and structural analysis to energy optimisation and estimation.",
+      "tech": [
+        "Revit",
+        "ETABS",
+        "AutoCAD",
+        "DesignBuilder / Energy tools"
+      ],
+      "highlights": [
+        "Full BIM model created as single source of truth.",
+        "Energy performance studied and design decisions adjusted for efficiency.",
+        "Followed NBC, KMBR and relevant IS codes for planning and design.",
+        "Generated coordinated drawings, schedules and quantity estimates."
+      ],
+      "links": {
+        "demo": "https://www.youtube.com/playlist?list=PLBip7ccT-VcvewoYcRrg2QGc7Ix3mKT8O",
+        "repo": "",
+        "extra": ""
+      }
+    },
+    {
+      "id": "xtasy-2k24",
+      "title": "XTASY 2K24 – College Arts Fest Website",
+      "subtitle": "Event website for St. Thomas CET arts fest",
+      "type": "Web / Front-end",
+      "category": "web",
+      "year": "2024",
+      "role": "Designer & Front-end Developer",
+      "summary": "A responsive event website for XTASY 2K24, built to publish schedules, highlight events and give students a single place to track updates.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "GitHub Pages"
+      ],
+      "highlights": [
+        "Clean, fast static website deployed on GitHub Pages.",
+        "Clear navigation for events, rules and schedules.",
+        "Designed to match the fest branding and theme."
+      ],
+      "links": {
+        "demo": "https://pradul-p.github.io/XTASY-2K24/",
+        "repo": "https://github.com/PRADUL-P/XTASY-2K24",
+        "extra": ""
+      }
+    },
+    {
+      "id": "project-dasp",
+      "title": "Project DASP – Final Year Project Website",
+      "subtitle": "Public-facing site for project documentation",
+      "type": "Web / Project site",
+      "category": "web",
+      "year": "2024",
+      "role": "Front-end Developer",
+      "summary": "A simple, focused website created to present the final year project concept, team and documentation to external viewers.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "GitHub Pages"
+      ],
+      "highlights": [
+        "Provided a clean online presence for the project.",
+        "Easy navigation for abstract, methodology and media.",
+        "Helps external reviewers quickly understand the work."
+      ],
+      "links": {
+        "demo": "https://project-dasp.github.io/",
+        "repo": "https://github.com/PRADUL-P/dasp",
+        "extra": ""
+      }
+    }
+  ]
+}

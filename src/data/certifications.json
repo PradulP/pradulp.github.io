@@ -1,0 +1,65 @@
+{
+  "sectionId": "certifications",
+  "eyebrow": "Certifications & Achievements",
+  "title": "Things I've Earned Along the Way",
+  "description": "Licenses, certifications, and milestones that back up my work in civil engineering, BIM, and technology.",
+  "tabs": ["Certifications", "Achievements"],
+  "items": [
+    {
+      "title": "Licensed Civil Engineer",
+      "issuer": "Government of Kerala",
+      "year": "2024",
+      "type": "Certification",
+      "highlight": "Professional license to practice as a Civil Engineer.",
+      "tags": ["License", "Civil Engineering"],
+      "link": "",
+      "details": [
+        "Registered and licensed to practice as a Civil Engineer.",
+        "Validates core structural, design and construction knowledge.",
+        "Supports professional roles in consulting, design and site work."
+      ]
+    },
+    {
+      "title": "Junior Engineer – Paradigm (Infrastructure)",
+      "issuer": "Paradigm @ Infopark, Ernakulam",
+      "year": "2024",
+      "type": "Achievement",
+      "highlight": "Campus placement and current role as Junior Engineer.",
+      "tags": ["Job", "Infrastructure", "BIM / CAD"],
+      "link": "",
+      "details": [
+        "Working on infrastructure projects with CAD drawings and soil / geotechnical details.",
+        "Hands-on exposure to real-world coordination and documentation.",
+        "Helps connect academic knowledge with site and design workflows."
+      ]
+    },
+    {
+      "title": "BIM & Revit Project Experience",
+      "issuer": "Academic & Personal Projects",
+      "year": "2023",
+      "type": "Achievement",
+      "highlight": "Worked on BIM models, drawings and coordination using Revit.",
+      "tags": ["Revit", "BIM"],
+      "link": "",
+      "details": [
+        "Developed 3D models and drawings for college and practice projects.",
+        "Used Revit for architecture / structure modeling and detailing.",
+        "Built a foundation for future BIM automation work."
+      ]
+    },
+    {
+      "title": "Final Year Project – Energy Efficient College Building",
+      "issuer": "B.Tech Civil Engineering",
+      "year": "2024",
+      "type": "Achievement",
+      "highlight": "Capstone project focused on energy efficiency and BIM.",
+      "tags": ["Energy Efficient Design", "BIM", "Sustainability"],
+      "link": "",
+      "details": [
+        "Used BIM tools to explore energy-efficient building design.",
+        "Integrated sustainability considerations into structural planning.",
+        "Presented work as part of final year evaluation and viva."
+      ]
+    }
+  ]
+}
