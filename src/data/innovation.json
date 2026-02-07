@@ -2,55 +2,94 @@
   "items": [
     {
       "id": 1,
-      "title": "LUDARP BIM Toolkit",
-      "type": "BIM Automation",
-      "status": "In progress",
-      "description": "A collection of pyRevit scripts and Dynamo graphs to speed up modelling, sheet production, and QA in Revit.",
-      "details": "Includes small utilities for view/sheet naming, parameter checks, and repetitive modelling tasks. The focus is on practical tools that actually save time on real projects rather than big frameworks.",
-      "tech": ["Revit", "pyRevit", "Dynamo", "Python"],
+      "title": "AutoCAD Productivity Suite",
+      "type": "C# .NET / LISP",
+      "status": "Production Use",
+      "description": "Custom .NET plugins and advanced LISP routines developed to automate repetitive civil drafting and site level coordination tasks.",
+      "details": "Focused on increasing drafting efficiency by 40% through automated layer management, coordinate extraction, and batch printing utilities specifically for site layouts. Proven on multiple real-world residential and commercial site plans.",
+      "tech": [
+        "C#",
+        ".NET",
+        "AutoCAD API",
+        "LISP"
+      ],
       "hasTool": true,
+      "links": {
+        "repo": "https://github.com/PRADUL-P/Tools-for-AutoCAD"
+      },
       "showOnHome": true
     },
     {
       "id": 2,
-      "title": "Site Logs → Dashboard",
-      "type": "Data & Visualization",
-      "status": "Concept",
-      "description": "Idea for turning daily site logs, photos, and checklists into a live dashboard using simple web tools and spreadsheets.",
-      "details": "Keep data entry lightweight (forms, sheets, WhatsApp) and convert it into visuals: progress curves, issue lists, and pending RFIs.",
-      "tech": ["Sheets", "React", "Tailwind", "Charts"],
-      "hasTool": false
+      "title": "Revit BIM Automation Pro",
+      "type": "pyRevit / IronPython",
+      "status": "Live Execution",
+      "description": "A comprehensive library of pyRevit scripts designed for advanced BIM modelling, automated parameter syncing, and data-driven QA/QC.",
+      "details": "Includes tools for automated Room Data Sheet generation, parameter auditing, and bulk sheet naming. Currently used to maintain model health in complex B.Tech final year college projects and site coordination.",
+      "tech": [
+        "Python",
+        "pyRevit",
+        "Revit API",
+        "Dynamo"
+      ],
+      "hasTool": true,
+      "links": {
+        "repo": "https://github.com/PRADUL-P/Tools-for-Revit"
+      },
+      "showOnHome": true
     },
     {
       "id": 3,
-      "title": "AEC Portfolio Engine",
-      "type": "Web Tools",
-      "status": "Live",
-      "description": "This portfolio itself: a modular template for engineers combining experience, BIM projects, and code in one place.",
-      "details": "Built with React, Vite and Tailwind. Focuses on clean sections for experience, projects, BIM work and web tools — reusable as a starter for other engineers.",
-      "tech": ["React", "Vite", "Tailwind"],
+      "title": "Digital PDF Flip-Book Engine",
+      "type": "Web Utility / Animation",
+      "status": "Live Project",
+      "description": "An interactive digital publication engine developed to convert traditional PDF documents into immersive 3D flip-books with real-time physics.",
+      "details": "Engineered a custom flip-book interface using HTML/CSS/JS that simulates physical page physics and lighting. Designed to showcase technical articles and magazines in a modern, engaging digital format.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Turn.js"
+      ],
       "hasTool": true,
+      "links": {
+        "demo": "https://enginexus.github.io/EngiNexus-24/"
+      },
       "showOnHome": true
     },
     {
       "id": 4,
-      "title": "Learning Hub for Juniors",
-      "type": "Learning",
-      "status": "Future idea",
-      "description": "Plan for a small platform / playlist that explains BIM basics, drawings, and site coordination using simple examples.",
-      "details": "Mix YouTube short videos, Notion guides and small reproducible examples that connect site photos with drawings and BIM views.",
-      "tech": ["Content", "YouTube", "Notion"],
-      "hasTool": false
+      "title": "Personal Finance Tracker",
+      "type": "Web Application",
+      "status": "Live Tool",
+      "description": "A lightweight, secure money tracking web app designed for managing personal expenses and visualizing monthly financial trends.",
+      "details": "Developed as a utility tool for students and individuals to track spending. Features include expense logging, categorical visualization, and historical data persistence via local storage/backend integration.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Chart.js"
+      ],
+      "hasTool": true,
+      "links": {
+        "demo": "https://pradul-p.github.io/Money-Tracker/index.html"
+      },
+      "showOnHome": false
     },
     {
       "id": 5,
-      "title": "Lears",
-      "type": "Learning",
-      "status": "Future idea",
-      "description": "Plan for a small platform / playlist that explains BIM basics, drawings, and site coordination using simple examples.",
-      "details": "Mix YouTube short videos, Notion guides and small reproducible examples that connect site photos with drawings and BIM views.",
-      "tech": ["Content", "YouTube", "Notion"],
-      "hasTool": false
+      "title": "AEC Calculation Engine",
+      "type": "Engineering Logic",
+      "status": "Live Modules",
+      "description": "A suite of high-precision engineering calculators integrated directly into the web, bridging structural analysis formulas with interactive UI.",
+      "details": "Includes the Beam Analyzer, Gradient Solver, and Scale Converter. These tools allow site engineers to perform complex checks on-site without needing heavy desktop software, ensuring data-driven decisions on the ground.",
+      "tech": [
+        "React",
+        "Mathematics",
+        "SVG Animations"
+      ],
+      "hasTool": true,
+      "showOnHome": false
     }
   ]
 }

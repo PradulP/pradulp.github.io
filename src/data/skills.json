@@ -1,64 +1,114 @@
 {
     "sectionId": "skills",
     "eyebrow": "Technical Arsenal",
-    "title": "My Skills",
-    "description": "A combination of Civil Engineering, BIM, and Web Development tools.",
+    "title": "Technical Expertise",
+    "description": "A cross-disciplinary stack bridging Structural Engineering, BIM Management, and Software Development.",
     "badges": [
         "Junior Engineer",
-        "BIM Specialist",
-        "Web Developer"
+        "BIM Automation Lead",
+        "Full-Stack Developer"
     ],
     "groups": [
         {
-            "title": "Civil & BIM",
+            "title": "Civil & BIM Stack",
             "skills": [
                 {
                     "name": "Autodesk Revit",
-                    "level": "Advanced"
+                    "level": "Expert",
+                    "description": "Advanced parametric modeling, family creation, and worksharing coordination.",
+                    "tags": [
+                        "AEC",
+                        "CAD"
+                    ]
                 },
                 {
                     "name": "AutoCAD",
-                    "level": "Advanced"
+                    "level": "Expert",
+                    "description": "High-precision drafting, .NET API integration, and automated documentation.",
+                    "tags": [
+                        "Civil",
+                        "Design"
+                    ]
                 },
                 {
-                    "name": "BIM 360",
-                    "level": "Intermediate"
+                    "name": "BIM 360 / ACC",
+                    "level": "Advanced",
+                    "description": "Cloud-based model coordination, document management, and site sync.",
+                    "tags": [
+                        "Cloud",
+                        "CDE"
+                    ]
                 },
                 {
-                    "name": "ETABS",
-                    "level": "Intermediate"
+                    "name": "pyRevit & Dynamo",
+                    "level": "Daily User",
+                    "description": "Automating Revit tasks via Python and visual programming nodes.",
+                    "tags": [
+                        "Automation",
+                        "R&D"
+                    ]
                 },
                 {
-                    "name": "Civil 3D",
-                    "level": "Intermediate"
+                    "name": "Site Ops & Survey",
+                    "level": "On-Field",
+                    "description": "Practical site supervision, structural checks, and laser scan data parsing.",
+                    "tags": [
+                        "Site",
+                        "Execution"
+                    ]
                 }
             ]
         },
         {
-            "title": "Web Development",
+            "title": "Software Engine",
             "skills": [
                 {
-                    "name": "React.js",
-                    "level": "Strong"
+                    "name": "Python",
+                    "level": "Strong",
+                    "description": "Used for Revit API automation, data processing, and engineering scripts.",
+                    "tags": [
+                        "Language",
+                        "Back-end"
+                    ]
                 },
                 {
-                    "name": "JavaScript",
-                    "level": "Strong"
+                    "name": "React.js & Vite",
+                    "level": "Advanced",
+                    "description": "Building high-performance AEC web applications and interactive dashboards.",
+                    "tags": [
+                        "Frame",
+                        "U-UX"
+                    ]
+                },
+                {
+                    "name": "JavaScript (ES6+)",
+                    "level": "Advanced",
+                    "description": "Core logic for web tools and cross-platform automation scripts.",
+                    "tags": [
+                        "Language",
+                        "Web"
+                    ]
+                },
+                {
+                    "name": "Node.js & SQL",
+                    "level": "Functional",
+                    "description": "Backend database management for tracking engineering quantities.",
+                    "tags": [
+                        "Data",
+                        "Server"
+                    ]
                 },
                 {
                     "name": "Tailwind CSS",
-                    "level": "Advanced"
-                },
-                {
-                    "name": "Node.js",
-                    "level": "Intermediate"
-                },
-                {
-                    "name": "Vite",
-                    "level": "Strong"
+                    "level": "Advanced",
+                    "description": "Designing premium, responsive engineering-themed user interfaces.",
+                    "tags": [
+                        "Styles",
+                        "Design"
+                    ]
                 }
             ]
         }
     ],
-    "note": "Learning more every day!"
+    "note": "Continuously evolving the intersection of Engineering and Code."
 }

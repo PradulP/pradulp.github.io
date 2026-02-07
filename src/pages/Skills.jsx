@@ -259,33 +259,18 @@ function SkillCard({ skill, categoryTitle, onClick }) {
 export default function SkillsSection() {
   const {
     sectionId,
-    eyebrow,
     title,
     description,
-    badges,
     groups = [],
-    note,
   } = skillsData;
 
-  // Which skill category is active (Civil / BIM, Web, etc.)
   const [activeIndex, setActiveIndex] = useState(0);
-  // Which top view is active: "skills" or "certs"
-  const [activeView, setActiveView] = useState("skills");
-  // Which skill is selected for the modal
   const [selectedSkill, setSelectedSkill] = useState(null);
 
   const activeGroup = groups[activeIndex] || { title: "", skills: [] };
 
-  const handleCardClick = (skill, categoryTitle) => {
-    const percent = levelToPercent(skill.level);
-    const usage = getSkillUsage(skill.name, categoryTitle);
-
-    setSelectedSkill({
-      ...skill,
-      categoryTitle,
-      percent,
-      usage,
-    });
+  const openModal = (skill) => {
+    setSelectedSkill(skill);
   };
 
   const closeModal = () => setSelectedSkill(null);
@@ -293,235 +278,159 @@ export default function SkillsSection() {
   return (
     <section
       id={sectionId}
-      className="min-h-screen w-full bg-slate-950 text-slate-50 px-4 py-16 md:px-10 lg:px-24 relative overflow-hidden"
+      className="min-h-screen relative overflow-hidden font-sans selection:bg-sky-500/30 py-20"
     >
-      {/* Background neon glow */}
-      <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute -top-40 -left-20 w-72 h-72 rounded-full bg-sky-500/20 blur-3xl" />
-        <div className="absolute -bottom-40 -right-10 w-72 h-72 rounded-full bg-fuchsia-500/20 blur-3xl" />
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-sky-500/40 to-transparent" />
-      </div>
+      {/* Background CAD Grid */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(var(--cad-grid)_1px,transparent_1px),linear-gradient(90deg,var(--cad-grid)_1px,transparent_1px)] bg-[size:20px_20px]" />
 
-      <div className="max-w-6xl mx-auto relative space-y-10">
-        {/* ================= HEADER (same look as your screenshot) ================= */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          {/* Left: eyebrow, title, description */}
-          <div>
-            {eyebrow && (
-              <p className="text-sm uppercase tracking-[0.25em] text-sky-400">
-                {eyebrow}
-              </p>
-            )}
-            {title && (
-              <h2 className="text-3xl md:text-4xl font-semibold mt-2">
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p className="text-sm md:text-base text-slate-400 mt-3 max-w-xl">
-                {description}
-              </p>
-            )}
+      <div className="max-w-6xl mx-auto px-6 relative z-10 space-y-12">
+        {/* Engineering Header */}
+        <header className="space-y-3 border-l-4 border-sky-500 pl-6">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+            <p className="text-[10px] uppercase tracking-[0.4em] text-sky-400 font-mono font-bold">
+              Technical_Stack_v1.0
+            </p>
           </div>
+          <h1 className="text-3xl md:text-4xl font-black italic tracking-tighter uppercase text-slate-100">
+            Skills <span className="text-sky-500">&amp; Mastery</span>
+          </h1>
+          <p className="text-xs md:text-sm text-slate-400 max-w-2xl font-medium leading-relaxed">
+            {description}
+          </p>
+        </header>
 
-          {/* Right: badges (Junior Engineer, Licensed Civil, etc.) */}
-          {badges && badges.length > 0 && (
-            <div className="inline-flex flex-wrap gap-2 text-xs md:text-sm justify-start md:justify-end">
-              {badges.map((badge) => (
-                <span
-                  key={badge}
-                  className="px-3 py-1 rounded-full border border-slate-700 bg-slate-900/70 text-slate-100 shadow-[0_0_18px_rgba(56,189,248,0.25)]"
-                >
-                  {badge}
-                </span>
-              ))}
-            </div>
-          )}
+        {/* Category Navigation */}
+        <div className="flex flex-wrap gap-2 pt-2">
+          {groups.map((group, index) => {
+            const isActive = activeIndex === index;
+            return (
+              <button
+                key={group.title}
+                onClick={() => setActiveIndex(index)}
+                className={"px-4 py-1.5 text-[10px] font-mono font-bold uppercase tracking-widest border transition-all " +
+                  (isActive ? "bg-sky-500 text-slate-950 border-sky-500 shadow-[0_5px_15px_rgba(14,165,233,0.3)]" : "bg-slate-950/40 border-slate-800 text-slate-400 hover:border-sky-500/50 hover:text-sky-400")}
+              >
+                {group.title}
+              </button>
+            );
+          })}
         </div>
 
-        {/* ================= TOP TABS (centered under header)  ================= */}
-        {/* <div className="flex justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/80 p-1 text-xs md:text-sm">
-            <button
-              onClick={() => setActiveView("skills")}
-              className={`px-3 md:px-4 py-1.5 rounded-full transition-all ${
-                activeView === "skills"
-                  ? "bg-sky-500 text-slate-950 font-semibold shadow-[0_0_15px_rgba(56,189,248,0.6)]"
-                  : "text-slate-300 hover:text-sky-300"
-              }`}
+        {/* Skills Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {activeGroup.skills.map((skill) => (
+            <div
+              key={skill.name}
+              onClick={() => openModal(skill)}
+              className="group relative bg-slate-950/40 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-sky-500/50 transition-all backdrop-blur-sm cursor-pointer"
             >
-              Skills
-            </button>
-            <button
-              onClick={() => setActiveView("certs")}
-              className={`px-3 md:px-4 py-1.5 rounded-full transition-all ${
-                activeView === "certs"
-                  ? "bg-sky-500 text-slate-950 font-semibold shadow-[0_0_15px_rgba(56,189,248,0.6)]"
-                  : "text-slate-300 hover:text-sky-300"
-              }`}
-            >
-              Certifications & Achievements
-            </button>
-          </div>
-        </div> */}
+              {/* Corner Accent */}
+              <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-slate-800 group-hover:border-sky-500/30 transition-colors" />
 
-        {/* ================= VIEW: SKILLS ================= */}
-        {activeView === "skills" && (
-          <>
-            {/* Category tabs (Civil / BIM, Revit Automation, etc.) */}
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/70 px-3 py-3 md:px-4 md:py-4">
-              <div className="flex items-center justify-between gap-3 mb-3">
-                <p className="text-xs uppercase tracking-widest text-slate-500">
-                  Skill Categories
-                </p>
-                {activeGroup.title && (
-                  <p className="text-xs text-slate-400">
-                    Active:{" "}
-                    <span className="text-sky-300 font-medium">
-                      {activeGroup.title}
-                    </span>
-                  </p>
-                )}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-sky-500 font-mono text-xs">
+                    {skill.name[0]}
+                  </div>
+                  <span className="text-[9px] font-mono font-bold text-emerald-400 uppercase tracking-widest border border-emerald-500/20 bg-emerald-500/5 px-2 py-0.5 rounded">
+                    {skill.level}
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-sm font-black text-slate-100 uppercase tracking-tight group-hover:text-sky-400 transition-colors">
+                    {skill.name}
+                  </h3>
+                  <div className="flex flex-wrap gap-1">
+                    {(skill.tags || []).map(tag => (
+                      <span key={tag} className="text-[8px] font-mono text-slate-500 uppercase tracking-tighter">#{tag}</span>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              <div className="flex gap-2 overflow-x-auto pb-1">
-                {groups.map((group, index) => (
-                  <button
-                    key={group.title}
-                    onClick={() => setActiveIndex(index)}
-                    className={`px-3 py-2 rounded-xl text-xs md:text-sm border transition-all whitespace-nowrap flex items-center gap-2
-                      ${
-                        index === activeIndex
-                          ? "border-sky-500 bg-sky-500/20 text-sky-50 shadow-[0_0_25px_rgba(56,189,248,0.45)]"
-                          : "border-slate-800 bg-slate-900/80 text-slate-300 hover:border-sky-500/60 hover:bg-slate-900"
-                      }`}
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.75)]" />
-                    <span>{group.title}</span>
-                    {group.skills && (
-                      <span className="text-[0.65rem] text-slate-400">
-                        {group.skills.length}
-                      </span>
-                    )}
-                  </button>
-                ))}
+              <div className="mt-6 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-[9px] font-mono font-black uppercase text-sky-500">View Details →</span>
+                <div className="flex gap-0.5">
+                  <div className="w-1 h-3 bg-sky-500/20" />
+                  <div className="w-1 h-3 bg-sky-500/40" />
+                  <div className="w-1 h-3 bg-sky-500/60" />
+                </div>
               </div>
             </div>
-
-            {/* Skill cards grid */}
-            <div className="grid gap-5 md:gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {activeGroup.skills && activeGroup.skills.length > 0 ? (
-                activeGroup.skills.map((skill) => (
-                  <SkillCard
-                    key={skill.name}
-                    skill={skill}
-                    categoryTitle={activeGroup.title}
-                    onClick={() => handleCardClick(skill, activeGroup.title)}
-                  />
-                ))
-              ) : (
-                <p className="text-sm text-slate-500">
-                  No skills defined in this category yet. Add them in{" "}
-                  <code className="text-sky-400 text-xs bg-slate-900 px-1.5 py-0.5 rounded">
-                    skills.json
-                  </code>
-                  .
-                </p>
-              )}
-            </div>
-
-            {note && <p className="text-xs text-slate-500">* {note}</p>}
-          </>
-        )}
-
-        {/* ================= VIEW: CERTIFICATIONS TAB ================= */}
-      {/*  {activeView === "certs" && (
-          <div className="mt-4">
-            {/* This component reads from certifications.json and has its own cards + modal */}
-           {/* <CertificationsSection />
-          </div>
-        )}*/}
+          ))}
+        </div>
       </div>
 
-      {/* ================= MODAL: SKILL DETAILS ================= */}
+      {/* Detail Modal */}
       {selectedSkill && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center px-4">
-          {/* overlay */}
-          <button
-            className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
-            onClick={closeModal}
-          />
-
-          <div className="relative z-50 w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-950/95 p-6 shadow-[0_0_40px_rgba(56,189,248,0.5)]">
-            <div className="flex items-start justify-between gap-3 mb-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-sky-400">
-                  Skill Details
-                </p>
-                <h3 className="text-xl md:text-2xl font-semibold text-slate-50 mt-1 break-words">
-                  {selectedSkill.name}
-                </h3>
-                <p className="text-xs text-slate-400 mt-1">
-                  {selectedSkill.categoryTitle} ·{" "}
-                  <span className="text-emerald-300">
-                    {selectedSkill.percent}%
-                  </span>{" "}
-                  comfort
-                </p>
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-slate-950/90 backdrop-blur-xl px-4 py-8 overflow-y-auto animate-in fade-in zoom-in duration-300 cursor-pointer"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] overflow-hidden cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between">
+              <div className="flex flex-col">
+                <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest font-bold font-mono">Component: {selectedSkill.name}</span>
+                <p className="text-[8px] font-mono text-slate-700 uppercase">Unit_ID: {activeGroup.title.replace(/\s+/g, '_')}_00X</p>
               </div>
-
               <button
                 onClick={closeModal}
-                className="px-2.5 py-1 rounded-full text-xs border border-slate-700 text-slate-300 hover:border-sky-500 hover:text-sky-200"
+                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-colors text-slate-500 hover:text-slate-100"
               >
                 ✕
               </button>
             </div>
 
-            <div className="flex flex-wrap gap-2 mb-4">
-              {selectedSkill.level && (
-                <span className="px-3 py-1 rounded-full text-[0.7rem] uppercase tracking-wide border border-sky-500/70 bg-sky-500/10 text-sky-100">
-                  {selectedSkill.level}
-                </span>
-              )}
-              <span className="px-3 py-1 rounded-full text-[0.7rem] uppercase tracking-wide border border-emerald-500/60 bg-emerald-500/10 text-emerald-100">
-                {selectedSkill.categoryTitle}
-              </span>
-            </div>
+            {/* Modal Content */}
+            <div className="p-8 space-y-6 bg-slate-900/50">
+              <header className="space-y-4 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl font-black text-sky-500">{selectedSkill.name[0]}</span>
+                </div>
+                <h2 className="text-2xl font-black italic tracking-tighter uppercase text-slate-100 leading-none">
+                  {selectedSkill.name}
+                </h2>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/5 border border-emerald-500/20 rounded-full">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest">{selectedSkill.level} Efficiency</span>
+                </div>
+              </header>
 
-            <div className="space-y-3 text-sm text-slate-300">
-              <div>
-                <h4 className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">
-                  Where this is used
-                </h4>
-                <ul className="list-disc list-inside space-y-1">
-                  {selectedSkill.usage.map((u, idx) => (
-                    <li key={idx}>{u}</li>
+              <div className="space-y-4">
+                <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl space-y-2">
+                  <p className="text-[9px] font-mono font-bold text-slate-500 uppercase tracking-widest">How I use it</p>
+                  <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                    {selectedSkill.description || "Used for complex architectural and structural workflows in large-scale projects."}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {(selectedSkill.tags || []).map(tag => (
+                    <span key={tag} className="text-[9px] font-mono font-bold text-sky-400 bg-sky-400/5 border border-sky-400/20 px-3 py-1 rounded">
+                      #{tag}
+                    </span>
                   ))}
-                </ul>
-              </div>
-
-              <div className="mt-3">
-                <h4 className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">
-                  How it fits your profile
-                </h4>
-                <p className="text-xs text-slate-400">
-                  Part of your stack as a{" "}
-                  <span className="text-sky-300">
-                    civil engineer, BIM modeler and web-tech enthusiast
-                  </span>
-                  , helping you connect on-site work, digital modeling and
-                  automation.
-                </p>
+                </div>
               </div>
             </div>
 
-            <div className="mt-5 flex justify-end">
+            {/* Modal Footer */}
+            <div className="bg-slate-950 p-4 border-t border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+                <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest font-bold">System_Verified</span>
+              </div>
               <button
                 onClick={closeModal}
-                className="px-4 py-1.5 rounded-full text-xs border border-sky-500/80 bg-sky-500/10 text-sky-100 hover:bg-sky-500/20"
+                className="px-6 py-2 rounded-lg bg-sky-500 text-slate-950 text-[10px] font-bold uppercase tracking-widest hover:bg-sky-400 transition-all font-mono"
               >
-                Close
+                Close_Details
               </button>
             </div>
           </div>

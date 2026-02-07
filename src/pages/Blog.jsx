@@ -31,19 +31,38 @@ export default function Blog() {
   const closeModal = () => setSelectedPost(null);
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] px-4 py-10">
-      <div className="max-w-5xl mx-auto space-y-8">
-        <header className="space-y-3">
-          <p className="text-xs uppercase tracking-[0.25em] text-sky-400">Writing & Notes</p>
-          <h1 className="text-3xl md:text-4xl font-semibold">Blog <span className="text-sky-400">&amp; Ideas</span></h1>
-          <p className="text-sm md:text-base text-slate-300 max-w-2xl">Short articles and notes around BIM, automation, civil engineering and web tools. Some are published; some are drafts.</p>
+    <div className="min-h-screen relative overflow-hidden font-sans selection:bg-sky-500/30">
+      {/* Background CAD Grid */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(var(--cad-grid)_1px,transparent_1px),linear-gradient(90deg,var(--cad-grid)_1px,transparent_1px)] bg-[size:20px_20px]" />
+
+      <div className="max-w-6xl mx-auto px-6 pt-10 pb-20 relative z-10 space-y-12">
+        {/* Engineering Header */}
+        <header className="space-y-3 border-l-4 border-sky-500 pl-6">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+            <p className="text-[10px] uppercase tracking-[0.4em] text-sky-400 font-mono font-bold">
+              Engineering Journal
+            </p>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black italic tracking-tighter uppercase text-slate-100">
+            Insights <span className="text-sky-500">&amp; Ideas</span>
+          </h1>
+          <p className="text-xs md:text-sm text-slate-400 max-w-2xl font-medium leading-relaxed">
+            Short articles and notes around <span className="text-slate-100 font-bold">BIM</span>, <span className="text-sky-400 font-bold">Automation</span>, and <span className="text-emerald-400 font-bold">Engineering Workflows</span>.
+          </p>
         </header>
 
-        <div className="flex flex-wrap gap-2 text-xs">
+        {/* Filter System */}
+        <div className="flex flex-wrap gap-2 pt-2">
           {tags.map((tag) => {
             const isActive = activeTag === tag;
             return (
-              <button key={tag} onClick={() => setActiveTag(tag)} className={"rounded-full px-3 py-1 border text-xs transition " + (isActive ? "bg-sky-500 text-slate-950 border-sky-500" : "bg-slate-950/60 border-slate-700 text-slate-200 hover:border-sky-500/70")}>
+              <button
+                key={tag}
+                onClick={() => setActiveTag(tag)}
+                className={"px-4 py-1.5 text-[10px] font-mono font-bold uppercase tracking-widest border transition-all " +
+                  (isActive ? "bg-sky-500 text-slate-950 border-sky-500 shadow-[0_5px_15px_rgba(14,165,233,0.3)]" : "bg-slate-950/40 border-slate-800 text-slate-400 hover:border-sky-500/50 hover:text-sky-400")}
+              >
                 {tag}
               </button>
             );
@@ -51,28 +70,49 @@ export default function Blog() {
         </div>
 
         {filtered.length === 0 ? (
-          <p className="text-sm text-slate-400">No posts yet in this category. Check back soon.</p>
+          <div className="py-20 text-center space-y-4">
+            <div className="w-12 h-12 rounded-full border border-slate-800 flex items-center justify-center mx-auto">
+              <div className="w-2 h-2 rounded-full bg-slate-700" />
+            </div>
+            <p className="text-xs font-mono text-slate-500 uppercase tracking-widest">No articles found in this category</p>
+          </div>
         ) : (
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((post) => (
-              <article key={post.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 flex flex-col justify-between hover:border-sky-500/40 hover:-translate-y-0.5 transition">
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between gap-3 text-[11px] text-slate-400">
-                    <span>{post.tag}</span>
+              <article
+                key={post.id}
+                className="group relative bg-slate-950/40 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-sky-500/50 transition-all backdrop-blur-sm cursor-pointer"
+                onClick={() => openModal(post)}
+              >
+                {/* Corner Accent */}
+                <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-slate-800 group-hover:border-sky-500/30 transition-colors" />
+
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between text-[9px] font-mono font-bold tracking-widest text-slate-500">
+                    <span className="uppercase text-sky-500/80 bg-sky-500/5 px-2 py-0.5 border border-sky-500/10 rounded">
+                      {post.tag}
+                    </span>
                     <div className="flex items-center gap-2">
                       {post.date && <span>{formatDate(post.date)}</span>}
                       {post.readTime && <span>• {post.readTime}</span>}
-                      {statusBadge(post.status)}
                     </div>
                   </div>
 
-                  <h2 className="text-base md:text-lg font-semibold">{post.title}</h2>
-                  <p className="text-xs md:text-sm text-slate-300 line-clamp-3">{post.summary}</p>
+                  <div className="space-y-2">
+                    <h2 className="text-lg font-black text-slate-100 italic tracking-tighter leading-tight group-hover:text-sky-400 transition-colors">
+                      {post.title}
+                    </h2>
+                    <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed font-medium">
+                      {post.summary}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
-                  <button onClick={() => openModal(post)} className="text-sky-400 hover:underline">Read here →</button>
-                  {post.url ? <span className="text-[11px] text-slate-500">External article</span> : <span className="text-[11px] text-slate-500">—</span>}
+                <div className="mt-8 flex items-center justify-between">
+                  <span className="text-[10px] font-mono font-black uppercase text-sky-500 group-hover:translate-x-1 transition-transform">
+                    Read Article →
+                  </span>
+                  {statusBadge(post.status)}
                 </div>
               </article>
             ))}
@@ -80,34 +120,76 @@ export default function Blog() {
         )}
       </div>
 
-      {/* modal */}
+      {/* Reader Modal */}
       {selectedPost && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="bg-slate-950 border border-slate-800 rounded-2xl max-w-2xl w-full p-5 md:p-6 shadow-2xl">
-            <div className="flex items-start justify-between gap-3 mb-3">
-              <div className="space-y-1">
-                <p className="text-[11px] text-slate-400 uppercase tracking-[0.18em]">{selectedPost.tag}</p>
-                <h2 className="text-lg md:text-xl font-semibold">{selectedPost.title}</h2>
-                <div className="flex items-center gap-2 text-[11px] text-slate-400">
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-slate-950/90 backdrop-blur-xl px-4 py-8 overflow-y-auto animate-in fade-in zoom-in duration-300 cursor-pointer"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] overflow-hidden cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between">
+              <div className="flex flex-col">
+                <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest font-bold">Category: {selectedPost.tag}</span>
+                <p className="text-[8px] font-mono text-slate-700 uppercase">Document_ID: {selectedPost.id}00X</p>
+              </div>
+              <button
+                onClick={closeModal}
+                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-colors text-slate-500 hover:text-slate-100"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-8 md:p-12 overflow-y-auto max-h-[70vh] custom-scrollbar space-y-8 bg-slate-900/50">
+              <header className="space-y-4">
+                <div className="flex items-center gap-4 text-[11px] font-mono text-sky-400 font-bold uppercase">
                   {selectedPost.date && <span>{formatDate(selectedPost.date)}</span>}
-                  {selectedPost.readTime && <span>• {selectedPost.readTime}</span>}
-                  {selectedPost.status && <span className="ml-1">{statusBadge(selectedPost.status)}</span>}
+                  <span className="w-1 h-1 rounded-full bg-slate-700" />
+                  {selectedPost.readTime && <span>{selectedPost.readTime} Read</span>}
+                  <span className="w-1 h-1 rounded-full bg-slate-700" />
+                  {statusBadge(selectedPost.status)}
                 </div>
-              </div>
-              <button onClick={closeModal} className="text-slate-400 hover:text-slate-100 text-sm px-2 py-1 rounded-lg bg-slate-900/60 border border-slate-700">✕</button>
-            </div>
+                <h2 className="text-3xl md:text-4xl font-black italic tracking-tighter uppercase text-slate-100 leading-[1.1]">
+                  {selectedPost.title}
+                </h2>
+              </header>
 
-            <div className="mt-3 space-y-3 text-sm text-slate-200 max-h-72 overflow-y-auto pr-1">
-              <p>{selectedPost.content || selectedPost.summary || "No content yet."}</p>
-            </div>
-
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-xs">
-              <div className="flex gap-3">
-                <button onClick={closeModal} className="px-4 py-1.5 rounded-lg border border-slate-700 bg-slate-900/80 text-slate-200 hover:border-sky-500/70 transition">Close</button>
-                {selectedPost.url && <a href={selectedPost.url} target="_blank" rel="noreferrer" className="px-4 py-1.5 rounded-lg bg-sky-500 text-slate-950 font-medium hover:bg-sky-400 transition">Open full article ↗</a>}
+              <div className="prose prose-invert prose-slate max-w-none">
+                <p className="text-base md:text-lg text-slate-300 leading-relaxed font-medium">
+                  {selectedPost.content || selectedPost.summary}
+                </p>
               </div>
 
-              {selectedPost.url && <p className="text-[11px] text-slate-400">Opens in a new tab.</p>}
+              {selectedPost.url && (
+                <div className="pt-6 border-t border-slate-800">
+                  <p className="text-[10px] font-mono text-slate-500 uppercase mb-4 tracking-widest">Extended Material Found:</p>
+                  <a
+                    href={selectedPost.url} target="_blank" rel="noreferrer"
+                    className="inline-flex items-center gap-3 bg-sky-500 hover:bg-sky-400 text-slate-950 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg shadow-sky-500/20"
+                  >
+                    Open External Article ↗
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="bg-slate-950 p-4 border-t border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest font-bold">System_Ready</span>
+              </div>
+              <button
+                onClick={closeModal}
+                className="px-6 py-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-[10px] font-bold uppercase tracking-widest hover:border-slate-700 hover:text-slate-100 transition-all font-mono"
+              >
+                Close_Reader
+              </button>
             </div>
           </div>
         </div>

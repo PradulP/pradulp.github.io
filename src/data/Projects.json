@@ -9,15 +9,29 @@
       "year": "2024",
       "role": "Final Year B.Tech Project",
       "summary": "Designed an energy-efficient G+2 educational building using advanced BIM workflows including site study, planning, structural analysis, energy optimisation, estimation, and visualisation.",
-      "tech": ["Revit", "ETABS", "AutoCAD", "DesignBuilder", "Enscape"],
+      "tech": [
+        "Revit",
+        "ETABS",
+        "AutoCAD",
+        "DesignBuilder",
+        "Enscape"
+      ],
       "highlights": [
         "Developed a complete BIM model as a single source of truth.",
         "Optimised building energy performance using simulations.",
         "Followed NBC, KMBR and relevant IS codes.",
         "Generated coordinated drawings, schedules and estimates."
       ],
-      "images": ["/projects/p2.webp", "/projects/p2.webp", "/projects/p3.webp", "/projects/p4.webp"],
-      "model": { "type": "glb", "src":""  },
+      "images": [
+        "/projects/p2.webp",
+        "/projects/p2.webp",
+        "/projects/p3.webp",
+        "/projects/p4.webp"
+      ],
+      "model": {
+        "type": "glb",
+        "src": ""
+      },
       "links": {
         "demo": "https://www.youtube.com/playlist?list=PLBip7ccT-VcvewoYcRrg2QGc7Ix3mKT8O",
         "repo": "",
@@ -25,7 +39,6 @@
       },
       "homeFeatured": true
     },
-
     {
       "id": "smart-city-bim",
       "title": "A Visionary Smart City",
@@ -35,14 +48,23 @@
       "year": "2023",
       "role": "BIM Modeler",
       "summary": "Conceptual smart city design using BIM tools focusing on zoning, planning, and sustainable infrastructure.",
-      "tech": ["Revit", "AutoCAD"],
+      "tech": [
+        "Revit",
+        "AutoCAD"
+      ],
       "highlights": [
         "Prepared conceptual BIM models for urban planning.",
         "Explored sustainable infrastructure layouts.",
         "Created city-level visualisations."
       ],
-      "images": ["/projects/S11.webp", "/projects/S22.webp"],
-      "model": { "type": "glb", "src": "" },
+      "images": [
+        "/projects/S11.webp",
+        "/projects/S22.webp"
+      ],
+      "model": {
+        "type": "glb",
+        "src": ""
+      },
       "links": {
         "demo": "https://youtu.be/WiaV3NmNlXg",
         "repo": "",
@@ -50,7 +72,6 @@
       },
       "homeFeatured": true
     },
-
     {
       "id": "commercial-building-bim",
       "title": "Commercial Building – BIM Design",
@@ -60,14 +81,26 @@
       "year": "2023",
       "role": "BIM Modeler",
       "summary": "Designed a commercial building using BIM tools with detailed modelling, drawings, and visualisation.",
-      "tech": ["Revit", "AutoCAD", "Enscape"],
+      "tech": [
+        "Revit",
+        "AutoCAD",
+        "Enscape"
+      ],
       "highlights": [
         "Created detailed BIM models.",
         "Generated coordinated drawings.",
         "Produced realistic renders."
       ],
-      "images": ["/projects/C11.webp", "/projects/C12.webp", "/projects/C13.webp", "/projects/C14.webp"],
-      "model": { "type": "glb", "src": "" },
+      "images": [
+        "/projects/C11.webp",
+        "/projects/C12.webp",
+        "/projects/C13.webp",
+        "/projects/C14.webp"
+      ],
+      "model": {
+        "type": "glb",
+        "src": ""
+      },
       "links": {
         "demo": "https://youtu.be/l7f6IUEXNOE",
         "repo": "",
@@ -75,7 +108,6 @@
       },
       "homeFeatured": true
     },
-
     {
       "id": "residential-revit-series",
       "title": "Residential Building Designs (Revit)",
@@ -85,7 +117,11 @@
       "year": "2022",
       "role": "BIM Modeler",
       "summary": "Series of residential house design projects using Revit and Enscape for modelling and visualisation.",
-      "tech": ["Revit", "AutoCAD", "Enscape"],
+      "tech": [
+        "Revit",
+        "AutoCAD",
+        "Enscape"
+      ],
       "highlights": [
         "Developed multiple parametric Revit models.",
         "Prepared drawings and schedules.",
@@ -98,14 +134,14 @@
         "/projects/h2.1.webp",
         "/projects/h2.2.webp",
         "/projects/h3.3.webp",
-       
         "/projects/h3.2.webp",
-        
         "/projects/H33.webp",
-      
         "/projects/H44.webp"
       ],
-      "model": { "type": "glb", "src": "" },
+      "model": {
+        "type": "glb",
+        "src": ""
+      },
       "links": {
         "demo": "https://www.youtube.com/playlist?list=PLBip7ccT-Vcvj8sn_rWNx6dMwNR3TSOfP",
         "repo": "",
@@ -113,7 +149,6 @@
       },
       "homeFeatured": true
     },
-
     {
       "id": "xtasy-2k24",
       "title": "XTASY 2K24 – Arts Fest Website",
@@ -123,13 +158,19 @@
       "year": "2024",
       "role": "Designer & Front-end Developer",
       "summary": "Responsive event website developed to showcase fest events, schedules, and updates.",
-      "tech": ["HTML", "CSS", "JavaScript"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "highlights": [
         "Static site deployed on GitHub Pages.",
         "UI aligned with fest branding.",
         "Clear navigation for events."
       ],
-      "images": ["/projects/XTASY24.webp"],
+      "images": [
+        "/projects/XTASY24.webp"
+      ],
       "links": {
         "demo": "https://pradul-p.github.io/XTASY-2K24/",
         "repo": "https://github.com/PRADUL-P/XTASY-2K24",
@@ -137,7 +178,6 @@
       },
       "homeFeatured": false
     },
-
     {
       "id": "ignite-2k22",
       "title": "IGNITE 2K22 – College Sports Fest Website",
@@ -147,13 +187,20 @@
       "year": "2022",
       "role": "Front-end Developer (V BLAZE Team)",
       "summary": "Website created for college sports fest to display schedules, team information, and event details.",
-      "tech": ["HTML", "CSS", "JavaScript"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "highlights": [
         "Centralised sports event information.",
         "Responsive and user-friendly UI.",
         "Hosted on official college website."
       ],
-      "images": ["/projects/ignite.webp", "/projects/ignite2.webp"],
+      "images": [
+        "/projects/ignite.webp",
+        "/projects/ignite2.webp"
+      ],
       "links": {
         "demo": "https://www.stthomaskannur.ac.in/ignite2022/",
         "repo": "",
@@ -161,7 +208,6 @@
       },
       "homeFeatured": false
     },
-
     {
       "id": "iedc-website",
       "title": "IEDC – Entrepreneurship Cell Website",
@@ -171,8 +217,15 @@
       "year": "2022",
       "role": "Front-end Developer",
       "summary": "Website developed for the college IEDC cell to publish initiatives, events, and updates.",
-      "tech": ["HTML", "CSS", "JavaScript"],
-      "images": ["/projects/IEDC.webp", "/projects/IEDC2.webp"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "images": [
+        "/projects/IEDC.webp",
+        "/projects/IEDC2.webp"
+      ],
       "links": {
         "demo": "https://www.stthomaskannur.ac.in/stm2/IEDC/",
         "repo": "",
@@ -180,7 +233,6 @@
       },
       "homeFeatured": false
     },
-
     {
       "id": "vblaze-website",
       "title": "VBLAZE – Design Club Website",
@@ -190,13 +242,19 @@
       "year": "2023",
       "role": "Front-end Developer",
       "summary": "Modern React-based website developed for the VBLAZE design club.",
-      "tech": ["React", "Tailwind CSS"],
+      "tech": [
+        "React",
+        "Tailwind CSS"
+      ],
       "highlights": [
         "Clean modern UI.",
         "Showcased club activities and projects.",
         "Improved visibility of student initiatives."
       ],
-      "images": ["/projects/vblaze.webp", "/projects/vblaze2.webp"],
+      "images": [
+        "/projects/vblaze.webp",
+        "/projects/vblaze2.webp"
+      ],
       "links": {
         "demo": "https://vblaze.tech/",
         "repo": "https://github.com/PRADUL-P/V-BLAZE",
@@ -205,39 +263,52 @@
       "homeFeatured": false
     },
     {
-  "id": "project-dasp",
-  "title": "Project DASP",
-  "subtitle": "Final Year Project Website",
-  "type": "Web / Front-end",
-  "category": "web",
-  "year": "2024",
-  "role": "Front-end Developer",
-  "summary": "Official website created to present the B.Tech final year project with clear documentation and public access.",
-  "tech": ["HTML", "CSS", "JavaScript", "GitHub Pages"],
-  "images": ["/projects/dasp.webp"],
-  "links": {
-    "demo": "https://project-dasp.github.io/",
-    "repo": "https://github.com/PRADUL-P/dasp",
-    "extra": ""
-  }
-},
-{
-  "id": "enginexus",
-  "title": "EngiNexus Magazine Website",
-  "subtitle": "Civil engineering digital magazine",
-  "type": "Web / Front-end",
-  "category": "web",
-  "year": "2024",
-  "role": "Front-end Developer",
-  "summary": "A digital magazine platform created for EngiNexus to publish civil engineering articles and student contributions.",
-  "tech": ["HTML", "CSS", "JavaScript"],
-  "images": ["/projects/MAG.webp"],
-  "links": {
-    "demo": "https://enginexus.github.io/EngiNexus-24/",
-    "repo": "https://github.com/EngiNexus/EngiNexus-24",
-    "extra": ""
-  }
-}
-
+      "id": "project-dasp",
+      "title": "Project DASP",
+      "subtitle": "Final Year Project Website",
+      "type": "Web / Front-end",
+      "category": "web",
+      "year": "2024",
+      "role": "Front-end Developer",
+      "summary": "Official website created to present the B.Tech final year project with clear documentation and public access.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "GitHub Pages"
+      ],
+      "images": [
+        "/projects/dasp.webp"
+      ],
+      "links": {
+        "demo": "https://project-dasp.github.io/",
+        "repo": "https://github.com/PRADUL-P/dasp",
+        "extra": ""
+      }
+    },
+    {
+      "id": "flip-book-magazine",
+      "title": "Digital Flip-Book Magazine",
+      "subtitle": "Interactive digital publication platform",
+      "type": "Web / Animation",
+      "category": "web",
+      "year": "2024",
+      "role": "Lead Front-end Developer",
+      "summary": "A sophisticated digital magazine platform that converts technical PDF publications into interactive 3D flip-books with realistic physics.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Turn.js"
+      ],
+      "images": [
+        "/projects/MAG.webp"
+      ],
+      "links": {
+        "demo": "https://enginexus.github.io/EngiNexus-24/",
+        "repo": "https://github.com/PRADUL-P/PDF-to-Flipbook",
+        "extra": ""
+      }
+    }
   ]
 }

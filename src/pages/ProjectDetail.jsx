@@ -81,6 +81,7 @@ export default function ProjectDetail() {
   const [activeMedia, setActiveMedia] = useState(
     images.length ? "images" : modelSrc ? "model" : "video"
   );
+  const [markupMode, setMarkupMode] = useState(false);
 
   return (
     <main className="pt-10 pb-20">
@@ -131,26 +132,93 @@ export default function ProjectDetail() {
             )}
 
             {links?.demo && (
-  <button
-    onClick={() => setActiveMedia("video")}
-    className={`px-4 py-1.5 rounded-full border ${
-      activeMedia === "video"
-        ? "border-sky-500 text-sky-300 bg-sky-500/10"
-        : "border-slate-700 text-slate-300"
-    }`}
-  >
-    {isYouTube(links.demo) ? "🎬 Video" : "🌐 Website"}
+              <button
+                onClick={() => setActiveMedia("video")}
+                className={`px-4 py-1.5 rounded-full border ${activeMedia === "video"
+                  ? "border-sky-500 text-sky-300 bg-sky-500/10"
+                  : "border-slate-700 text-slate-300"
+                  }`}
+              >
+                {isYouTube(links.demo) ? "🎬 Video" : "🌐 Website"}
+              </button>
+            )}
 
-  </button>
-)}
-
+            {activeMedia === "images" && (
+              <button
+                onClick={() => setMarkupMode(!markupMode)}
+                className={`ml-auto px-4 py-1.5 rounded-full border transition-all flex items-center gap-2 ${markupMode
+                  ? "border-emerald-500 text-emerald-300 bg-emerald-500/10 shadow-[0_0_10px_rgba(16,185,129,0.2)]"
+                  : "border-slate-700 text-slate-400 hover:border-emerald-500/50"
+                  }`}
+              >
+                <div className={`w-2 h-2 rounded-full ${markupMode ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'}`} />
+                {markupMode ? "MARKUP ACTIVE" : "ENABLE MARKUP"}
+              </button>
+            )}
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden">
+          <div className="relative rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden group">
+            {/* MARKUP OVERLAY (REDLINE EFFECT) */}
+            {activeMedia === "images" && markupMode && (
+              <div className="absolute inset-0 z-10 pointer-events-none opacity-80 overflow-hidden">
+                {/* Crosshair following center */}
+                <div className="absolute top-1/2 left-0 w-full h-px bg-emerald-500/40" />
+                <div className="absolute left-1/2 top-0 w-px h-full bg-emerald-500/40" />
+
+                {/* Corner annotations */}
+                <div className="absolute top-4 left-4 font-mono text-[9px] text-emerald-400 space-y-1 bg-slate-950/60 p-2 border-l border-t border-emerald-500/30">
+                  {project.category === 'civil' ? (
+                    <>
+                      <div>// REF_COORD: 18°23'N 73°51'E</div>
+                      <div>// DATUM: MSL +{(Math.random() * 50).toFixed(3)}m</div>
+                      <div>// STATUS: {(Math.random() > 0.5) ? 'AS-BUILT' : 'CONSTRUCTION'} REVIEW</div>
+                    </>
+                  ) : (
+                    <>
+                      <div>// DOM_TREE: RENDERED</div>
+                      <div>// STACK: {project.tech?.[0] || 'VITE'} CORE</div>
+                      <div>// STATUS: PRODUCTION_BUILD</div>
+                    </>
+                  )}
+                </div>
+
+                <div className="absolute bottom-4 right-4 font-mono text-[9px] text-emerald-400 text-right bg-slate-950/60 p-2 border-r border-b border-emerald-500/30">
+                  <div>{project.category === 'civil' ? 'CAD_ENGINE: REVIT_PRO' : 'ENGINE: REACT_V18'}</div>
+                  <div>{project.id.toUpperCase()}_v1.{Math.floor(Math.random() * 9)}</div>
+                </div>
+
+                {/* Floating Dimension Lines or Code Snippets */}
+                <div className="absolute top-[30%] left-[20%] w-[35%] border-t border-emerald-500/50 flex flex-col items-center">
+                  <div className="h-2 border-l border-emerald-500/50 absolute left-0 bottom-0" />
+                  <div className="h-2 border-r border-emerald-500/50 absolute right-0 bottom-0" />
+                  <span className="text-[8px] bg-slate-950 px-2 -mt-1.5 text-emerald-400 font-mono tracking-tighter">
+                    {project.category === 'civil' ? 'SPAN_DIM: 12400.00mm' : 'COMPONENT_ID: <MainLayout />'}
+                  </span>
+                </div>
+
+                <div className="absolute top-[40%] right-[15%] h-[40%] border-r border-emerald-500/50 flex items-center justify-center">
+                  <div className="w-2 border-t border-emerald-500/50 absolute top-0 right-0" />
+                  <div className="w-2 border-b border-emerald-500/50 absolute bottom-0 right-0" />
+                  <span className="text-[8px] bg-slate-950 px-2 text-emerald-400 font-mono rotate-90 whitespace-nowrap tracking-tighter">
+                    {project.category === 'civil' ? 'VERT_CLEARANCE: 4200.00mm' : 'API_ENDPOINT: /v1/projects'}
+                  </span>
+                </div>
+
+                {/* Technical Redline Circles */}
+                <div className="absolute top-1/4 left-1/3 w-16 h-16 border border-red-500/40 rounded-full flex items-center justify-center">
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[8px] text-red-400 bg-slate-950 px-1 font-mono uppercase">
+                    {project.category === 'civil' ? 'RFI: 041-REVIT' : 'BUG_FIX: UI_GLITCH'}
+                  </div>
+                  <div className="w-20 h-px bg-red-500/40 absolute rotate-45" />
+                </div>
+              </div>
+            )}
 
             {/* IMAGES */}
             {activeMedia === "images" && (
-              <ProjectImageCarousel images={images} />
+              <div className={`${markupMode ? 'grayscale contrast-125 brightness-75' : 'transition-all duration-500'}`}>
+                <ProjectImageCarousel images={images} />
+              </div>
             )}
 
             {/* 3D MODEL */}

@@ -16,11 +16,13 @@ import AdminInnovation from "./pages/AdminInnovation";
 import ProjectDetail from "./pages/ProjectDetail";
 import Background from "./components/Background"; // New combined background
 import CadUIController from "./components/CadUIController"; // CAD-Style UI
+import AutoCADCommandLine from "./components/AutoCADCommandLine";
 
 function App() {
   return (
     <div className="text-slate-100 min-h-screen relative font-sans">
       <CadUIController />
+      <AutoCADCommandLine />
       {/* Visual Background */}
       <Background />
 
