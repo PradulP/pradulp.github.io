@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import content from "../content.json";
+import content from "../data/index";
 import {
   HiOutlineHome,
   HiOutlineUser,
@@ -158,9 +158,7 @@ const Navbar = () => {
             {/* desktop nav with icons */}
             <nav className="flex gap-5 text-sm">
               <Link
-                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive(
-                  "/"
-                )}`}
+                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive("/")}`}
                 to="/"
                 onClick={handleNavClick}
               >
@@ -168,9 +166,7 @@ const Navbar = () => {
                 <span>Home</span>
               </Link>
               <Link
-                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive(
-                  "/about"
-                )}`}
+                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive("/about")}`}
                 to="/about"
                 onClick={handleNavClick}
               >
@@ -178,9 +174,7 @@ const Navbar = () => {
                 <span>About</span>
               </Link>
               <Link
-                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive(
-                  "/experience"
-                )}`}
+                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive("/experience")}`}
                 to="/experience"
                 onClick={handleNavClick}
               >
@@ -188,9 +182,7 @@ const Navbar = () => {
                 <span>Experience</span>
               </Link>
               <Link
-                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive(
-                  "/projects"
-                )}`}
+                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive("/projects")}`}
                 to="/projects"
                 onClick={handleNavClick}
               >
@@ -198,9 +190,7 @@ const Navbar = () => {
                 <span>Projects</span>
               </Link>
               <Link
-                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive(
-                  "/skills"
-                )}`}
+                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive("/skills")}`}
                 to="/skills"
                 onClick={handleNavClick}
               >
@@ -208,9 +198,7 @@ const Navbar = () => {
                 <span>Skills</span>
               </Link>
               <Link
-                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive(
-                  "/blog"
-                )}`}
+                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive("/blog")}`}
                 to="/blog"
                 onClick={handleNavClick}
               >
@@ -218,9 +206,7 @@ const Navbar = () => {
                 <span>Blog</span>
               </Link>
               <Link
-                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive(
-                  "/innovation"
-                )}`}
+                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive("/innovation")}`}
                 to="/innovation"
                 onClick={handleNavClick}
               >
@@ -228,9 +214,7 @@ const Navbar = () => {
                 <span>Innovation</span>
               </Link>
               <Link
-                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive(
-                  "/contact"
-                )}`}
+                className={`flex items-center gap-1.5 hover:text-sky-400 ${isActive("/contact")}`}
                 to="/contact"
                 onClick={handleNavClick}
               >
@@ -277,9 +261,8 @@ const Navbar = () => {
                     key={item.path}
                     to={item.path}
                     onClick={handleNavClick}
-                    className={`flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-slate-800 ${
-                      pathname === item.path ? "text-sky-300" : "text-slate-200"
-                    }`}
+                    className={`flex items-center justify-between rounded-lg px-2 py-1.5 hover:bg-slate-800 ${pathname === item.path ? "text-sky-300" : "text-slate-200"
+                      }`}
                   >
                     <span>{item.label}</span>
                     {pathname === item.path && (
@@ -306,17 +289,13 @@ const Navbar = () => {
             >
               <Icon
                 size={20}
-                className={`${isMobileActive(
-                  path
-                )} transition-transform duration-150 ${
-                  pathname === path ? "scale-110" : "opacity-80"
-                }`}
+                className={`transition-transform duration-150 ${pathname === path ? "scale-110 text-sky-400" : "opacity-80 text-slate-300"
+                  }`}
               />
               {/* glow dot */}
               <div
-                className={`h-1 w-1 rounded-full mt-0.5 ${
-                  pathname === path ? "bg-sky-400" : "bg-transparent"
-                }`}
+                className={`h-1 w-1 rounded-full mt-0.5 ${pathname === path ? "bg-sky-400" : "bg-transparent"
+                  }`}
               />
               <span className={`${isMobileActive(path)} leading-none`}>
                 {label}
@@ -335,21 +314,16 @@ const Navbar = () => {
           >
             <HiOutlineSquares2X2
               size={20}
-              className={`${
-                showMore ? "text-sky-400" : "text-slate-300"
-              } transition-transform duration-150 ${
-                showMore ? "scale-110" : "opacity-90"
-              }`}
+              className={`transition-transform duration-150 ${showMore ? "scale-110 text-sky-400" : "opacity-90 text-slate-300"
+                }`}
             />
             <div
-              className={`h-1 w-1 rounded-full mt-0.5 ${
-                showMore ? "bg-sky-400" : "bg-transparent"
-              }`}
+              className={`h-1 w-1 rounded-full mt-0.5 ${showMore ? "bg-sky-400" : "bg-transparent"
+                }`}
             />
             <span
-              className={`leading-none ${
-                showMore ? "text-sky-400" : "text-slate-300"
-              }`}
+              className={`leading-none ${showMore ? "text-sky-400" : "text-slate-300"
+                }`}
             >
               More
             </span>

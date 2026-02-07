@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import AnimWrapper from "./components/AnimWrapper";
 import Navbar from "./components/Navbar";
@@ -13,11 +14,13 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import AdminInnovation from "./pages/AdminInnovation";
 import ProjectDetail from "./pages/ProjectDetail";
+import Background from "./components/Background"; // New combined background
+
 function App() {
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen">
-      {/* background glow */}
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-br from-sky-500/10 via-fuchsia-500/5 to-emerald-500/10 blur-3xl opacity-70" />
+    <div className="text-slate-100 min-h-screen relative font-sans">
+      {/* Visual Background */}
+      <Background />
 
       <div className="relative min-h-screen flex flex-col">
         <Navbar />
@@ -28,6 +31,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/experience" element={<Experience />} />
+              <Route path="/education" element={<Experience />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/skills" element={<Skills />} />
               <Route path="/blog" element={<Blog />} />

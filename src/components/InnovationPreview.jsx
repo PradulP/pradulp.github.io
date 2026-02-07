@@ -1,6 +1,6 @@
 // src/components/InnovationPreview.jsx
 import React from "react";
-import content from "../content.json";
+import content from "../data/index";
 import localData from "../data/innovation.json";
 import { useMemo } from "react";
 import useShowOnHomeOverrides from "../hooks/useShowOnHomeOverrides";
@@ -18,7 +18,7 @@ import useShowOnHomeOverrides from "../hooks/useShowOnHomeOverrides";
  *  4) first `limit` items from the file
  */
 
-export default function InnovationPreview({ limit = 3, pick = null, onOpen = () => {} }) {
+export default function InnovationPreview({ limit = 3, pick = null, onOpen = () => { } }) {
   const items = Array.isArray(localData) ? localData : (Array.isArray(localData?.items) ? localData.items : []);
   const contentPick = Array.isArray(content?.homeInnovation) ? content.homeInnovation : null;
 
@@ -66,9 +66,9 @@ export default function InnovationPreview({ limit = 3, pick = null, onOpen = () 
             {item.status && (
               <span className={"ml-3 inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] " + (
                 (item.status || "").toLowerCase().includes("live") ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/40" :
-                (item.status || "").toLowerCase().includes("progress") ? "bg-sky-500/10 text-sky-300 border-sky-500/40" :
-                (item.status || "").toLowerCase().includes("future") ? "bg-violet-500/10 text-violet-300 border-violet-500/40" :
-                "bg-slate-600/10 text-slate-300 border-slate-600/40"
+                  (item.status || "").toLowerCase().includes("progress") ? "bg-sky-500/10 text-sky-300 border-sky-500/40" :
+                    (item.status || "").toLowerCase().includes("future") ? "bg-violet-500/10 text-violet-300 border-violet-500/40" :
+                      "bg-slate-600/10 text-slate-300 border-slate-600/40"
               )}>{item.status}</span>
             )}
           </div>

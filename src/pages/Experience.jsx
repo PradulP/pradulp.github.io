@@ -1,58 +1,68 @@
-import { useState } from "react";
-import content from "../content.json";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import content from "../data/index";
 import SectionTitle from "../components/SectionTitle";
 
 
 function getEndYear(item) {
   const text = item.period || item.years || "";
+  if (!text) return 0;
   if (text.toLowerCase().includes("present")) return 9999;
   const match = text.match(/\d{4}/g);
   return match ? Number(match[match.length - 1]) : 0;
 }
 
 export default function Experience() {
-  const { experience = [], education = [] } = content;
+  const { experience = [], education = [] } = content || {};
+  const location = useLocation();
 
-  const [tab, setTab] = useState("experience"); // "experience" | "education"
+  const [tab, setTab] = useState("experience");
+
+  // Sync tab with URL path if user comes to /education directly
+  useEffect(() => {
+    if (location.pathname.includes("education")) {
+      setTab("education");
+    } else {
+      setTab("experience");
+    }
+  }, [location.pathname]);
 
   const items =
-  tab === "experience"
-    ? [...experience]
+    tab === "experience"
+      ? [...(experience || [])]
         .sort((a, b) => getEndYear(b) - getEndYear(a))
         .map((e) => ({ ...e, kind: "experience" }))
-    : [...education]
+      : [...(education || [])]
         .sort((a, b) => getEndYear(b) - getEndYear(a))
         .map((e) => ({ ...e, kind: "education" }));
 
   return (
-    <main className="pt-8 md:pt-10 pb-16">
+    <main className="pt-8 md:pt-10 pb-16 px-4 md:px-0">
       {/* Header + tab buttons */}
       <section className="mb-8">
-        <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
           <SectionTitle>
             {tab === "experience" ? "Experience" : "Education"} Timeline
           </SectionTitle>
 
-          <div className="flex gap-2 text-xs md:text-sm">
+          <div className="flex gap-2 text-xs md:text-sm bg-slate-900/50 p-1 rounded-full border border-slate-800 w-fit">
             <button
               type="button"
               onClick={() => setTab("experience")}
-              className={`px-3 py-1.5 rounded-full border transition ${
-                tab === "experience"
-                  ? "border-sky-500 text-sky-300 bg-sky-500/10"
-                  : "border-slate-700 text-slate-300 hover:border-sky-500/60"
-              }`}
+              className={`px-4 py-1.5 rounded-full transition-all ${tab === "experience"
+                ? "bg-sky-500 text-slate-950 font-semibold shadow-lg shadow-sky-500/20"
+                : "text-slate-400 hover:text-slate-200"
+                }`}
             >
               Experience
             </button>
             <button
               type="button"
               onClick={() => setTab("education")}
-              className={`px-3 py-1.5 rounded-full border transition ${
-                tab === "education"
-                  ? "border-sky-500 text-sky-300 bg-sky-500/10"
-                  : "border-slate-700 text-slate-300 hover:border-sky-500/60"
-              }`}
+              className={`px-4 py-1.5 rounded-full transition-all ${tab === "education"
+                ? "bg-sky-500 text-slate-950 font-semibold shadow-lg shadow-sky-500/20"
+                : "text-slate-400 hover:text-slate-200"
+                }`}
             >
               Education
             </button>
@@ -93,33 +103,28 @@ function DesktopTimeline({ items }) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-0 relative py-8">
+      {/* Center Line */}
+      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-slate-800 -translate-x-1/2" />
+
       {items.map((item, index) => {
         const isLeft = index % 2 === 0; // alternate L/R
-        const isFirst = index === 0;
-        const isLast = index === items.length - 1;
 
         return (
           <div
             key={index}
-            className="grid grid-cols-[1fr_auto_1fr] gap-8 items-stretch"
+            className={`relative flex items-center justify-between mb-12 ${isLeft ? "flex-row" : "flex-row-reverse"}`}
           >
-            {/* Left card */}
-            <div className={isLeft ? "" : "opacity-0 pointer-events-none"}>
-              {isLeft && <TimelineCard item={item} align="right" />}
+            {/* Content Card */}
+            <div className={`w-[45%] ${isLeft ? "pr-8 text-right" : "pl-8 text-left"}`}>
+              <TimelineCard item={item} align={isLeft ? "right" : "left"} />
             </div>
 
-            {/* Center line + dot */}
-            <div className="flex flex-col items-center">
-              {!isFirst && <div className="w-px flex-1 bg-slate-800" />}
-              <div className="w-3 h-3 rounded-full bg-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.7)]" />
-              {!isLast && <div className="w-px flex-1 bg-slate-800" />}
-            </div>
+            {/* Center Dot */}
+            <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-slate-950 border-2 border-sky-500 z-10 shadow-[0_0_10px_rgba(56,189,248,0.5)]" />
 
-            {/* Right card */}
-            <div className={!isLeft ? "" : "opacity-0 pointer-events-none"}>
-              {!isLeft && <TimelineCard item={item} align="left" />}
-            </div>
+            {/* Empty space for the other side */}
+            <div className="w-[45%]" />
           </div>
         );
       })}
@@ -130,16 +135,22 @@ function DesktopTimeline({ items }) {
 /* ================= MOBILE TIMELINE ================= */
 
 function MobileTimeline({ items }) {
+  if (!items.length) {
+    return (
+      <p className="text-sm text-slate-400">
+        Timeline data will be added here soon.
+      </p>
+    );
+  }
+
   return (
-    <div className="relative border-l border-slate-800 pl-4 space-y-6">
+    <div className="relative border-l border-slate-800 pl-6 space-y-8">
       {items.map((item, index) => (
         <div key={index} className="relative">
-          <div className="absolute -left-[9px] top-1">
-            <div className="w-3 h-3 rounded-full bg-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.7)]" />
+          <div className="absolute -left-[29px] top-1">
+            <div className="w-3 h-3 rounded-full bg-slate-950 border-2 border-sky-500 shadow-[0_0_10px_rgba(56,189,248,0.5)]" />
           </div>
-          <div className="ml-1 rounded-2xl border border-slate-800 bg-slate-900/60 p-3.5">
-            <TimelineCardInner item={item} />
-          </div>
+          <TimelineCard item={item} align="left" />
         </div>
       ))}
     </div>
@@ -151,11 +162,14 @@ function MobileTimeline({ items }) {
 function TimelineCard({ item, align }) {
   return (
     <div
-      className={`rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-xs md:text-sm text-slate-300 max-w-xl ${
-        align === "right" ? "ml-auto" : "mr-auto"
-      }`}
+      className={`relative group transition-all duration-300 hover:scale-[1.01]`}
     >
-      <TimelineCardInner item={item} />
+      <div className={`rounded-2xl border border-slate-800 bg-slate-900/60 p-5 
+        hover:border-sky-500/30 hover:shadow-lg hover:shadow-sky-500/5 backdrop-blur-sm
+        ${align === "right" ? "ml-auto" : "mr-auto"}`}
+      >
+        <TimelineCardInner item={item} />
+      </div>
     </div>
   );
 }
@@ -168,53 +182,48 @@ function TimelineCardInner({ item }) {
 
   return (
     <>
-    {/* {item.kind && (
-  <span className="inline-block mb-1 text-[10px] px-2 py-0.5 rounded-full border border-slate-700 text-slate-300">
-    {item.kind === "experience" ? "Experience" : "Education"}
-  </span>
-)} */}
-      {period && (
-        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-1">
-          {period}
-        </p>
-      )}
-
-      <h4 className="text-sm md:text-base font-semibold text-slate-100 mb-0.5">
-        {title}
-      </h4>
-
-      {place && (
-        <p className="text-[14px] text-slate-400 mb-1 whitespace-pre-line">
-          {place}
-        </p>
-      )}
+      <div className="flex flex-col gap-1 mb-2">
+        {period && (
+          <span className="text-[10px] uppercase font-bold tracking-wider text-sky-400">
+            {period}
+          </span>
+        )}
+        <h4 className="text-base md:text-lg font-bold text-slate-100 leading-tight">
+          {title}
+        </h4>
+        {place && (
+          <p className="text-xs md:text-sm font-medium text-slate-400">
+            {place}
+          </p>
+        )}
+      </div>
 
       {/* EXPERIENCE POINTS */}
       {Array.isArray(item.points) && item.points.length > 0 && (
-        <ul className="list-disc list-inside space-y-1 mt-1">
-          {item.points.slice(0, 4).map((pt) => (
-            <li key={pt}>{pt}</li>
+        <ul className="list-disc list-inside space-y-1.5 mt-3 text-xs md:text-sm text-slate-300 leading-relaxed marker:text-slate-600">
+          {item.points.slice(0, 4).map((pt, i) => (
+            <li key={i}>{pt}</li>
           ))}
         </ul>
       )}
 
       {/* EDUCATION DESCRIPTION */}
       {item.description && (
-        <p className="text-xs md:text-sm text-slate-300 mt-1">
+        <p className="text-xs md:text-sm text-slate-300 mt-2 leading-relaxed">
           {item.description}
         </p>
       )}
 
       {/* EDUCATION HIGHLIGHTS */}
-     {Array.isArray(item.highlights) && item.highlights.length > 0 && (
-  <ul className="list-disc list-inside space-y-1 mt-2 text-xs md:text-sm text-slate-300">
-    {(window.innerWidth < 768 ? item.highlights.slice(0, 2) : item.highlights).map((h) => (
-      <li key={h}>{h}</li>
-    ))}
-  </ul>
-)}
-
+      {Array.isArray(item.highlights) && item.highlights.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {item.highlights.map((h, i) => (
+            <span key={i} className="text-[10px] px-2 py-0.5 rounded-full bg-slate-800/50 border border-slate-700 text-slate-300">
+              {h}
+            </span>
+          ))}
+        </div>
+      )}
     </>
   );
 }
-

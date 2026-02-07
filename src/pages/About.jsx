@@ -1,6 +1,6 @@
 // src/pages/About.jsx
 import { useState } from "react";
-import content from "../content.json";
+import content from "../data/index";
 import SectionTitle from "../components/SectionTitle";
 import ResumeModal from "../components/ResumeModal";
 
@@ -229,7 +229,7 @@ export default function About() {
             </div>
           ))}
         </div>
-          {/* CTA */}
+        {/* CTA */}
         <div className="mt-5">
           <a
             href="/experience"

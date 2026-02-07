@@ -1,5 +1,5 @@
 import { useState } from "react";
-import content from "../content.json";
+import content from "../data/index";
 
 const fallbackItems = [
   {

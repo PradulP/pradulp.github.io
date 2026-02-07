@@ -6,7 +6,7 @@ import {
   FaYoutube,
   FaGithub
 } from "react-icons/fa";
-import content from "../content.json";
+import content from "../data/index";
 
 const SocialIcons = ({ size = 22, spacing = "space-x-4" }) => {
   const { socials, contact } = content || {};

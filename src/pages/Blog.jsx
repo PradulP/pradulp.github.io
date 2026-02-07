@@ -1,6 +1,6 @@
 // src/pages/Blog.jsx
 import React, { useState } from "react";
-import content from "../content.json";
+import content from "../data/index";
 import localBlog from "../data/blog.json"; // prefer local file
 import SectionTitle from "../components/SectionTitle";
 

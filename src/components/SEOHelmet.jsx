@@ -1,6 +1,7 @@
-// src/components/SEOHelmet.jsx
+
+import React from "react";
 import { Helmet } from "react-helmet";
-import content from "../content.json";
+import content from "../data/index";
 
 export default function SEOHelmet({
   title,

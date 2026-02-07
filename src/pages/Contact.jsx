@@ -1,12 +1,15 @@
 import { useState, useRef } from "react";
-import content from "../content.json";
+import { motion } from "framer-motion";
+import content from "../data/index"; // Unified data
 import emailjs from "@emailjs/browser";
+import { fadeInUp } from "../utils/animations";
 
 const Contact = () => {
   const { hero, contact, socials } = content || {};
 
   // ✅ Your real details (can also move to content.json)
   const primaryEmail = contact?.email || "pradul.p123@gmail.com";
+
   const location = contact?.location || "Kochi, Kerala, India";
   const whatsappNumber = contact?.whatsapp || "+918078376902";
 
@@ -51,16 +54,16 @@ const Contact = () => {
       form.topic === "bim"
         ? "BIM / Revit modelling"
         : form.topic === "cad"
-        ? "CAD drawings & detailing"
-        : form.topic === "automation"
-        ? "Automation / pyRevit / tools"
-        : form.topic === "web"
-        ? "web / portfolio or engineering app"
-        : form.topic === "collab"
-        ? "collaboration / partnership"
-        : form.topic
-        ? form.topic
-        : "a project / query";
+          ? "CAD drawings & detailing"
+          : form.topic === "automation"
+            ? "Automation / pyRevit / tools"
+            : form.topic === "web"
+              ? "web / portfolio or engineering app"
+              : form.topic === "collab"
+                ? "collaboration / partnership"
+                : form.topic
+                  ? form.topic
+                  : "a project / query";
 
     const sender =
       form.name?.trim().length > 0 ? form.name.trim() : "a visitor";
@@ -147,7 +150,12 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center px-4 py-10">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={fadeInUp}
+      className="min-h-[calc(100vh-4rem)] flex items-center px-4 py-10"
+    >
       <div className="w-full max-w-6xl mx-auto grid gap-10 lg:grid-cols-[1.2fr,1.4fr] items-start">
         {/* LEFT SIDE */}
         <section className="space-y-6">
@@ -306,11 +314,10 @@ const Contact = () => {
 
           {status.type && (
             <div
-              className={`mb-4 rounded-xl border px-3 py-2 text-xs ${
-                status.type === "success"
-                  ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
-                  : "border-red-500/40 bg-red-500/10 text-red-200"
-              }`}
+              className={`mb-4 rounded-xl border px-3 py-2 text-xs ${status.type === "success"
+                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
+                : "border-red-500/40 bg-red-500/10 text-red-200"
+                }`}
             >
               {status.message}
             </div>
@@ -471,7 +478,7 @@ const Contact = () => {
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

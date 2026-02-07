@@ -1,0 +1,157 @@
+{
+    "hero": {
+        "name": "PRADUL P",
+        "headline": "Civil Engineer | BIM Explorer | Tech Learner",
+        "tagline": "I design and build in both the physical world (infrastructure, BIM) and the digital world (web apps, automations). I love turning everyday engineering workflows into smart, simple tools.",
+        "status": "Currently: Junior Engineer @ Paradigm  · Infopark Phase 2, Ernakulam",
+        "location": "Kerala, India",
+        "role": "Junior Engineer · Infrastructure",
+        "focus": "BIM · CAD · Web Apps",
+        "cvLink": "/Pradul_cv.pdf",
+        "openTo": "Open to collaborations · BIM · Web tools · Automation",
+        "avatar": "/pradul-avatar.jpg"
+    },
+    "about": {
+        "excerpt": "Civil Engineer & BIM technologist integrating field experience with web tools and automation.",
+        "paragraphs": [
+            "I'm a Civil Engineer, BIM Technologist, and web-focused problem solver exploring how digital tools, automation, and smart workflows can transform the way we design, coordinate, and execute projects.",
+            "I enjoy working with BIM tools (Revit, ACC, CAD) and exploring web development & automation—building utilities like BIM-related scripts that reduce repetitive work.",
+            "I'm focused on becoming a future-ready engineer who can combine civil engineering fundamentals with digital tools, automation, and efficient workflows."
+        ]
+    },
+    "whatIDo": [
+        {
+            "title": "Civil Engineering",
+            "items": [
+                "Infrastructure drawings and detailing",
+                "Soil layering & geotechnical drawing support",
+                "Construction documentation & coordination"
+            ]
+        },
+        {
+            "title": "BIM & CAD",
+            "items": [
+                "Revit modeling & BIM experiments",
+                "2D drafting with AutoCAD",
+                "Exploring BIM automation with tools like pyRevit & Dynamo"
+            ]
+        },
+        {
+            "title": "Web & Digital Tools",
+            "items": [
+                "Simple web apps using React and JavaScript",
+                "Google Sheets + Apps Script integrations",
+                "Idea prototypes for engineering workflows"
+            ]
+        }
+    ],
+    "experience": [
+        {
+            "role": "Junior Engineer",
+            "company": "Paradigm ",
+            "period": "2025 – Present",
+            "location": "Infopark Phase 2, Ernakulam, Kerala, India",
+            "isCurrent": true,
+            "points": [
+                "Working on BIM-based modeling and detailing workflows for infrastructure projects.",
+                "Preparing and coordinating detailed CAD and Revit drawings for execution and documentation.",
+                "Involved in soil profiling, geotechnical drawings, and technical detailing based on site data.",
+                "Coordinating with design and site teams to align BIM models and drawings with on-ground execution.",
+                "Actively exploring workflow improvements using Revit, BIM standards, and structured documentation practices."
+            ]
+        },
+        {
+            "role": "Project Head | Part-time",
+            "company": "VBLAZE",
+            "period": "Jan 2023 – Jun 2024",
+            "location": "",
+            "points": [
+                "Led development and coordination of web-based projects using React and Tailwind CSS.",
+                "Managed small teams, assigned tasks, and ensured timely project delivery.",
+                "Solved technical and design challenges while maintaining project quality.",
+                "Gained hands-on experience in leadership, problem-solving, and modern frontend development workflows."
+            ]
+        },
+        {
+            "role": "Development of Parking Policy Framework for Kerala | Internship",
+            "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC) ",
+            "period": "Feb 2024",
+            "location": "Thalassery, Kerala, India",
+            "points": [
+                "Conducted user opinion surveys to collect and analyze feedback from residents and commuters on parking facilities.",
+                "Performed land use surveys to study ownership patterns and identify potential parking infrastructure locations.",
+                "Executed parking in–out surveys to observe vehicle movement, parking duration, and utilization rates.",
+                "Contributed survey data and insights to the Development of Parking Policy Framework for Kerala project."
+            ]
+        },
+        {
+            "role": "Xposure-23 Training Program | Internship",
+            "company": "S&R Consultants",
+            "period": "Oct 2022 – Nov 2023",
+            "location": "Kerala, India",
+            "points": [
+                "Prepared beam–column layouts and performed structural modeling and analysis using ETABS.",
+                "Worked on real project estimation using Estimax Pro for accurate cost assessment.",
+                "Prepared Bar Bending Schedules using Aadspro to support construction planning.",
+                "Practiced optimization of rebar consumption on construction sites using Optimax."
+            ]
+        },
+        {
+            "role": "Construction of Regulator Cum Bridge across Ummenchira River at Chekkupalam | Internship",
+            "company": "Kerala Irrigation Infrastructure Development Corporation Ltd (KIIDC)",
+            "period": "May 2023",
+            "location": "Kannur, Kerala, India",
+            "points": [
+                "Participated in the Construction of Regulator Cum Bridge across Ummenchira River at Chekkupalam.",
+                "Observed and assisted in construction techniques, quality control, and site coordination activities.",
+                "Worked with multidisciplinary teams to understand execution workflows and safety practices.",
+                "Enhanced understanding of professional ethics, site challenges, and industry standards."
+            ]
+        },
+        {
+            "role": "Traffic Data Collection | Internship",
+            "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC) ",
+            "period": "Sep 2022",
+            "location": "Muzhappilangad, Kerala, India",
+            "points": [
+                "Collected traffic volume and vehicle classification data for selected roads leading to Muzhappilangad Beach.",
+                "Conducted on-field traffic surveys to capture peak-hour movement patterns.",
+                "Compiled and organized traffic data to support development planning studies.",
+                "Contributed to traffic survey and data compilation activities for regional road development."
+            ]
+        }
+    ],
+    "education": [
+        {
+            "degree": "B.Tech in Civil Engineering",
+            "place": "St. Thomas College of Engineering & Technology, Sivapuram, Kannur",
+            "years": "2020 – 2024",
+            "description": "Completed undergraduate studies in Civil Engineering with a strong focus on structural fundamentals, construction practices, and digital modeling workflows. Final year project involved designing an energy-efficient college building using advanced BIM tools.",
+            "highlights": [
+                "Placement Cell – Coordinator",
+                "NSS 512 – Volunteer",
+                "Tech Fest – Coordinator",
+                "VBLAZE – Developer"
+            ]
+        },
+        {
+            "degree": "Higher Secondary Education (Science)",
+            "place": "Anjarakandy Higher Secondary School, Kannur",
+            "years": "2018 – 2020",
+            "description": "Completed higher secondary education in the science stream, building a strong foundation in mathematics and physics.",
+            "highlights": [
+                "NSS Volunteer"
+            ]
+        }
+    ],
+    "contact": {
+        "email": "pradul.p123@gmail.com",
+        "whatsapp": "918078376902",
+        "location": "Kannur, Kerala, India"
+    },
+    "socials": {
+        "linkedin": "https://www.linkedin.com/in/pradul-p-4b7188235/",
+        "github": "https://github.com/pradul-p",
+        "portfolio": "https://pradul-portfolio.pages.dev"
+    }
+}

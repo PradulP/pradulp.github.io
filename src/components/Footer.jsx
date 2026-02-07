@@ -1,4 +1,4 @@
-import content from "../content.json";
+import content from "../data/index";
 import SocialIcons from "./SocialIcons";
 
 const Footer = () => {
@@ -22,7 +22,7 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-         <SocialIcons size={20} spacing="space-x-5" />
+          <SocialIcons size={20} spacing="space-x-5" />
         </div>
       </div>
     </footer>
