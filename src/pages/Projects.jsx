@@ -35,11 +35,10 @@ export default function Projects() {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-full border transition ${
-                  activeCategory === cat.id
+                className={`px-3 py-1.5 rounded-full border transition ${activeCategory === cat.id
                     ? "border-sky-500 text-sky-300 bg-sky-500/10"
                     : "border-slate-700 text-slate-300 hover:border-sky-500/60"
-                }`}
+                  }`}
               >
                 {cat.label}
               </button>
@@ -50,7 +49,7 @@ export default function Projects() {
         <p className="text-xs md:text-sm text-slate-400 max-w-3xl">
           A mix of{" "}
           <span className="text-slate-200">civil / BIM projects</span> and{" "}
-          <span className="text-slate-200">web & digital works</span>.  
+          <span className="text-slate-200">web & digital works</span>.
           Click any project to view full details, images and 3D models.
         </p>
       </section>
@@ -68,7 +67,7 @@ export default function Projects() {
                 key={proj.id}
                 onClick={() => navigate(`/projects/${proj.id}`)}
                 className="group rounded-2xl border border-slate-800 bg-slate-900/60 p-4 md:p-5 cursor-pointer transition
-                           hover:-translate-y-1 hover:border-sky-500/80"
+                           hover:-translate-y-1 hover:border-sky-500/80 project-card"
               >
                 {/* Title + Year */}
                 <div className="flex justify-between gap-2 mb-2">

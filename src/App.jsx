@@ -15,10 +15,12 @@ import NotFound from "./pages/NotFound";
 import AdminInnovation from "./pages/AdminInnovation";
 import ProjectDetail from "./pages/ProjectDetail";
 import Background from "./components/Background"; // New combined background
+import CadUIController from "./components/CadUIController"; // CAD-Style UI
 
 function App() {
   return (
     <div className="text-slate-100 min-h-screen relative font-sans">
+      <CadUIController />
       {/* Visual Background */}
       <Background />
 

@@ -38,7 +38,7 @@ export default function Hero({ hero, location }) {
           variants={fadeInUp}
           className="text-3xl md:text-5xl font-bold tracking-tight mb-2"
         >
-          Hi, I&apos;m <span className="text-sky-400">{hero.name}</span>
+          Hi, I&apos;m <span className="text-gradient-civil">{hero.name}</span>
         </motion.h1>
 
         {/* Headline */}

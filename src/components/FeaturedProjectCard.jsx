@@ -55,7 +55,7 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
                 <button
                   key={p.id}
                   onClick={() => setSelectedIndex(i)}
-                  className={`w-full text-left p-3 rounded-md flex gap-3 transition
+                  className={`w-full text-left p-3 rounded-md flex gap-3 transition project-card
                     ${i === selectedIndex
                       ? "border-2 border-sky-500 bg-slate-900/80"
                       : "border border-slate-800 hover:border-slate-700"}`}
@@ -131,7 +131,7 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
                 href={selected?.links?.demo || "/projects"}
                 target="_blank"
                 rel="noreferrer"
-                className="px-5 py-2 rounded-full border border-slate-700 text-slate-200 hover:border-sky-400"
+                className="px-5 py-2 rounded-full border border-slate-700 text-slate-200 hover:border-sky-400 project-card"
               >
                 Open project
               </a>
