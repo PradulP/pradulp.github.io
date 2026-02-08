@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cadSounds } from '../utils/cadSounds';
@@ -21,7 +20,7 @@ export default function AutoCADCommandLine() {
         '/THEME DARK', '/THEME BLUEPRINT', '/THEME PAPER'
     ];
 
-    // Handle keyboard shortcut (ESC or /) to focus command line
+    // Handle keyboard shortcut (ESC or /) AND Custom Event from Navbar
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === 'Escape') {
@@ -33,8 +32,19 @@ export default function AutoCADCommandLine() {
                 setTimeout(() => inputRef.current?.focus(), 100);
             }
         };
+
+        const handleOpenTerminal = () => {
+            setIsOpen(true);
+            setTimeout(() => inputRef.current?.focus(), 100);
+        };
+
         window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        window.addEventListener('openTerminal', handleOpenTerminal);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('openTerminal', handleOpenTerminal);
+        };
     }, [isOpen]);
 
     // Update suggestions based on input
@@ -114,11 +124,12 @@ export default function AutoCADCommandLine() {
         }
     };
 
+    // CLOSED STATE: Hidden on mobile
     if (!isOpen) {
         return (
             <div
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-0 left-0 right-0 h-8 bg-slate-900/90 border-t border-slate-700 backdrop-blur-md flex items-center px-4 cursor-pointer group hover:bg-slate-800 transition-all z-[1001]"
+                className="fixed bottom-0 left-0 right-0 h-8 bg-slate-900/90 border-t border-slate-700 backdrop-blur-md items-center px-4 cursor-pointer group hover:bg-slate-800 transition-all z-[1001] hidden md:flex"
             >
                 <div className="text-[10px] font-mono text-slate-500 flex items-center gap-2">
                     <span className="text-sky-500 animate-pulse font-bold">MODE: COMMAND</span>
@@ -128,9 +139,16 @@ export default function AutoCADCommandLine() {
         );
     }
 
+    // OPEN STATE: Visible on mobile (with higher z-index and padding adjustments)
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-[1001]">
-            <div className="bg-slate-950/95 border-t border-sky-900/50 backdrop-blur-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+        <div className="fixed bottom-0 left-0 right-0 z-[2000] md:z-[1001]">
+            {/* Backdrop for mobile to click out */}
+            <div
+                className="fixed inset-0 bg-black/50 md:hidden"
+                onClick={() => setIsOpen(false)}
+            />
+
+            <div className="relative bg-slate-950/95 border-t border-sky-900/50 backdrop-blur-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
                 {/* History Display */}
                 <div className="p-3 pb-0 max-h-32 overflow-hidden flex flex-col gap-1">
                     {history.map((line, i) => (
@@ -163,14 +181,15 @@ export default function AutoCADCommandLine() {
                 <form onSubmit={handleSubmit} className="p-3 pt-2 flex items-center gap-3">
                     <div className="text-sky-400 font-mono font-bold text-sm tracking-widest flex items-center gap-2">
                         <span className="text-[10px] text-slate-500">AUTOCAD</span>
-                        <span>COMMAND:</span>
+                        <span className="hidden md:inline">COMMAND:</span>
+                        <span className="md:hidden">CMD:</span>
                     </div>
                     <input
                         ref={inputRef}
                         autoFocus
                         type="text"
-                        className="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm uppercase tracking-[0.2em] placeholder:text-slate-700"
-                        placeholder="TYPE COMMAND HERE..."
+                        className="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm uppercase tracking-[0.2em] placeholder:text-slate-700 min-w-0"
+                        placeholder="TYPE..."
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                     />
@@ -179,7 +198,7 @@ export default function AutoCADCommandLine() {
                         onClick={() => setIsOpen(false)}
                         className="text-[10px] font-mono text-slate-500 hover:text-white transition-colors"
                     >
-                        [CLOSE]
+                        [X]
                     </button>
                 </form>
             </div>

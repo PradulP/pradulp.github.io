@@ -10,6 +10,7 @@ import {
     HiOutlineSquares2X2,
     HiOutlineMoon,
     HiOutlineSun,
+    HiOutlineCommandLine,
 } from "react-icons/hi2";
 
 const Navbar = () => {
@@ -81,6 +82,13 @@ const Navbar = () => {
         // Dispatch custom event to sync with CadUIController if needed
         window.dispatchEvent(new CustomEvent('themeChange', { detail: next }));
     };
+
+    const openTerminal = () => {
+        setShowMore(false);
+        playFeedback();
+        // Dispatch custom event to open terminal
+        window.dispatchEvent(new CustomEvent('openTerminal'));
+    }
 
     const getThemeIcon = () => {
         if (theme === "dark") return <HiOutlineMoon size={18} />;
@@ -275,7 +283,31 @@ const Navbar = () => {
                         className="pointer-events-auto absolute bottom-16 mx-4 w-full max-w-xs"
                     >
                         <div className="rounded-2xl border border-slate-700 bg-slate-950/95 backdrop-blur-xl shadow-lg p-3 text-xs text-slate-200">
-                            <p className="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">
+                            {/* THEME TOGGLE FOR MOBILE */}
+                            <div className="flex items-center justify-between px-2 py-1.5 mb-2 border-b border-slate-800">
+                                <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Theme</span>
+                                <button
+                                    onClick={toggleTheme}
+                                    className="flex items-center gap-2 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-sky-400 hover:bg-slate-800 hover:border-sky-500 transition-all"
+                                >
+                                    {getThemeIcon()}
+                                    <span className="text-[10px] font-mono font-bold uppercase">{getThemeLabel()}</span>
+                                </button>
+                            </div>
+
+                            {/* TERMINAL TOGGLE FOR MOBILE */}
+                            <div className="flex items-center justify-between px-2 py-1.5 mb-2 border-b border-slate-800">
+                                <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Terminal</span>
+                                <button
+                                    onClick={openTerminal}
+                                    className="flex items-center gap-2 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-emerald-400 hover:bg-slate-800 hover:border-emerald-500 transition-all"
+                                >
+                                    <HiOutlineCommandLine size={14} />
+                                    <span className="text-[10px] font-mono font-bold uppercase">CMD</span>
+                                </button>
+                            </div>
+
+                            <p className="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2 px-2">
                                 More sections
                             </p>
                             <div className="flex flex-col gap-1.5">

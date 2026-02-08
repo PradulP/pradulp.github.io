@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { cadSounds } from '../utils/cadSounds';
 
@@ -12,7 +11,9 @@ export default function CadUIController() {
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
         document.body.className = theme === 'paper' ? 'light' : 'dark';
-        cadSounds.playSwoosh();
+        if (typeof window !== 'undefined' && window.innerWidth > 768) {
+            cadSounds.playSwoosh();
+        }
     }, [theme]);
 
     // 2. Custom Cursor Logic
@@ -22,6 +23,7 @@ export default function CadUIController() {
         };
 
         const handleMouseMove = (e) => {
+            if (window.innerWidth < 768) return; // Disable cursor tracking on mobile
             setCursorPos({ x: e.clientX, y: e.clientY });
 
             // Check if hovering a project card or interactive element
@@ -31,10 +33,12 @@ export default function CadUIController() {
         };
 
         const handleMouseDown = () => {
+            if (window.innerWidth < 768) return;
             setIsMouseDown(true);
             cadSounds.playClick();
         };
         const handleMouseUp = () => {
+            if (window.innerWidth < 768) return;
             setIsMouseDown(false);
             cadSounds.playBlip();
         };
@@ -60,7 +64,7 @@ export default function CadUIController() {
 
     return (
         <>
-            {/* 1. Technical Crosshair/Cursor */}
+            {/* 1. Technical Crosshair/Cursor - DESKTOP ONLY */}
             <div
                 className={`fixed pointer-events-none z-[9999] transition-transform duration-75 ease-out hidden md:block ${isHoveringProject ? 'scale-125' : 'scale-100'}`}
                 style={{
@@ -91,8 +95,8 @@ export default function CadUIController() {
                 </div>
             </div>
 
-            {/* 2. Drafting Mode Toggle Button */}
-            <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-2">
+            {/* 2. Drafting Mode Toggle Button - DESKTOP ONLY */}
+            <div className="hidden md:flex fixed bottom-8 right-8 z-[100] flex-col items-end gap-2">
                 <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/50 p-1 rounded-full shadow-2xl flex items-center gap-1 group transition-all duration-500 hover:pr-4">
                     <button
                         onClick={toggleTheme}
@@ -112,12 +116,14 @@ export default function CadUIController() {
                 </p>
             </div>
 
-            {/* 3. Global Styles to hide default cursor */}
+            {/* 3. Global Styles to hide default cursor - DESKTOP ONLY */}
             <style dangerouslySetInnerHTML={{
                 __html: `
-        * { cursor: none !important; }
-        a, button, .cursor-pointer { cursor: none !important; }
-        ::-webkit-scrollbar { display: none; } /* Hide scrollbar for cleaner CAD look if desired */
+        @media (min-width: 768px) {
+            * { cursor: none !important; }
+            a, button, .cursor-pointer { cursor: none !important; }
+            ::-webkit-scrollbar { display: none; }
+        }
       `}} />
         </>
     );

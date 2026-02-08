@@ -17,16 +17,18 @@ import ProjectDetail from "./pages/ProjectDetail";
 import Background from "./components/Background"; // New combined background
 import CadUIController from "./components/CadUIController"; // CAD-Style UI
 import AutoCADCommandLine from "./components/AutoCADCommandLine";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <div className="text-slate-100 min-h-screen relative font-sans">
+      <ScrollToTop />
       <CadUIController />
       <AutoCADCommandLine />
       {/* Visual Background */}
       <Background />
 
-      <div className="relative min-h-screen flex flex-col">
+      <div className="relative min-h-screen flex flex-col pb-24 md:pb-0">
         <Navbar />
 
         <main className="flex-1">
