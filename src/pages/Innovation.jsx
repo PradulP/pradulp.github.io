@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import content from "../data/index";
 import Typewriter from "../components/Typewriter";
-import { ChevronRight, ExternalLink, Atom, Cpu, Code2, Globe, Database, Terminal } from "lucide-react";
+import { ChevronRight, ExternalLink, Atom, Cpu, Code2, Globe, Database, Terminal, Zap, Lock, MessageCircle, Mail } from "lucide-react";
 
 // Existing Calculators...
 const BeamCalculator = () => {
@@ -190,10 +191,14 @@ const ScaleConverter = () => {
 
 
 const Innovation = () => {
-  const innovation = content.innovation || {};
+  const { innovation, contact } = content;
   const items = Array.isArray(innovation) ? innovation : (innovation.items || []);
-  const contact = content.contact || {};
   const [selected, setSelected] = useState(null);
+  const navigate = useNavigate(); // Hook for navigation
+
+  const { scrollYProgress } = useScroll();
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.9]);
 
   // Animation States
   const [showTitle, setShowTitle] = useState(false);
@@ -218,6 +223,21 @@ const Innovation = () => {
   const closeModal = () => {
     setSelected(null);
     document.body.style.overflow = "unset";
+  };
+
+  // Handle Contact Page Redirect
+  const handleContactRedirect = () => {
+    if (!selected) return;
+    const message = `RE: Access Request for ${selected.title} (ID: ${selected.id}-SYS). \n\nI am interested in learning more about this system.`;
+    navigate(`/contact?msg=${encodeURIComponent(message)}&topic=innovation`);
+  };
+
+  // Handle WhatsApp Action
+  const handleWhatsApp = () => {
+    if (!selected) return;
+    const phone = contact?.whatsapp?.replace(/[^0-9]/g, "") || "918078376902";
+    const text = `Hello Pradul, I'd like to request access to: ${selected.title} (${selected.id}-SYS).`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   // Auto-typing sequence
@@ -386,61 +406,97 @@ const Innovation = () => {
 
       </div>
 
-      {/* TECHNICAL MODAL */}
+      {/* TECHNICAL MODAL - FINAL FIXED SCROLL & ACTIONS */}
       <AnimatePresence>
         {selected && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-xl"
+            className="fixed inset-0 z-[2000] bg-slate-950/90 backdrop-blur-xl overflow-y-auto"
             onClick={closeModal}
           >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
-            >
-              <div className="flex items-center justify-between p-4 border-b border-slate-800 bg-slate-950">
-                <div className="flex items-center gap-3">
-                  <Database className="w-4 h-4 text-sky-500" />
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wide">{selected.title}</h3>
-                    <p className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">ID: {selected.id}-SYS</p>
+            {/* 
+               CRITICAL FIX: 
+               - 'min-h-screen' ensures the container fills the window.
+               - 'items-start' (instead of center) allows the modal to start from the top.
+               - 'pt-20 md:pt-32' adds safe padding at the top so it doesn't touch the edge.
+               - 'pb-20' ensures scrolling to bottom is clear.
+            */}
+            <div className="min-h-screen w-full flex items-start justify-center pt-24 pb-20 px-4 md:px-6">
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.6)] overflow-hidden relative flex flex-col"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between p-4 border-b border-slate-800 bg-slate-950 sticky top-0 z-20">
+                  <div className="flex items-center gap-3">
+                    <Database className="w-4 h-4 text-sky-500" />
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wide">{selected.title}</h3>
+                      <p className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">ID: {selected.id}-SYS</p>
+                    </div>
                   </div>
-                </div>
-                <button onClick={closeModal} className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-colors">✕</button>
-              </div>
-
-              <div className="p-6 overflow-y-auto space-y-6">
-                <div className="flex flex-wrap gap-2">
-                  {selected.tech?.map(t => (
-                    <span key={t} className="px-2 py-1 bg-slate-800 text-slate-300 text-[10px] uppercase font-bold rounded border border-slate-700">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="space-y-4">
-                  <div className="p-4 bg-slate-950/50 rounded-xl border border-slate-800/50">
-                    <h4 className="text-[10px] font-mono text-sky-500 font-bold uppercase mb-2">System Description</h4>
-                    <p className="text-sm text-slate-300 leading-relaxed">{selected.description}</p>
-                  </div>
-                  <div className="p-4 bg-slate-950/50 rounded-xl border border-slate-800/50">
-                    <h4 className="text-[10px] font-mono text-sky-500 font-bold uppercase mb-2">Technical Implementation</h4>
-                    <p className="text-sm text-slate-300 leading-relaxed">{selected.details}</p>
-                  </div>
+                  <button
+                    onClick={closeModal}
+                    className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-colors border border-slate-700"
+                  >
+                    ✕
+                  </button>
                 </div>
 
-                <div className="pt-4 border-t border-slate-800 flex gap-4">
-                  <a href={`mailto:${contact.email}`} className="flex-1 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-widest rounded-lg flex items-center justify-center gap-2 transition-colors">
-                    Request Access <ExternalLink className="w-3 h-3" />
-                  </a>
+                {/* Scrollable Body */}
+                <div className="p-6 md:p-8 space-y-8 bg-slate-900">
+                  <div className="flex flex-wrap gap-2">
+                    {selected.tech?.map(t => (
+                      <span key={t} className="px-2 py-1 bg-slate-950 text-slate-300 text-[10px] uppercase font-bold rounded border border-slate-800 shadow-sm">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="space-y-6">
+                    <div className="p-5 bg-slate-950/50 rounded-xl border border-slate-800/50 hover:border-sky-500/20 transition-colors">
+                      <h4 className="text-[10px] font-mono text-sky-500 font-bold uppercase mb-2 flex items-center gap-2">
+                        <Code2 className="w-3 h-3" /> System Description
+                      </h4>
+                      <p className="text-sm text-slate-300 leading-relaxed">{selected.description}</p>
+                    </div>
+                    <div className="p-5 bg-slate-950/50 rounded-xl border border-slate-800/50 hover:border-sky-500/20 transition-colors">
+                      <h4 className="text-[10px] font-mono text-sky-500 font-bold uppercase mb-2 flex items-center gap-2">
+                        <Cpu className="w-3 h-3" /> Technical Implementation
+                      </h4>
+                      <p className="text-sm text-slate-300 leading-relaxed">{selected.details}</p>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={handleContactRedirect}
+                      className="flex-1 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-widest rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-sky-900/20 hover:shadow-sky-500/20 hover:-translate-y-0.5"
+                    >
+                      <Mail className="w-3.5 h-3.5" /> Request per Email
+                    </button>
+
+                    <button
+                      onClick={handleWhatsApp}
+                      className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-widest rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-900/20 hover:shadow-emerald-500/20 hover:-translate-y-0.5"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" /> Request per WhatsApp
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+
+                {/* Footer Decoration */}
+                <div className="bg-slate-950 py-2 text-center border-t border-slate-800">
+                  <p className="text-[8px] font-mono text-slate-600 uppercase tracking-widest">// End_Of_Brief</p>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

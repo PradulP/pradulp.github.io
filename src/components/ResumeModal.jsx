@@ -1,4 +1,3 @@
-// src/components/ResumeModal.jsx
 import { useEffect } from "react";
 import { X, Download, FileText } from "lucide-react";
 
@@ -8,15 +7,18 @@ export default function ResumeModal({ open, onClose, src = "/Pradul_cv.pdf" }) {
       if (e.key === "Escape") onClose();
     }
     if (open) {
-      // Prevent body scroll when modal is open
+      // Lock body scroll
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden"; // For mobile
       window.addEventListener("keydown", esc);
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     }
     return () => {
       window.removeEventListener("keydown", esc);
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [open, onClose]);
 
@@ -24,61 +26,56 @@ export default function ResumeModal({ open, onClose, src = "/Pradul_cv.pdf" }) {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
+      className="fixed inset-0 z-[9999] bg-slate-950 flex flex-col h-screen w-screen"
       role="dialog"
       aria-modal="true"
     >
-      {/* Click outside to close */}
-      <div className="absolute inset-0" onClick={onClose} />
-
-      <div className="relative w-full max-w-5xl h-[85vh] bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
-
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950">
-          <div className="flex items-center gap-2 text-slate-200">
-            <FileText className="w-4 h-4 text-sky-400" />
-            <h3 className="text-sm font-bold uppercase tracking-wider">Systems_Resume_Viewer</h3>
+      {/* HEADER: Fixed height */}
+      <div className="flex-none h-16 px-4 md:px-6 bg-slate-900 border-b border-slate-700 flex items-center justify-between z-50 shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-sky-500/10 rounded-lg hidden sm:block">
+            <FileText className="w-5 h-5 text-sky-400" />
           </div>
-
-          <div className="flex items-center gap-2">
-            <a
-              href={src}
-              download
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-bold uppercase hover:bg-sky-500 hover:text-slate-950 transition-all"
-            >
-              <Download className="w-3.5 h-3.5" />
-              Download PDF
-            </a>
-            <button
-              onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
-              aria-label="Close"
-            >
-              <X className="w-5 h-5" />
-            </button>
+          <div>
+            <h3 className="text-sm md:text-base font-bold text-slate-100 uppercase tracking-wide">System Resume</h3>
+            <p className="text-[10px] text-slate-500 font-mono hidden sm:block">PDF_VIEWER_V1.0</p>
           </div>
         </div>
 
-        {/* PDF Viewer */}
-        <div className="flex-1 bg-slate-800 relative">
-          {/* Loading/Fallback */}
-          <div className="absolute inset-0 flex items-center justify-center text-slate-500">
-            <p className="animate-pulse">Loading Document Stream...</p>
-          </div>
+        <div className="flex items-center gap-3">
+          <a
+            href={src}
+            download
+            className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs md:text-sm font-bold uppercase tracking-wider transition-all shadow-lg shadow-sky-900/20 active:scale-95"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">Download</span>
+          </a>
+          <button
+            onClick={onClose}
+            className="p-2 md:p-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors border border-slate-700 hover:border-slate-500 active:scale-95"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
 
-          <iframe
-            src={src}
-            title="Resume"
-            className="relative z-10 w-full h-full"
-            style={{ border: "none" }}
-          />
+      {/* BODY: Filling Remaining Height */}
+      <div className="flex-1 relative w-full bg-slate-800 overflow-hidden">
+
+        {/* Loading Indicator Layer (behind iframe) */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500 z-0 bg-slate-900/50 pointer-events-none">
+          <div className="w-10 h-10 border-4 border-slate-700 border-t-sky-500 rounded-full animate-spin mb-4" />
+          <p className="text-xs font-mono animate-pulse">Establishing Secure Connection...</p>
         </div>
 
-        {/* Footer info (optional decoration) */}
-        <div className="px-4 py-2 bg-slate-950 border-t border-slate-800 text-[10px] text-slate-500 font-mono flex justify-between">
-          <span>DOC_ID: CV-2024-V2</span>
-          <span>SECURE_VIEW</span>
-        </div>
+        {/* PDF Iframe */}
+        <iframe
+          src={`${src}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
+          className="absolute inset-0 w-full h-full z-10 border-none bg-slate-200"
+          title="Resume PDF"
+        />
       </div>
     </div>
   );
