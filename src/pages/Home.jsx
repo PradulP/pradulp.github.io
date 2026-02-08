@@ -17,7 +17,8 @@ import {
   Briefcase,
   GraduationCap,
   MessageCircle,
-  Mail
+  Mail,
+  PhoneCall
 } from "lucide-react";
 
 // Animations
@@ -55,7 +56,14 @@ export default function Home() {
   const whatsappNumber = (contact.whatsapp || "918078376902").replace(/[^0-9]/g, "");
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
+    <main className="min-h-screen
+    relative overflow-hidden pb-20
+    bg-slate-950/65
+    backdrop-blur-xl
+    text-slate-50
+    border border-white/5
+    shadow-[0_0_50px_rgba(0,0,0,0.7)]
+  ">
       <SEOHelmet
         title={`${hero.name || "Pradul P"} — Civil Engineer & BIM Specialist`}
         description={hero.tagline}
@@ -374,11 +382,15 @@ export default function Home() {
             <div className="flex flex-wrap justify-center gap-4 pt-6">
 
               <Link to="/contact" className="group px-8 py-3 bg-sky-500 text-slate-950 font-bold uppercase tracking-widest text-xs rounded-xl shadow-lg shadow-sky-500/20 hover:bg-sky-400 hover:scale-105 transition-all flex items-center gap-2">
-                <Mail className="w-4 h-4" /> Get in Touch
+                <PhoneCall className="w-4 h-4" /> Get in Touch
               </Link>
-
-              <a href={`mailto:${primaryEmail}`} target="_blank" rel="noopener noreferrer" className="px-8 py-3 border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all flex items-center gap-2">
-                <MessageCircle className="w-4 h-4" /> Email me
+              <a
+                href={`mailto:${primaryEmail}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 border border-red-500/30 bg-red-500/10 text-red-400 font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-red-500/20 hover:border-red-500/50 transition-all flex items-center gap-2"
+              >
+                <Mail className="w-4 h-4" /> Email me
               </a>
               <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="px-8 py-3 border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all flex items-center gap-2">
                 <MessageCircle className="w-4 h-4" /> WhatsApp
