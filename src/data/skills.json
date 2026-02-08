@@ -1,114 +1,123 @@
 {
     "sectionId": "skills",
-    "eyebrow": "Technical Arsenal",
-    "title": "Technical Expertise",
-    "description": "A cross-disciplinary stack bridging Structural Engineering, BIM Management, and Software Development.",
+    "eyebrow": "Skills",
+    "title": "What I work with",
+    "description": "A mix of civil engineering, BIM workflows, and front-end development to bridge construction and technology.",
     "badges": [
-        "Junior Engineer",
-        "BIM Automation Lead",
-        "Full-Stack Developer"
+        "Junior Engineer @ Paradigm",
+        "Licensed Civil Engineer",
+        "BIM & Web Enthusiast"
     ],
+    "note": "Constantly improving – especially in Revit automation and modern web tooling.",
     "groups": [
         {
-            "title": "Civil & BIM Stack",
+            "title": "Civil Engineering & BIM",
             "skills": [
                 {
-                    "name": "Autodesk Revit",
-                    "level": "Expert",
-                    "description": "Advanced parametric modeling, family creation, and worksharing coordination.",
-                    "tags": [
-                        "AEC",
-                        "CAD"
-                    ]
+                    "name": "Revit (Architecture / Structure)",
+                    "level": "Advanced"
                 },
                 {
-                    "name": "AutoCAD",
-                    "level": "Expert",
-                    "description": "High-precision drafting, .NET API integration, and automated documentation.",
-                    "tags": [
-                        "Civil",
-                        "Design"
-                    ]
+                    "name": "BIM Modeling & Coordination",
+                    "level": "Intermediate"
                 },
                 {
-                    "name": "BIM 360 / ACC",
-                    "level": "Advanced",
-                    "description": "Cloud-based model coordination, document management, and site sync.",
-                    "tags": [
-                        "Cloud",
-                        "CDE"
-                    ]
+                    "name": "AutoCAD 2D Drafting",
+                    "level": "Advanced"
                 },
                 {
-                    "name": "pyRevit & Dynamo",
-                    "level": "Daily User",
-                    "description": "Automating Revit tasks via Python and visual programming nodes.",
-                    "tags": [
-                        "Automation",
-                        "R&D"
-                    ]
+                    "name": "Navisworks (Clash Review)",
+                    "level": "Intermediate"
                 },
                 {
-                    "name": "Site Ops & Survey",
-                    "level": "On-Field",
-                    "description": "Practical site supervision, structural checks, and laser scan data parsing.",
-                    "tags": [
-                        "Site",
-                        "Execution"
-                    ]
+                    "name": "Construction Drawings & Detailing",
+                    "level": "Advanced"
                 }
             ]
         },
         {
-            "title": "Software Engine",
+            "title": "Revit Automation & Tools",
             "skills": [
                 {
-                    "name": "Python",
-                    "level": "Strong",
-                    "description": "Used for Revit API automation, data processing, and engineering scripts.",
-                    "tags": [
-                        "Language",
-                        "Back-end"
-                    ]
+                    "name": "pyRevit Scripts",
+                    "level": "Intermediate"
                 },
                 {
-                    "name": "React.js & Vite",
-                    "level": "Advanced",
-                    "description": "Building high-performance AEC web applications and interactive dashboards.",
-                    "tags": [
-                        "Frame",
-                        "U-UX"
-                    ]
+                    "name": "Dynamo (Visual Scripting)",
+                    "level": "Intermediate"
                 },
                 {
-                    "name": "JavaScript (ES6+)",
-                    "level": "Advanced",
-                    "description": "Core logic for web tools and cross-platform automation scripts.",
-                    "tags": [
-                        "Language",
-                        "Web"
-                    ]
+                    "name": "Excel ↔ Revit Workflows",
+                    "level": "Intermediate"
                 },
                 {
-                    "name": "Node.js & SQL",
-                    "level": "Functional",
-                    "description": "Backend database management for tracking engineering quantities.",
-                    "tags": [
-                        "Data",
-                        "Server"
-                    ]
+                    "name": "Custom Revit Tools (Python)",
+                    "level": "Learning"
+                }
+            ]
+        },
+        {
+            "title": "Web & Front-End",
+            "skills": [
+                {
+                    "name": "HTML, CSS, JavaScript",
+                    "level": "Intermediate"
+                },
+                {
+                    "name": "React.js",
+                    "level": "Intermediate"
                 },
                 {
                     "name": "Tailwind CSS",
-                    "level": "Advanced",
-                    "description": "Designing premium, responsive engineering-themed user interfaces.",
-                    "tags": [
-                        "Styles",
-                        "Design"
-                    ]
+                    "level": "Intermediate"
+                },
+                {
+                    "name": "Git & GitHub",
+                    "level": "Working"
+                }
+            ]
+        },
+        {
+            "title": "Tools & Platforms",
+            "skills": [
+                {
+                    "name": "Autodesk Construction Cloud (ACC)",
+                    "level": "Working"
+                },
+                {
+                    "name": "MS Excel & Google Sheets",
+                    "level": "Advanced"
+                },
+                {
+                    "name": "VS Code",
+                    "level": "Daily Driver"
+                },
+                {
+                    "name": "Notion / Task Management",
+                    "level": "Working"
+                }
+            ]
+        },
+        {
+            "title": "Soft Skills",
+            "skills": [
+                {
+                    "name": "Site Coordination",
+                    "level": "Working"
+                },
+                {
+                    "name": "Client Communication",
+                    "level": "Working"
+                },
+                {
+                    "name": "Team Collaboration",
+                    "level": "Strong"
+                },
+                {
+                    "name": "Problem Solving",
+                    "level": "Strong"
                 }
             ]
         }
-    ],
-    "note": "Continuously evolving the intersection of Engineering and Code."
+    ]
 }

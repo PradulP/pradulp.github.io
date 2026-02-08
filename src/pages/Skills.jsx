@@ -377,7 +377,7 @@ export default function SkillsSection() {
             <div className="bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between">
               <div className="flex flex-col">
                 <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest font-bold font-mono">Component: {selectedSkill.name}</span>
-                <p className="text-[8px] font-mono text-slate-700 uppercase">Unit_ID: {activeGroup.title.replace(/\s+/g, '_')}_00X</p>
+                <p className="text-[8px] font-mono text-slate-700 uppercase">Unit_ID: SKILL_NODE_00{selectedSkill.name.length}</p>
               </div>
               <button
                 onClick={closeModal}
@@ -403,11 +403,15 @@ export default function SkillsSection() {
               </header>
 
               <div className="space-y-4">
-                <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl space-y-2">
+                <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl space-y-3">
                   <p className="text-[9px] font-mono font-bold text-slate-500 uppercase tracking-widest">How I use it</p>
-                  <p className="text-xs text-slate-300 leading-relaxed font-medium">
-                    {selectedSkill.description || "Used for complex architectural and structural workflows in large-scale projects."}
-                  </p>
+                  <div className="space-y-2">
+                    {getSkillUsage(selectedSkill.name, activeGroup.title).map((usage, idx) => (
+                      <p key={idx} className="text-xs text-slate-300 leading-relaxed font-medium flex gap-2">
+                        <span className="text-sky-500">▹</span> {usage}
+                      </p>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-2 justify-center">
