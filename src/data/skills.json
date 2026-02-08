@@ -15,23 +15,28 @@
             "skills": [
                 {
                     "name": "Revit (Architecture / Structure)",
-                    "level": "Advanced"
+                    "level": "Advanced",
+                    "details": "High-level modeling and documentation for large-scale infrastructure and residential projects."
                 },
                 {
                     "name": "BIM Modeling & Coordination",
-                    "level": "Intermediate"
+                    "level": "Intermediate",
+                    "details": "Managing 3D models and coordinating between different engineering disciplines using Navisworks."
                 },
                 {
                     "name": "AutoCAD 2D Drafting",
-                    "level": "Advanced"
+                    "level": "Advanced",
+                    "details": "Creating precise construction drawings, site plans, and detailed engineering schematics."
                 },
                 {
                     "name": "Navisworks (Clash Review)",
-                    "level": "Intermediate"
+                    "level": "Intermediate",
+                    "details": "Performing clash detection and resolution reports to ensure error-free construction phases."
                 },
                 {
                     "name": "Construction Drawings & Detailing",
-                    "level": "Advanced"
+                    "level": "Advanced",
+                    "details": "Transforming design concepts into accurate, builder-ready technical documentation."
                 }
             ]
         },
@@ -40,19 +45,23 @@
             "skills": [
                 {
                     "name": "pyRevit Scripts",
-                    "level": "Intermediate"
+                    "level": "Intermediate",
+                    "details": "Developing custom Python tools to automate repetitive Revit tasks and UI enhancements."
                 },
                 {
                     "name": "Dynamo (Visual Scripting)",
-                    "level": "Intermediate"
+                    "level": "Intermediate",
+                    "details": "Automating complex geometry and data management within BIM environments."
                 },
                 {
                     "name": "Excel ↔ Revit Workflows",
-                    "level": "Intermediate"
+                    "level": "Intermediate",
+                    "details": "Bridging data between spreadsheets and BIM models for schedules and parameter management."
                 },
                 {
                     "name": "Custom Revit Tools (Python)",
-                    "level": "Learning"
+                    "level": "Learning",
+                    "details": "Diving deeper into Revit API to build robust standalone add-ins and automation scripts."
                 }
             ]
         },
@@ -61,19 +70,23 @@
             "skills": [
                 {
                     "name": "HTML, CSS, JavaScript",
-                    "level": "Intermediate"
+                    "level": "Intermediate",
+                    "details": "The foundation of my web tools, used to build interactive and responsive user interfaces."
                 },
                 {
                     "name": "React.js",
-                    "level": "Intermediate"
+                    "level": "Intermediate",
+                    "details": "Building scalable web applications and my personal portfolio with modern component logic."
                 },
                 {
                     "name": "Tailwind CSS",
-                    "level": "Intermediate"
+                    "level": "Intermediate",
+                    "details": "Rapidly styling modern web apps with utility-first CSS frameworks for clean design."
                 },
                 {
                     "name": "Git & GitHub",
-                    "level": "Working"
+                    "level": "Working",
+                    "details": "Version control and collaborative development for personal projects and BIM automation tools."
                 }
             ]
         },
@@ -82,19 +95,23 @@
             "skills": [
                 {
                     "name": "Autodesk Construction Cloud (ACC)",
-                    "level": "Working"
+                    "level": "Working",
+                    "details": "Collaborating on cloud-hosted models and managing project documentation in CDE."
                 },
                 {
                     "name": "MS Excel & Google Sheets",
-                    "level": "Advanced"
+                    "level": "Advanced",
+                    "details": "Advanced data analysis, automated calculations, and project tracking dashboards."
                 },
                 {
                     "name": "VS Code",
-                    "level": "Daily Driver"
+                    "level": "Daily Driver",
+                    "details": "Primary environment for Python scripting, web development, and markdown documentation."
                 },
                 {
                     "name": "Notion / Task Management",
-                    "level": "Working"
+                    "level": "Working",
+                    "details": "Organizing project timelines, personal knowledge bases, and professional documentation."
                 }
             ]
         },
@@ -103,19 +120,23 @@
             "skills": [
                 {
                     "name": "Site Coordination",
-                    "level": "Working"
+                    "level": "Working",
+                    "details": "Managing communication between design teams and site personnel for real-world execution."
                 },
                 {
                     "name": "Client Communication",
-                    "level": "Working"
+                    "level": "Working",
+                    "details": "Presenting technical designs and BIM models clearly to stakeholders and clients."
                 },
                 {
                     "name": "Team Collaboration",
-                    "level": "Strong"
+                    "level": "Strong",
+                    "details": "Working seamlessly within multi-disciplinary engineering teams to meet project goals."
                 },
                 {
                     "name": "Problem Solving",
-                    "level": "Strong"
+                    "level": "Strong",
+                    "details": "Approaching engineering challenges with a mix of technical logic and innovative automation."
                 }
             ]
         }
