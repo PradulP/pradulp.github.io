@@ -1,12 +1,25 @@
-// src/pages/About.jsx
 import { useState } from "react";
+import { motion } from "framer-motion";
 import content from "../data/index";
-import SectionTitle from "../components/SectionTitle";
 import ResumeModal from "../components/ResumeModal";
+import {
+  Terminal,
+  User,
+  Briefcase,
+  Code,
+  Cpu,
+  Download,
+  FileText,
+  Target,
+  Lightbulb,
+  TrendingUp,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles
+} from "lucide-react";
 
 export default function About() {
   const { hero } = content;
-
   const [resumeOpen, setResumeOpen] = useState(false);
   const resumePath = "/Pradul_cv.pdf";
 
@@ -14,7 +27,8 @@ export default function About() {
     {
       year: "Now",
       title: "Junior Engineer @ Paradigm (Infrastructure)",
-      body: "Working as a Junior Engineer, contributing to real infrastructure projects while applying what I learned from academics, internships, and BIM / digital workflows. This phase is where theory, tools, and site realities meet."
+      body: "Working as a Junior Engineer, contributing to real infrastructure projects while applying what I learned from academics, internships, and BIM / digital workflows. This phase is where theory, tools, and site realities meet.",
+      status: "active"
     },
     {
       year: "Recent Years",
@@ -62,229 +76,293 @@ export default function About() {
   ];
 
   return (
-    <main className="pt-8 md:pt-10 pb-16">
-      {/* Hero: split layout + identity card */}
-      <section className="mb-14 md:mb-16">
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          {/* Left: narrative intro */}
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400 mb-2">
-              About
-            </p>
-            <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-3">
-              The engineer behind <span className="text-sky-400">{hero.name}</span>
-            </h1>
+    <main className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
+      {/* Background technical elements */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-40 -left-20 w-[600px] h-[600px] bg-sky-500/5 blur-[120px] rounded-full" />
+        <div className="absolute -bottom-40 -right-20 w-[600px] h-[600px] bg-emerald-500/5 blur-[120px] rounded-full" />
+        <div className="absolute inset-0 bg-blueprint opacity-[0.03]" />
+      </div>
 
-            <p className="text-sm md:text-base text-slate-300 mb-3">
-              I&apos;m a{" "}
-              <span className="text-sky-300 font-medium">
-                Civil Engineer, BIM Technologist, and web-focused problem solver
-              </span>{" "}
-              exploring how digital tools, automation, and smart workflows can transform the way we design, coordinate, and execute projects.
-            </p>
+      <div className="max-w-7xl mx-auto px-4 pt-24 md:pt-32 relative space-y-16">
+        {/* ================= HEADER ================= */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-2 text-sky-400">
+            <User className="w-4 h-4" />
+            <span className="text-xs font-mono font-black uppercase tracking-[0.3em]">Profile Database v2.0</span>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black italic text-slate-100 uppercase tracking-tighter leading-[0.85]">
+            THE ENGINEER <br />
+            BEHIND <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">{hero.name}</span>
+          </h1>
+          <p className="text-base md:text-lg text-slate-400 max-w-3xl leading-relaxed">
+            A <span className="text-sky-300 font-bold">Civil Engineer, BIM Technologist, and web-focused problem solver</span> exploring how digital tools, automation, and smart workflows can transform the way we design, coordinate, and execute projects.
+          </p>
+        </div>
 
-            <p className="text-sm md:text-base text-slate-400 mb-3">
-              My journey combines{" "}
-              <span className="text-slate-200">traditional civil engineering foundations</span>{" "}
-              with{" "}
-              <span className="text-slate-200">BIM, coding, and digital construction</span>. I like to think of myself as a{" "}
-              <span className="text-emerald-300">hybrid engineer–technologist</span>{" "}
-              who is comfortable both with drawings and with scripts.
-            </p>
-
-            <p className="text-sm md:text-base text-slate-400 mb-6">
-              Over time, curiosity about &quot;how structures work&quot; turned into a stronger question:{" "}
-              <span className="text-slate-200">
-                &quot;How can we use technology to build better, faster, and smarter?&quot;
-              </span>{" "}
-              That question is what I&apos;m continuously exploring now.
-            </p>
+        {/* ================= IDENTITY CARD ================= */}
+        <div className="grid md:grid-cols-2 gap-10">
+          {/* Left: Narrative */}
+          <div className="space-y-6">
+            <div className="space-y-4 text-slate-300 leading-relaxed">
+              <p>
+                My journey combines <span className="text-slate-100 font-semibold">traditional civil engineering foundations</span> with <span className="text-slate-100 font-semibold">BIM, coding, and digital construction</span>. I like to think of myself as a <span className="text-emerald-300 font-bold">hybrid engineer–technologist</span> who is comfortable both with drawings and with scripts.
+              </p>
+              <p>
+                Over time, curiosity about "how structures work" turned into a stronger question: <span className="text-sky-300 font-bold italic">"How can we use technology to build better, faster, and smarter?"</span> That question is what I'm continuously exploring now.
+              </p>
+            </div>
 
             {/* Resume Buttons */}
-            <div className="flex flex-wrap gap-3 mt-4">
+            <div className="flex flex-wrap gap-4 pt-4">
               <button
                 onClick={() => setResumeOpen(true)}
-                className="px-4 py-2 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium transition"
+                className="group flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-sky-500/20 hover:shadow-sky-500/40"
               >
+                <FileText className="w-4 h-4" />
                 View Resume
               </button>
-
               <a
                 href={resumePath}
                 download
-                className="px-4 py-2 rounded-full border border-slate-700 bg-slate-900/70 hover:border-sky-400 transition"
+                className="group flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-sky-500/50 text-slate-300 hover:text-slate-100 font-bold uppercase tracking-widest text-xs transition-all"
               >
-                Download Resume
+                <Download className="w-4 h-4" />
+                Download PDF
               </a>
             </div>
           </div>
 
-          {/* Right: identity card */}
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/70 backdrop-blur-xl p-5 md:p-6 shadow-[0_0_60px_rgba(56,189,248,0.12)] 
-          transition-all duration-300 hover:shadow-[0_0_90px_rgba(56,189,248,0.25)] hover:-translate-y-1">
+          {/* Right: Technical Identity Card */}
+          <div className="rounded-3xl border border-slate-800 bg-slate-950/80 backdrop-blur-sm overflow-hidden shadow-2xl hover:border-sky-500/50 transition-all duration-500 group">
+            {/* Card Header */}
+            <div className="relative p-6 pb-4 bg-gradient-to-br from-slate-900/50 to-slate-950/50 border-b border-slate-800/50">
+              <div className="absolute top-3 right-3 text-5xl font-black text-white/[0.02] select-none pointer-events-none italic">
+                ID-001
+              </div>
 
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-1">Identity</p>
-                <p className="text-sm font-semibold">
-                  {hero.name}{" "}
-                  <span className="text-[11px] ml-1 px-2 py-0.5 rounded-full border border-emerald-500/50 text-emerald-300">
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-2">
+                  <Terminal className="w-4 h-4 text-sky-400" />
+                  <span className="text-[9px] font-mono font-black uppercase tracking-[0.2em] text-sky-400">Identity Record</span>
+                </div>
+                <h2 className="text-2xl font-black italic text-slate-100 uppercase tracking-tighter mb-2">{hero.name}</h2>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold uppercase tracking-wide">
                     Licensed Civil Engineer
                   </span>
-                </p>
-              </div>
-
-              <div className="text-right">
-                <p className="text-[11px] text-slate-500">Current role</p>
-                <p className="text-xs font-medium text-slate-200">Junior Engineer @ Paradigm</p>
+                  <span className="text-[10px] font-mono text-slate-500">REG_2024</span>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mb-4 text-xs">
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3">
-                <p className="text-[11px] text-slate-400 mb-1">Core domains</p>
-                <p className="text-slate-200">Civil · BIM · Infrastructure · Digital Design</p>
+            {/* Card Body */}
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl">
+                  <p className="text-[9px] uppercase tracking-widest text-slate-500 font-bold mb-1">Current Role</p>
+                  <p className="text-xs font-bold text-slate-200">Junior Engineer</p>
+                  <p className="text-[10px] text-slate-400">@ Paradigm</p>
+                </div>
+                <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl">
+                  <p className="text-[9px] uppercase tracking-widest text-slate-500 font-bold mb-1">Status</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+                    <p className="text-xs font-bold text-emerald-400">Active</p>
+                  </div>
+                </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3">
-                <p className="text-[11px] text-slate-400 mb-1">Tech keywords</p>
-                <p className="text-slate-200">Revit · BIM · Automation · Web · AI-adjacent tools</p>
+              <div className="bg-slate-900/30 border border-slate-800/50 p-4 rounded-xl space-y-3">
+                <div>
+                  <p className="text-[9px] uppercase tracking-widest text-slate-500 font-bold mb-1.5">Core Domains</p>
+                  <p className="text-xs text-slate-200 leading-relaxed">Civil · BIM · Infrastructure · Digital Design</p>
+                </div>
+                <div>
+                  <p className="text-[9px] uppercase tracking-widest text-slate-500 font-bold mb-1.5">Tech Stack</p>
+                  <p className="text-xs text-slate-200 leading-relaxed">Revit · BIM · Automation · Web · AI-adjacent tools</p>
+                </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3">
-                <p className="text-[11px] text-slate-400 mb-1">Working style</p>
-                <p className="text-slate-200">Detail-oriented, systematic, curious, prototype-driven</p>
-              </div>
-
-              <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-3">
-                <p className="text-[11px] text-slate-400 mb-1">Long-term direction</p>
-                <p className="text-slate-200">Tech-integrated civil engineering, tools & systems</p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 text-[11px]">
-              {identityTags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 rounded-full border border-slate-700 bg-slate-950/80 text-slate-200 text-[11px]
-                  transition-all hover:border-sky-400 hover:text-sky-200 hover:bg-slate-900"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission & Vision */}
-      <section className="mb-14">
-        <SectionTitle>Mission &amp; Vision</SectionTitle>
-        <div className="grid md:grid-cols-2 gap-5 text-sm md:text-base text-slate-300">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 md:p-5 hover:border-sky-500/60">
-            <h3 className="font-semibold mb-2 text-sky-300">Mission</h3>
-            <p>
-              To contribute to a future where civil engineering is{" "}
-              <span className="text-slate-100">faster, smarter, and more technology-integrated</span>{" "}
-              – without losing precision, clarity, or responsibility. I want to help build workflows that are{" "}
-              <span className="text-slate-100">efficient, transparent, and scalable</span>{" "}
-              across design, documentation, and execution.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 md:p-5 hover:border-sky-500/60">
-            <h3 className="font-semibold mb-2 text-emerald-300">Vision</h3>
-            <p className="mb-2">
-              My vision is to help transform civil engineering into a{" "}
-              <span className="text-slate-100">fully technology-integrated discipline</span>{" "}
-              — where innovation and digital intelligence drive real-world impact.
-            </p>
-            <p>
-              I&apos;m working towards becoming a{" "}
-              <span className="text-slate-100">hybrid engineer–technologist</span>{" "}
-              who can bridge site realities, BIM environments, and digital tools into one continuous system.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="mb-14">
-        <SectionTitle>Journey So Far</SectionTitle>
-        <div className="relative border-l border-slate-800 pl-4 md:pl-6 space-y-6">
-          {milestones.map((item) => (
-            <div key={item.title} className="relative">
-              <div className="absolute -left-[9px] md:-left-[11px] top-1">
-                <div className="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full bg-sky-400 shadow-[0_0_15px_rgba(56,189,248,0.7)]" />
-              </div>
-              <div className="ml-1 md:ml-2 rounded-2xl border border-slate-800 bg-slate-900/60 p-3.5 md:p-4">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-1">
-                  {item.year}
-                </p>
-                <h3 className="text-sm md:text-base font-semibold text-slate-100 mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-xs md:text-sm text-slate-300">{item.body}</p>
+              <div className="flex flex-wrap gap-2">
+                {identityTags.map((tag, i) => (
+                  <motion.span
+                    key={tag}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.05 }}
+                    className="text-[10px] px-2.5 py-1 rounded-lg border border-slate-800 bg-slate-950/80 text-slate-300 hover:border-sky-500/50 hover:text-sky-300 transition-all cursor-default"
+                  >
+                    {tag}
+                  </motion.span>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-        {/* CTA */}
-        <div className="mt-5">
-          <a
-            href="/experience"
-            className="inline-block text-xs md:text-sm text-sky-400 hover:underline"
-          >
-            View full experience & education timeline →
-          </a>
-        </div>
-      </section>
 
-      {/* Mindset & Focus */}
-      <section className="mb-14">
-        <SectionTitle>How I Think &amp; Work</SectionTitle>
-        <div className="grid md:grid-cols-2 gap-5 text-xs md:text-sm text-slate-300">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 md:p-5 hover:border-sky-500/60">
-            <h3 className="font-semibold mb-2 text-sky-300">Mindset &amp; principles</h3>
-            <ul className="list-disc list-inside space-y-1.5">
-              {mindsetPoints.map((pt) => (
-                <li key={pt}>{pt}</li>
-              ))}
-            </ul>
+            {/* Card Footer */}
+            <div className="px-6 py-3 bg-slate-900/50 border-t border-slate-800/50">
+              <div className="flex items-center justify-between text-[9px] font-mono text-slate-600 uppercase tracking-widest">
+                <span>Profile_ID: PRDL-CE-2024</span>
+                <span className="text-emerald-500/50">Verified</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ================= MISSION & VISION ================= */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <Target className="w-5 h-5 text-sky-400" />
+            <h2 className="text-2xl font-black italic text-slate-100 uppercase tracking-tighter">Mission & Vision</h2>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 md:p-5 hover:border-sky-500/60">
-            <h3 className="font-semibold mb-2 text-emerald-300">Current focus areas</h3>
-            <ul className="list-disc list-inside space-y-1.5">
-              {focusAreas.map((pt) => (
-                <li key={pt}>{pt}</li>
-              ))}
-            </ul>
-            <p className="mt-3 text-[11px] text-slate-400">
-              I&apos;m also continuously exploring new tools, workflows, and ways to connect BIM, web, and automation into practical systems that actually get used.
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-6 hover:border-sky-500/50 transition-all group">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-sky-400" />
+                </div>
+                <h3 className="text-lg font-black italic text-sky-300 uppercase tracking-tight">Mission</h3>
+              </div>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                To contribute to a future where civil engineering is <span className="text-slate-100 font-semibold">faster, smarter, and more technology-integrated</span> – without losing precision, clarity, or responsibility. I want to help build workflows that are <span className="text-slate-100 font-semibold">efficient, transparent, and scalable</span> across design, documentation, and execution.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-6 hover:border-emerald-500/50 transition-all group">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
+                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                </div>
+                <h3 className="text-lg font-black italic text-emerald-300 uppercase tracking-tight">Vision</h3>
+              </div>
+              <p className="text-sm text-slate-300 leading-relaxed mb-3">
+                My vision is to help transform civil engineering into a <span className="text-slate-100 font-semibold">fully technology-integrated discipline</span> — where innovation and digital intelligence drive real-world impact.
+              </p>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                I'm working towards becoming a <span className="text-slate-100 font-semibold">hybrid engineer–technologist</span> who can bridge site realities, BIM environments, and digital tools into one continuous system.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= JOURNEY TIMELINE ================= */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <Briefcase className="w-5 h-5 text-sky-400" />
+            <h2 className="text-2xl font-black italic text-slate-100 uppercase tracking-tighter">Journey So Far</h2>
+          </div>
+
+          <div className="relative border-l-2 border-slate-800 pl-8 space-y-8">
+            {milestones.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="relative"
+              >
+                <div className="absolute -left-[37px] top-2">
+                  <div className={`w-4 h-4 rounded-full border-2 ${item.status === 'active' ? 'bg-emerald-500 border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.6)] animate-pulse' : 'bg-slate-950 border-sky-500 shadow-[0_0_10px_rgba(14,165,233,0.4)]'}`} />
+                </div>
+
+                <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-5 hover:border-sky-500/50 transition-all group">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-[10px] font-mono font-black uppercase tracking-[0.2em] text-sky-400 bg-sky-500/10 border border-sky-500/30 px-2 py-1 rounded">
+                      {item.year}
+                    </span>
+                    {item.status === 'active' && (
+                      <span className="text-[9px] font-mono font-black px-2 py-0.5 bg-emerald-500/20 border border-emerald-500/30 rounded text-emerald-400 uppercase tracking-wider animate-pulse">
+                        Current
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-base font-black italic text-slate-100 uppercase tracking-tight mb-2">{item.title}</h3>
+                  <p className="text-sm text-slate-300 leading-relaxed">{item.body}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="pt-4">
+            <a
+              href="/experience"
+              className="inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors group"
+            >
+              View full experience & education timeline
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
+        </section>
+
+        {/* ================= HOW I THINK & WORK ================= */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <Lightbulb className="w-5 h-5 text-sky-400" />
+            <h2 className="text-2xl font-black italic text-slate-100 uppercase tracking-tighter">How I Think & Work</h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-6 hover:border-sky-500/50 transition-all">
+              <h3 className="text-lg font-black italic text-sky-300 uppercase tracking-tight mb-4">Mindset & Principles</h3>
+              <ul className="space-y-3">
+                {mindsetPoints.map((pt, i) => (
+                  <li key={i} className="flex gap-3 group/item">
+                    <CheckCircle2 className="w-4 h-4 text-sky-500/50 flex-shrink-0 mt-0.5 group-hover/item:text-sky-400 transition-colors" />
+                    <span className="text-sm text-slate-300 leading-relaxed">{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-6 hover:border-emerald-500/50 transition-all">
+              <h3 className="text-lg font-black italic text-emerald-300 uppercase tracking-tight mb-4">Current Focus Areas</h3>
+              <ul className="space-y-3 mb-4">
+                {focusAreas.map((pt, i) => (
+                  <li key={i} className="flex gap-3 group/item">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500/50 flex-shrink-0 mt-0.5 group-hover/item:text-emerald-400 transition-colors" />
+                    <span className="text-sm text-slate-300 leading-relaxed">{pt}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-xs text-slate-400 italic border-l-2 border-emerald-500/30 pl-3">
+                I'm also continuously exploring new tools, workflows, and ways to connect BIM, web, and automation into practical systems that actually get used.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= WHAT'S NEXT ================= */}
+        <section className="rounded-3xl border border-sky-500/30 bg-gradient-to-br from-slate-950/80 to-slate-900/50 p-8 backdrop-blur-sm relative overflow-hidden group hover:border-sky-500/50 transition-all">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/5 blur-3xl rounded-full" />
+
+          <div className="relative z-10 space-y-4">
+            <div className="flex items-center gap-3">
+              <Code className="w-5 h-5 text-sky-400" />
+              <h2 className="text-2xl font-black italic text-slate-100 uppercase tracking-tighter">What's Next</h2>
+            </div>
+            <p className="text-base text-slate-300 leading-relaxed">
+              I'm always interested in <span className="text-slate-100 font-semibold">collaborations, side projects, and problem-solving opportunities</span> around civil engineering, BIM, digital tools, and automation.
+            </p>
+            <p className="text-base text-slate-300 leading-relaxed">
+              If you're working on something that connects <span className="text-sky-300 font-bold">engineering, technology, or digital workflows</span>, I'd be happy to talk.
+            </p>
+            <p className="text-sm text-slate-500 italic">
+              You can reach me through the contact section of this site, or via the links in the header.
             </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Closing CTA */}
-      <section className="mb-4">
-        <SectionTitle>What&apos;s next</SectionTitle>
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 md:p-5 hover:border-sky-500/60">
-          <p className="mb-2">
-            I&apos;m always interested in{" "}
-            <span className="text-slate-100">collaborations, side projects, and problem-solving opportunities</span>{" "}
-            around civil engineering, BIM, digital tools, and automation.
-          </p>
-          <p className="mb-3">
-            If you&apos;re working on something that connects{" "}
-            <span className="text-sky-300">engineering, technology, or digital workflows</span>, I&apos;d be happy to talk.
-          </p>
-          <p className="text-[11px] text-slate-400">
-            You can reach me through the contact section of this site, or via the links in the header.
-          </p>
+        {/* ================= FOOTER ================= */}
+        <div className="pt-12 border-t border-slate-900/50 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-sky-500" /> Profile_Active</span>
+            <span className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-emerald-500" /> Data_Verified</span>
+          </div>
+          <div>© 2024 PRADUL P · PROFILE_SYS_V2</div>
         </div>
-      </section>
+      </div>
 
       {/* Resume Modal */}
       <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} src={resumePath} />
