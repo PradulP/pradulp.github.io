@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import skillsData from "../data/skills.json";
 import projectsData from "../data/Projects.json";
@@ -23,6 +23,8 @@ function levelToPercent(level) {
  * Generate short text bullet points about where a given skill is used.
  */
 function getSkillUsage(skillName, categoryTitle) {
+  if (!categoryTitle) return ["Used in professional workflows."];
+
   const name = skillName.toLowerCase();
   const cat = categoryTitle.toLowerCase();
   const uses = [];
@@ -75,7 +77,9 @@ function SkillCard({ skill, categoryTitle, onClick, index }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={onClick}
-      initial={false}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
       style={{ perspective: "1500px" }}
     >
       {/* Technical Border Effect */}
@@ -257,6 +261,11 @@ export default function SkillsSection() {
     })).filter(group => group.skills.length > 0);
   }, [searchQuery, groups]);
 
+  // Reset active index when search changes to avoid showing empty states if previous index is out of bounds
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [searchQuery]);
+
   const activeGroup = filteredGroups[activeIndex] || filteredGroups[0] || { title: "", skills: [] };
 
   const handleCardClick = (skill, categoryTitle) => {
@@ -270,6 +279,12 @@ export default function SkillsSection() {
   };
 
   const closeModal = () => setSelectedSkill(null);
+
+  // Initial animation controls
+  const variants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  };
 
   return (
     <section id={sectionId} className="min-h-screen w-full bg-slate-950 text-slate-50 px-4 py-16 md:px-10 lg:px-24 relative overflow-hidden">
@@ -361,11 +376,14 @@ export default function SkillsSection() {
         </div>
 
         <motion.div
-          layout
+          key={activeGroup.title} // Forces re-render animation when group changes
+          initial="hidden"
+          animate="visible"
+          variants={variants}
           className="grid gap-5 md:gap-6 md:grid-cols-2 xl:grid-cols-3"
         >
           {activeGroup.skills.length > 0 ? (
-            activeGroup.skills.map(skill => {
+            activeGroup.skills.map((skill, index) => {
               const absIndex = allSkillsFlat.findIndex(s => s.name === skill.name);
               return (
                 <SkillCard
@@ -373,7 +391,7 @@ export default function SkillsSection() {
                   skill={skill}
                   categoryTitle={activeGroup.title}
                   onClick={() => handleCardClick(skill, activeGroup.title)}
-                  index={absIndex === -1 ? index : absIndex}
+                  index={index} // Use local index for simpler staggered delay
                 />
               )
             })
