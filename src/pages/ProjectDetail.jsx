@@ -388,11 +388,12 @@ export default function ProjectDetail() {
               </div>
               <div className="font-mono text-xs text-slate-400 space-y-4 leading-relaxed">
                 <p className="text-emerald-400/80">$ initialize --project-scan --deep</p>
-                <p>Analysing structural integrity and BIM compliance... Done.</p>
-                <p>This project represents a fusion of <span className="text-sky-300">engineering precision</span> and
-                  digital coordination. Successfully implemented as part of the <span className="text-slate-200">Pradul-V2</span> engineering database.</p>
+                <p>Analysing {project.category === 'civil' ? 'structural integrity and BIM compliance' : 'code quality and deployment status'}... Done.</p>
+                <p>{summary}</p>
                 <p className="p-4 bg-slate-950/80 border-l border-sky-500 rounded text-[11px] text-slate-500 italic">
-                  "Professional excellence achieved through meticulous planning and a focus on sustainable, energy-efficient outcomes."
+                  "{project.category === 'civil'
+                    ? 'Professional excellence achieved through meticulous planning and adherence to engineering standards.'
+                    : 'Built with modern web technologies and best practices for optimal performance and user experience.'}"
                 </p>
                 <p className="text-emerald-400/80">$ status: COMPLETE // session: TERMINATED</p>
               </div>
