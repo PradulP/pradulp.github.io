@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Typewriter from "../components/Typewriter";
 import skillsData from "../data/skills.json";
 import projectsData from "../data/Projects.json";
 import { Search, Info, ExternalLink, Terminal, Cpu, ChevronLeft, ChevronRight, Linkedin } from "lucide-react";
@@ -299,7 +300,7 @@ export default function SkillsSection() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             {eyebrow && <p className="text-sm uppercase tracking-[0.25em] text-sky-400">{eyebrow}</p>}
-            {title && <h2 className="text-3xl md:text-4xl font-semibold mt-2">{title}</h2>}
+            {title && <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter mt-2 leading-none text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-400 to-sky-400 animate-gradient-x pb-2"><Typewriter text={title} speed={50} /></h2>}
             {description && <p className="text-sm md:text-base text-slate-400 mt-3 max-w-xl">{description}</p>}
           </div>
           {badges && badges.length > 0 && (

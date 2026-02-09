@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import content from "../data/index";
-import emailjs from "@emailjs/browser";
 import Typewriter from "../components/Typewriter";
 import {
   Send,
@@ -12,8 +11,12 @@ import {
   Linkedin,
   Github,
   CheckCircle2,
-  Terminal
+  Terminal,
+  AlertCircle
 } from "lucide-react";
+
+// REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT URL
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwI9MxoMvsX9nED93GOsF9fkqaY3sXRo19Hud-bIKwfLM5lw12vOk94I9o-TXYah9_3YQ/exec";
 
 const Contact = () => {
   const { contact, socials } = content || {};
@@ -25,11 +28,11 @@ const Contact = () => {
   const githubUrl = socials?.github || "https://github.com/PRADUL-P";
 
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    whatsapp: "",
-    topic: "",
-    message: "",
+    Name: "", // Capitalized to match Google Sheet headers
+    Email: "",
+    Phone: "",
+    Topic: "",
+    Message: "",
   });
 
   const [status, setStatus] = useState({ type: null, message: "" });
@@ -49,15 +52,23 @@ const Contact = () => {
     if (msg || topic) {
       setForm(prev => ({
         ...prev,
-        message: msg || prev.message,
-        topic: topic || prev.topic
+        Message: msg || prev.Message,
+        Topic: topic || prev.Topic
       }));
     }
   }, [locationHook]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    // Map input names to state keys (lowercase inputs -> Capitalized state keys)
+    const keyMap = {
+      name: "Name",
+      email: "Email",
+      whatsapp: "Phone",
+      topic: "Topic",
+      message: "Message"
+    };
+    setForm((prev) => ({ ...prev, [keyMap[name]]: value }));
     setStatus({ type: null, message: "" });
   };
 
@@ -68,14 +79,14 @@ const Contact = () => {
 
   const getWhatsappLink = () => {
     const phone = getPhoneDigits();
-    const topicText = form.topic ? form.topic : "a project / query";
-    const sender = form.name?.trim().length > 0 ? form.name.trim() : "a visitor";
+    const topicText = form.Topic ? form.Topic : "a project / query";
+    const sender = form.Name?.trim().length > 0 ? form.Name.trim() : "a visitor";
     const bodyLines = [
       `Hi, this is ${sender}.`,
       `I'm interested in talking about ${topicText}.`,
     ];
-    if (form.message.trim()) {
-      bodyLines.push("", `Details: ${form.message.trim()}`);
+    if (form.Message.trim()) {
+      bodyLines.push("", `Details: ${form.Message.trim()}`);
     }
     const message = bodyLines.join("\n");
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -84,7 +95,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.email || !form.message) {
+    if (!form.Name || !form.Email || !form.Message) {
       setStatus({
         type: "error",
         message: "Please include your name, email, and message.",
@@ -92,26 +103,42 @@ const Contact = () => {
       return;
     }
 
-    try {
-      setIsSubmitting(true);
-      await emailjs.sendForm(
-        "service_4o9iuyq",
-        "template_n73jr3r",
-        formRef.current,
-        "IqjV-GrAd-SbsJIud"
-      );
+    if (GOOGLE_SCRIPT_URL.includes("YOUR_SCRIPT_ID_HERE")) {
+      alert("Please configure the Google Script URL in Contact.jsx first! Check src/data/INSTRUCTIONS_CONTACT_SETUP.md");
+      return;
+    }
 
+    setIsSubmitting(true);
+
+    try {
+      // Create FormData from state manually to ensure correct keys
+      const formData = new FormData();
+      formData.append("Name", form.Name);
+      formData.append("Email", form.Email);
+      formData.append("Phone", form.Phone);
+      formData.append("Topic", form.Topic);
+      formData.append("Message", form.Message);
+
+      // Fetch to Google Apps Script
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors", // Important for Google Script
+      });
+
+      // Since mode: 'no-cors' returns opaque response, assume success
       setStatus({
         type: "success",
-        message: "Message sent successfull!",
+        message: "Message sent successfully!",
       });
-      setForm({ name: "", email: "", whatsapp: "", topic: "", message: "" });
+      setForm({ Name: "", Email: "", Phone: "", Topic: "", Message: "" });
       setIsPopupOpen(true);
+
     } catch (err) {
       console.error(err);
       setStatus({
         type: "error",
-        message: "Failed to send message. Please try again or use email directly.",
+        message: "Network error. Please try again or use email directly.",
       });
     } finally {
       setIsSubmitting(false);
@@ -207,12 +234,22 @@ const Contact = () => {
                 <h2 className="text-lg font-bold text-slate-100 uppercase tracking-tight">Send a Message</h2>
               </div>
 
+              {/* Alert for Setup */}
+              {GOOGLE_SCRIPT_URL.includes("YOUR_SCRIPT_ID_HERE") && (
+                <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg flex gap-3 text-amber-300 text-xs font-mono">
+                  <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                  <div>
+                    <strong>Setup Required:</strong> Please configure the Google Apps Script URL in `Contact.jsx`. See instructions in `src/data/INSTRUCTIONS_CONTACT_SETUP.md`.
+                  </div>
+                </div>
+              )}
+
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Name *</label>
                     <input
-                      name="name" value={form.name} onChange={handleChange}
+                      name="name" value={form.Name} onChange={handleChange}
                       className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
                       placeholder="John Doe"
                     />
@@ -220,7 +257,7 @@ const Contact = () => {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Email *</label>
                     <input
-                      name="email" type="email" value={form.email} onChange={handleChange}
+                      name="email" type="email" value={form.Email} onChange={handleChange}
                       className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
                       placeholder="name@example.com"
                     />
@@ -231,7 +268,7 @@ const Contact = () => {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Phone (Optional)</label>
                     <input
-                      name="whatsapp" value={form.whatsapp} onChange={handleChange}
+                      name="whatsapp" value={form.Phone} onChange={handleChange}
                       className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
                       placeholder="+91..."
                     />
@@ -239,7 +276,7 @@ const Contact = () => {
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Topic</label>
                     <select
-                      name="topic" value={form.topic} onChange={handleChange}
+                      name="topic" value={form.Topic} onChange={handleChange}
                       className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors appearance-none cursor-pointer"
                     >
                       <option value="">Select a topic...</option>
@@ -255,7 +292,7 @@ const Contact = () => {
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Message *</label>
                   <textarea
-                    name="message" rows={5} value={form.message} onChange={handleChange}
+                    name="message" rows={5} value={form.Message} onChange={handleChange}
                     className="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700 resize-none leading-relaxed"
                     placeholder="Hello, I'd like to discuss..."
                   />
