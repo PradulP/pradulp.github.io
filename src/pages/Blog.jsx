@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "../components/Typewriter";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 import content from "../data/index";
 import localBlog from "../data/blog.json";
 import {
@@ -127,9 +128,12 @@ function BlogCard({ post, onClick, index }) {
   );
 }
 
-// --- MAIN BLOG PAGE ---
+
 export default function Blog() {
-  const blogPosts = postsFromFile;
+  const { data: cmsPosts } = useGoogleCMS("blog");
+  const localPosts = postsFromFile;
+  const blogPosts = (cmsPosts && cmsPosts.length > 0) ? cmsPosts : localPosts;
+
   const tags = ["All", ...Array.from(new Set(blogPosts.map((p) => p.tag).filter(Boolean))).sort()];
 
   const [activeTag, setActiveTag] = useState("All");

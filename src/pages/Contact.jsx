@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 // REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT URL
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwI9MxoMvsX9nED93GOsF9fkqaY3sXRo19Hud-bIKwfLM5lw12vOk94I9o-TXYah9_3YQ/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzFfwOv7qY3uxzkJ_psn9IkGHRhMwlos0OfE4n-Of3bxVm3BntKqHvmDdUGP_Rs0zdQAA/exec";
 
 const Contact = () => {
   const { contact, socials } = content || {};
@@ -111,22 +111,22 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Create FormData from state manually to ensure correct keys
-      const formData = new FormData();
-      formData.append("Name", form.Name);
-      formData.append("Email", form.Email);
-      formData.append("Phone", form.Phone);
-      formData.append("Topic", form.Topic);
-      formData.append("Message", form.Message);
+      // Use URLSearchParams for better compatibility with Google Apps Script
+      const params = new URLSearchParams();
+      params.append("Name", form.Name);
+      params.append("Email", form.Email);
+      params.append("Phone", form.Phone);
+      params.append("Topic", form.Topic);
+      params.append("Message", form.Message);
 
       // Fetch to Google Apps Script
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        body: formData,
-        mode: "no-cors", // Important for Google Script
+        body: params,
+        mode: "no-cors",
       });
 
-      // Since mode: 'no-cors' returns opaque response, assume success
+      // valid submission
       setStatus({
         type: "success",
         message: "Message sent successfully!",
@@ -135,11 +135,12 @@ const Contact = () => {
       setIsPopupOpen(true);
 
     } catch (err) {
-      console.error(err);
+      console.error("Submission Error:", err);
       setStatus({
         type: "error",
-        message: "Network error. Please try again or use email directly.",
+        message: "Failed to send. Please check your internet connection.",
       });
+      alert("Error sending message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
