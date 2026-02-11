@@ -232,8 +232,30 @@ function SkillCard({ skill, categoryTitle, onClick, index }) {
   );
 }
 
+import useGoogleCMS from "../hooks/useGoogleCMS";
+
 export default function SkillsSection() {
-  const { sectionId, eyebrow, title, description, badges, groups = [], note } = skillsData;
+  const { data: cmsSkills } = useGoogleCMS("skills");
+  const { sectionId, eyebrow, title, description, badges, groups: localGroups, note } = skillsData;
+
+  // Compute groups from CMS or Local
+  const groups = useMemo(() => {
+    if (cmsSkills && cmsSkills.length > 0) {
+      const groupsMap = {};
+      cmsSkills.forEach(skill => {
+        const cat = skill.category || "General";
+        if (!groupsMap[cat]) groupsMap[cat] = { title: cat, skills: [] };
+        groupsMap[cat].skills.push({
+          name: skill.name,
+          level: skill.level,
+          details: skill.details
+        });
+      });
+      return Object.values(groupsMap);
+    }
+    return localGroups || [];
+  }, [cmsSkills, localGroups]);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");

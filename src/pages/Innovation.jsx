@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import content from "../data/index";
@@ -190,9 +190,20 @@ const ScaleConverter = () => {
 }
 
 
+import useGoogleCMS from "../hooks/useGoogleCMS";
+
 const Innovation = () => {
+  const { data: cmsInnovationItems } = useGoogleCMS("innovation");
   const { innovation, contact } = content;
-  const items = Array.isArray(innovation) ? innovation : (innovation.items || []);
+
+  const items = useMemo(() => {
+    const raw = (cmsInnovationItems && cmsInnovationItems.length > 0) ? cmsInnovationItems : (innovation.items || []);
+    return raw.map(item => ({
+      ...item,
+      tech: Array.isArray(item.tech) ? item.tech : (typeof item.tech === 'string' ? item.tech.split('|') : [])
+    }));
+  }, [cmsInnovationItems, innovation]);
+
   const [selected, setSelected] = useState(null);
   const navigate = useNavigate(); // Hook for navigation
 

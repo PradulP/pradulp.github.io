@@ -109,8 +109,23 @@ const CATEGORY_FILTERS = [
   { id: "web", label: "Web & Digital", icon: Code }
 ];
 
+import useGoogleCMS from "../hooks/useGoogleCMS";
+
 export default function Projects() {
-  const allProjects = db.projects || [];
+  const { data: cmsProjects } = useGoogleCMS("projects");
+  const localProjects = db.projects || [];
+
+  const allProjects = useMemo(() => {
+    const raw = (cmsProjects && cmsProjects.length > 0) ? cmsProjects : localProjects;
+    return raw.map(p => ({
+      ...p,
+      // Normalize CMS flat fields to match JSON structure
+      links: p.links || { demo: p.demo_link, repo: p.repo_link },
+      tech: Array.isArray(p.tech) ? p.tech : (typeof p.tech === 'string' ? p.tech.split('|') : []),
+      highlights: Array.isArray(p.highlights) ? p.highlights : (typeof p.highlights === 'string' ? p.highlights.split('|') : []),
+      images: Array.isArray(p.images) ? p.images : (typeof p.images === 'string' ? p.images.split('|') : [])
+    }));
+  }, [cmsProjects, localProjects]);
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const scrollRef = useRef(null);

@@ -1,68 +1,65 @@
-# How to Manage Your Website Content with Google Sheets (CMS)
+# Google Sheet CMS: Full Setup Guide
 
-You can use a single Google Sheet to manage your Blogs, Projects, Skills, and more!
-The website will verify if there is new data in the sheet and display it.
+To manage your entire portfolio (Blog, Projects, Skills, Innovation) from one Google Sheet, follow these steps.
 
 ## Step 1: Create the Master Sheet
-1. Create a new Google Sheet.
-2. Name it `Portfolio_CMS`.
-3. Create separate tabs (sheets) at the bottom for each section you want to control.
-   - **Important**: The Tab Names must match EXACTLY: `Blog`, `Projects`, `Skills`, `Innovation`.
+1.  Go to [Google Sheets](https://sheets.google.com) and create a **Blank Spreadsheet**.
+2.  Name it: `Portfolio_CMS`.
 
-### Tab 1: "Blog" (Example Setup)
-Row 1 Headers:
-- `id` (unique number)
-- `title`
-- `date` (YYYY-MM-DD)
-- `tag`
-- `summary`
-- `content` (Full text)
-- `readTime`
-- `image` (URL, optional)
+## Step 2: Upload Data Templates
+I have generated 4 CSV files in your `src/data/` folder with your current website content. You need to upload them to create the tabs.
 
-### Tab 2: "Projects"
-Row 1 Headers:
-- `id`
-- `title`
-- `category` (civil / web)
-- `summary`
-- `image`
+1.  **File > Import > Upload** -> Select `src/data/Blog_Template.csv`.
+    *   **Import location**: "Replace current sheet" (or Insert new sheet).
+    *   **Rename Tab**: `Blog`.
+2.  **File > Import > Upload** -> Select `src/data/Projects_Template.csv`.
+    *   **Import location**: "Insert new sheet".
+    *   **Rename Tab**: `Projects`.
+3.  **File > Import > Upload** -> Select `src/data/Skills_Template.csv`.
+    *   **Import location**: "Insert new sheet".
+    *   **Rename Tab**: `Skills`.
+4.  **File > Import > Upload** -> Select `src/data/Innovation_Template.csv`.
+    *   **Import location**: "Insert new sheet".
+    *   **Rename Tab**: `Innovation`.
 
-## Step 2: Add the Sync Script
-1. In the Sheet, go to **Extensions > Apps Script**.
-2. Paste this code:
+> **CRITICAL**: The tab names (`Blog`, `Projects`, `Skills`, `Innovation`) must match exactly (Case Sensitive).
+
+## Step 3: Add the Sync Script
+1.  **Extensions > Apps Script**.
+2.  Delete any code and paste this:
 
 ```javascript
+/* PORTFOLIO CMS SCRIPT */
 function doGet() {
-  var spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
+  var doc = SpreadsheetApp.getActiveSpreadsheet();
   var result = {};
-  var sheets = spreadSheet.getSheets();
+  var sheets = doc.getSheets();
   
   sheets.forEach(function(sheet) {
     var rawName = sheet.getName();
-    // Normalize name to lowercase key (Blog -> blog)
-    var key = rawName.toLowerCase(); 
+    var key = rawName.toLowerCase(); // blog, projects, skills, innovation
     
     var data = sheet.getDataRange().getValues();
-    if (data.length < 2) return; // Empty sheet
+    if (data.length < 2) return;
     
     var headers = data[0];
     var rows = data.slice(1);
     
     result[key] = rows.map(function(row) {
-      var obj = {};
+      var item = {};
       headers.forEach(function(header, i) {
-         // Handle comma-separated arrays (e.g. "React, JS" -> ["React", "JS"])
+         if (!header) return;
          var cleanHeader = header.trim();
          var val = row[i];
          
-         if (typeof val === 'string' && (cleanHeader === 'tech' || cleanHeader === 'images' || cleanHeader === 'badges')) {
-            obj[cleanHeader] = val.split(',').map(function(s) { return s.trim(); });
+         // Handle Array Columns (splitted by |)
+         if (['tech', 'highlights', 'images'].indexOf(cleanHeader) > -1 && typeof val === 'string') {
+             item[cleanHeader] = val.split('|').filter(s => s.trim());
          } else {
-            obj[cleanHeader] = val;
+             item[cleanHeader] = val;
          }
       });
-      return obj;
+      return item;
     });
   });
   
@@ -70,18 +67,12 @@ function doGet() {
 }
 ```
 
-3. **Deploy**:
-   - **Deploy > New deployment**.
-   - Type: **Web app**.
-   - Execute as: **Me**.
-   - Who has access: **Anyone**.
-   - Click Deploy and **Copy the URL**.
+3.  **Deploy > New deployment > Web app > Everyone > Deploy**.
+4.  Copy the URL.
 
-## Step 3: Connect to Website
-1. Open `src/data/config.js` (or created file).
-2. Paste the URL:
-   ```javascript
-   export const GOOGLE_CMS_URL = "YOUR_WEB_APP_URL";
-   ```
+## Step 4: Update Config
+1.  Open `src/data/config.js`.
+2.  Paste the URL: `export const GOOGLE_CMS_URL = "YOUR_URL";`
 
-Now, your website will load data from this Sheet!
+## Step 5: Verify
+Restart your dev server. Your website will now load content from the Sheet!
