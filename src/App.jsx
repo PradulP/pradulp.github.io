@@ -13,6 +13,7 @@ import Innovation from "./pages/Innovation";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import AdminInnovation from "./pages/AdminInnovation";
+import AdminPage from "./pages/Admin";
 import ProjectDetail from "./pages/ProjectDetail";
 import Background from "./components/Background"; // New combined background
 import CadUIController from "./components/CadUIController"; // CAD-Style UI
@@ -42,6 +43,7 @@ function App() {
               <Route path="/skills" element={<Skills />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/innovation" element={<Innovation />} />
+              <Route path="/admin" element={<AdminPage />} />
               <Route path="/admin/innovation" element={<AdminInnovation />} />
               <Route path="/contact" element={<Contact />} />
               {/* 404 catch-all */}

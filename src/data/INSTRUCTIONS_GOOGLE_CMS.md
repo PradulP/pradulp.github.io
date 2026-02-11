@@ -1,35 +1,13 @@
-# Google Sheet CMS: Full Setup Guide
+# Google Sheet CMS: Automated Setup Guide
 
-To manage your entire portfolio (Blog, Projects, Skills, Innovation) from one Google Sheet, follow these steps.
+Follow this guide to generate Google Forms for adding content AND set up the API for your website.
 
-## Step 1: Create the Master Sheet
-1.  Go to [Google Sheets](https://sheets.google.com) and create a **Blank Spreadsheet**.
-2.  Name it: `Portfolio_CMS`.
-
-## Step 2: Upload Data Templates
-I have generated 4 CSV files in your `src/data/` folder with your current website content. You need to upload them to create the tabs.
-
-1.  **File > Import > Upload** -> Select `src/data/Blog_Template.csv`.
-    *   **Import location**: "Replace current sheet" (or Insert new sheet).
-    *   **Rename Tab**: `Blog`.
-2.  **File > Import > Upload** -> Select `src/data/Projects_Template.csv`.
-    *   **Import location**: "Insert new sheet".
-    *   **Rename Tab**: `Projects`.
-3.  **File > Import > Upload** -> Select `src/data/Skills_Template.csv`.
-    *   **Import location**: "Insert new sheet".
-    *   **Rename Tab**: `Skills`.
-4.  **File > Import > Upload** -> Select `src/data/Innovation_Template.csv`.
-    *   **Import location**: "Insert new sheet".
-    *   **Rename Tab**: `Innovation`.
-
-> **CRITICAL**: The tab names (`Blog`, `Projects`, `Skills`, `Innovation`) must match exactly (Case Sensitive).
-
-## Step 3: Add the Sync Script
-1.  **Extensions > Apps Script**.
-2.  Delete any code and paste this:
+## Phase 1: Set up the Script & Forms
+1.  Open your Google Sheet (`Portfolio_CMS`).
+2.  Go to **Extensions > Apps Script**.
+3.  **Delete everything** and paste the code below:
 
 ```javascript
-/* PORTFOLIO CMS SCRIPT */
 function doGet() {
   var doc = SpreadsheetApp.getActiveSpreadsheet();
   var result = {};
@@ -37,7 +15,9 @@ function doGet() {
   
   sheets.forEach(function(sheet) {
     var rawName = sheet.getName();
-    var key = rawName.toLowerCase(); // blog, projects, skills, innovation
+    // Normalize sheet names: 'Form Responses 1' -> 'form_responses_1', 'Blog' -> 'blog'
+    // BUT we prefer short names.
+    var key = rawName.toLowerCase(); 
     
     var data = sheet.getDataRange().getValues();
     if (data.length < 2) return;
@@ -49,10 +29,11 @@ function doGet() {
       var item = {};
       headers.forEach(function(header, i) {
          if (!header) return;
-         var cleanHeader = header.trim();
+         // Force lowercase keys for compatibility (Title -> title)
+         var cleanHeader = header.trim().toLowerCase();
          var val = row[i];
          
-         // Handle Array Columns (splitted by |)
+         // Handle Array Columns (split by |)
          if (['tech', 'highlights', 'images'].indexOf(cleanHeader) > -1 && typeof val === 'string') {
              item[cleanHeader] = val.split('|').filter(s => s.trim());
          } else {
@@ -65,14 +46,94 @@ function doGet() {
   
   return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
 }
+
+// RUN THIS FUNCTION ONCE TO CREATE FORMS
+function setupForms() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ssId = ss.getId();
+  
+  // 1. BLOG FORM
+  var formBlog = FormApp.create('CMS - Add Blog Post');
+  formBlog.addTextItem().setTitle('id').setRequired(true);
+  formBlog.addTextItem().setTitle('title').setRequired(true);
+  formBlog.addDateItem().setTitle('date').setRequired(true);
+  formBlog.addTextItem().setTitle('tag').setRequired(true);
+  formBlog.addParagraphTextItem().setTitle('summary').setRequired(true);
+  formBlog.addParagraphTextItem().setTitle('content').setRequired(true);
+  formBlog.addTextItem().setTitle('readTime');
+  formBlog.setDestination(FormApp.DestinationType.SPREADSHEET, ssId);
+  
+  // 2. PROJECT FORM
+  var formProj = FormApp.create('CMS - Add Project');
+  formProj.addTextItem().setTitle('id').setHelpText('Unique ID (e.g. my-project-1)').setRequired(true);
+  formProj.addTextItem().setTitle('title').setRequired(true);
+  formProj.addTextItem().setTitle('subtitle');
+  formProj.addTextItem().setTitle('type');
+  formProj.addListItem().setTitle('category').setChoiceValues(['civil', 'web', 'other']).setRequired(true);
+  formProj.addTextItem().setTitle('year');
+  formProj.addTextItem().setTitle('role');
+  formProj.addParagraphTextItem().setTitle('summary').setRequired(true);
+  formProj.addParagraphTextItem().setTitle('tech').setHelpText('Separate items with | (e.g. React | Node)');
+  formProj.addParagraphTextItem().setTitle('highlights').setHelpText('Separate items with |');
+  formProj.addParagraphTextItem().setTitle('images').setHelpText('Separate URLs with |');
+  formProj.addTextItem().setTitle('demo_link');
+  formProj.addTextItem().setTitle('repo_link');
+  formProj.addCheckboxItem().setTitle('homeFeatured').setChoiceValues(['true']);
+  formProj.setDestination(FormApp.DestinationType.SPREADSHEET, ssId);
+  
+  // 3. SKILL FORM
+  var formSkill = FormApp.create('CMS - Add Skill');
+  formSkill.addTextItem().setTitle('category').setRequired(true);
+  formSkill.addTextItem().setTitle('name').setRequired(true);
+  formSkill.addListItem().setTitle('level').setChoiceValues(['Advanced', 'Intermediate', 'Working', 'Learning']).setRequired(true);
+  formSkill.addParagraphTextItem().setTitle('details');
+  formSkill.setDestination(FormApp.DestinationType.SPREADSHEET, ssId);
+  
+  // 4. INNOVATION FORM
+  var formInn = FormApp.create('CMS - Add Innovation');
+  formInn.addTextItem().setTitle('id').setRequired(true);
+  formInn.addTextItem().setTitle('title').setRequired(true);
+  formInn.addTextItem().setTitle('type');
+  formInn.addTextItem().setTitle('status');
+  formInn.addParagraphTextItem().setTitle('description');
+  formInn.addParagraphTextItem().setTitle('details');
+  formInn.addParagraphTextItem().setTitle('tech').setHelpText('Separate with |');
+  formInn.addTextItem().setTitle('repo_link');
+  formInn.addCheckboxItem().setTitle('showOnHome').setChoiceValues(['true']);
+  formInn.setDestination(FormApp.DestinationType.SPREADSHEET, ssId);
+  
+  Logger.log('------------------------------------------------');
+  Logger.log('FORMS CREATED SUCCESSFULLY! COPY THESE URLs:');
+  Logger.log('Blog Form: ' + formBlog.getPublishedUrl());
+  Logger.log('Project Form: ' + formProj.getPublishedUrl());
+  Logger.log('Skill Form: ' + formSkill.getPublishedUrl());
+  Logger.log('Innovation Form: ' + formInn.getPublishedUrl());
+  Logger.log('------------------------------------------------');
+}
 ```
 
-3.  **Deploy > New deployment > Web app > Everyone > Deploy**.
-4.  Copy the URL.
+## Phase 2: Run Setup
+1.  Save the script (Floppy Disk icon).
+2.  Select `setupForms` from the function dropdown (top bar).
+3.  Click **Run**. (Grant permissions if asked).
+4.  Wait for execution to finish.
 
-## Step 4: Update Config
-1.  Open `src/data/config.js`.
-2.  Paste the URL: `export const GOOGLE_CMS_URL = "YOUR_URL";`
+## Phase 3: Connect Forms to CMS
+1.  Go back to your Google Sheet.
+2.  You will see 4 new tabs (e.g., `Form Responses 1`, `Form Responses 2`...).
+3.  **Rename these tabs** to match the section names exactly:
+    *   Start with the tab linked to the Blog form -> Rename to `Blog`.
+    *   Project form tab -> Rename to `Projects`.
+    *   Skill form tab -> Rename to `Skills`.
+    *   Innovation form tab -> Rename to `Innovation`.
+    *   *(If these names are taken by old tabs, delete the old ones first!)*.
+4.  **Copy Data**: If you have existing data in the old tabs, copy/paste the rows into these new form-linked tabs.
 
-## Step 5: Verify
-Restart your dev server. Your website will now load content from the Sheet!
+## Phase 4: Deploy API
+1.  Click **Deploy > New deployment**.
+2.  Select **Web App**.
+3.  Who has access: **Anyone**.
+4.  Deploy and copy URL.
+5.  Update `src/data/config.js`.
+
+Now you can just fill the Google Forms to add content, and edit the Sheet to fix mistakes!
