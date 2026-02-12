@@ -1,34 +1,41 @@
-// src/components/StatsCounter.jsx
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useInView, useMotionValue, useSpring } from "framer-motion";
 
-export default function StatsCounter({ from = 0, to = 100, duration = 1200, suffix = "+", label }) {
-  const [value, setValue] = useState(from);
-  const rafRef = useRef(null);
-  const startRef = useRef(null);
+export default function StatsCounter({ from = 0, to = 100, duration = 1.2, suffix = "+", label }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  const motionValue = useMotionValue(from);
+  const springValue = useSpring(motionValue, {
+    damping: 50,
+    stiffness: 100,
+    duration: duration * 1000
+  });
 
   useEffect(() => {
-    const step = (timestamp) => {
-      if (!startRef.current) startRef.current = timestamp;
-      const progress = Math.min((timestamp - startRef.current) / duration, 1);
-      const current = Math.floor(progress * (to - from) + from);
-      setValue(current);
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(step);
-      } else {
-        setValue(to);
-      }
-    };
-    rafRef.current = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [from, to, duration]);
+    if (isInView) {
+      motionValue.set(to);
+    }
+  }, [isInView, to, motionValue]);
+
+  // Render value as integer
+  const [displayValue, setDisplayValue] = useState(from);
+
+  useEffect(() => {
+    const unsubscribe = springValue.on("change", (latest) => {
+      setDisplayValue(Math.floor(latest));
+    });
+    return unsubscribe;
+  }, [springValue]);
+
 
   return (
-    <div className="reveal text-center p-4">
-      <div className="text-2xl md:text-3xl font-bold text-slate-100">
-        {value}
-        <span className="text-sky-400 ml-1">{suffix}</span>
+    <div ref={ref} className="text-center p-6 flex flex-col items-center justify-center h-full">
+      <div className="text-3xl md:text-4xl font-black text-slate-100 tabular-nums tracking-tight">
+        {displayValue}
+        <span className="text-transparent bg-clip-text bg-gradient-to-tr from-sky-400 to-emerald-400 ml-1">{suffix}</span>
       </div>
-      {label && <div className="text-xs text-slate-400 mt-1">{label}</div>}
+      {label && <div className="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">{label}</div>}
     </div>
   );
 }

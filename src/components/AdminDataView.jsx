@@ -70,6 +70,17 @@ export default function AdminDataView() {
                         </a>
                     )}
                     <button
+                        onClick={() => {
+                            navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+                            alert("JSON Copied to Clipboard!");
+                        }}
+                        className="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-800 hover:bg-slate-800 rounded-lg text-xs font-mono text-emerald-400 transition-colors"
+                        title="Copy loaded data as JSON"
+                    >
+                        <Copy className="w-4 h-4" />
+                        COPY JSON
+                    </button>
+                    <button
                         onClick={() => setViewMode(viewMode === "table" ? "json" : "table")}
                         className="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-800 hover:bg-slate-800 rounded-lg text-xs font-mono text-slate-400 transition-colors"
                     >

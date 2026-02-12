@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "sync": "node scripts/fetch-live-data.js",
+    "predeploy": "npm run sync && npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

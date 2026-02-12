@@ -7,6 +7,8 @@ import FeaturedSection from "../components/FeaturedSection";
 import WhatIDoGrid from "../components/WhatIDoGrid";
 import InnovationPreview from "../components/InnovationPreview";
 import SectionTitle from "../components/SectionTitle";
+import StatsCounter from "../components/StatsCounter";
+import CertificationsSection from "../components/CertificationsSection";
 import {
     Terminal,
     Database,
@@ -77,7 +79,7 @@ export default function Home() {
 
     // Typing Effect for Top Bar
     const [typedText, setTypedText] = useState("");
-    const fullText = "Welcome to my digital portfolio...";
+    const fullText = "BUILDING STRUCTURES × ENGINEERING SYSTEMS";
 
     useEffect(() => {
         let i = 0;
@@ -132,7 +134,7 @@ export default function Home() {
                             >
                                 <div className="flex items-center gap-3 mb-4">
                                     <span className="px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-[10px] font-bold uppercase tracking-widest">
-                                        Portfolio
+                                        DIGITAL INFRASTRUCTURE ENGINEERING
                                     </span>
                                     <span className="h-px w-8 bg-sky-500/30" />
                                     <span className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">Civil Engineer</span>
@@ -140,13 +142,13 @@ export default function Home() {
 
                                 <h1 className="text-5xl md:text-7xl font-black italic text-slate-100 uppercase tracking-tighter leading-[0.9] mb-6 min-h-[1.8em] md:min-h-[1.5em]">
                                     <Typewriter
-                                        text="Hi, I'm "
+                                        text=""
                                         delay={500}
                                         speed={50}
                                         onComplete={() => setShowName(true)}
                                     />
                                     {showName && (
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400 pr-4">
                                             <Typewriter
                                                 text={hero.name}
                                                 speed={80}
@@ -246,7 +248,7 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* ================= ABOUT SUMMARY ================= */}
+                {/* ================= PROFILE SUMMARY (2) ================= */}
                 <section className="bg-slate-900/40 border border-slate-800/50 p-8 rounded-3xl backdrop-blur-sm relative overflow-hidden">
                     <SectionTitle>Profile Summary</SectionTitle>
                     <div className="grid md:grid-cols-12 gap-8 items-start relative z-10">
@@ -275,7 +277,7 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* ================= TIMELINE PREVIEW ================= */}
+                {/* ================= EXPERIENCE & EDUCATION (3) ================= */}
                 <section>
                     <SectionTitle>Experience & Education</SectionTitle>
                     <motion.div
@@ -343,7 +345,7 @@ export default function Home() {
                     </motion.div>
                 </section>
 
-                {/* ================= PROJECTS ================= */}
+                {/* ================= FEATURED PROJECTS (4) ================= */}
                 <section>
                     <div className="flex items-center justify-between mb-8">
                         <SectionTitle>Featured Projects</SectionTitle>
@@ -354,13 +356,28 @@ export default function Home() {
                     <FeaturedSection projects={projects} maxItems={6} />
                 </section>
 
-                {/* ================= CAPABILITIES ================= */}
+                {/* ================= CERTIFICATIONS & ACHIEVEMENTS (5) ================= */}
+                {/* Stats Counter integrated here or separate? Keeping logical flow. */}
+                <section className="border-y border-slate-800/50 bg-slate-900/20 backdrop-blur-sm -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-slate-800/50">
+                        <StatsCounter from={0} to={2} duration={1000} suffix="+" label="YEARS EXPERIENCE" />
+                        <StatsCounter from={0} to={projects.length || 10} duration={1500} suffix="+" label="PROJECTS DELIVERED" />
+                        <StatsCounter from={0} to={content.certifications?.length || 6} duration={1200} suffix="+" label="CERTIFICATIONS" />
+                        <StatsCounter from={0} to={100} duration={2000} suffix="%" label="COMMITMENT" />
+                    </div>
+                </section>
+
+                {content.certifications && content.certifications.length > 0 && (
+                    <CertificationsSection certifications={content.certifications} />
+                )}
+
+                {/* ================= WHAT I DO (6) ================= */}
                 <section>
                     <SectionTitle>What I Do</SectionTitle>
                     <WhatIDoGrid items={content.whatIDo || []} />
                 </section>
 
-                {/* ================= SKILLS SNAPSHOT ================= */}
+                {/* ================= SKILLS SNAPSHOT (7) ================= */}
                 <motion.section
                     initial="hidden"
                     whileInView="visible"
@@ -392,7 +409,7 @@ export default function Home() {
                     </div>
                 </motion.section>
 
-                {/* ================= INNOVATION ================= */}
+                {/* ================= INNOVATION & TOOLS (8) ================= */}
                 {((Array.isArray(innovation) ? innovation : (innovation?.items ?? []))).length > 0 && (
                     <section>
                         <SectionTitle>Innovation & Tools</SectionTitle>
@@ -403,7 +420,7 @@ export default function Home() {
                     </section>
                 )}
 
-                {/* ================= LATEST NOTE (BLOG) ================= */}
+                {/* ================= LATEST NOTE (9) ================= */}
                 {blog?.[0] && (
                     <section>
                         <SectionTitle>Latest Note</SectionTitle>

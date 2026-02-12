@@ -1,9 +1,9 @@
 {
     "hero": {
         "name": "PRADUL P",
-        "headline": "Civil Engineer | BIM Explorer | Tech Learner",
-        "tagline": "I design and build in both the physical world (infrastructure, BIM) and the digital world (web apps, automations). I love turning everyday engineering workflows into smart, simple tools.",
-        "status": "Currently: Junior Engineer @ Paradigm  · Infopark Phase 2, Ernakulam",
+        "headline": "Licensed Civil Engineer | Infrastructure Systems & Digital Engineering",
+        "tagline": "I work on real-world infrastructure projects while delivering engineering solutions through structural detailing, BIM modeling, and precision-driven documentation. Alongside core civil engineering practice, I develop digital tools and web-based systems that improve workflow efficiency, automation, and project coordination — integrating physical construction expertise with modern digital engineering.",
+        "status": "Engineering infrastructure through structure, systems, and digital intelligence.",
         "location": "Kerala, India",
         "role": "Junior Engineer · Infrastructure",
         "focus": "BIM · CAD · Web Apps",
@@ -14,9 +14,8 @@
     "about": {
         "excerpt": "Civil Engineer & BIM technologist integrating field experience with web tools and automation.",
         "paragraphs": [
-            "I'm a Civil Engineer, BIM Technologist, and web-focused problem solver exploring how digital tools, automation, and smart workflows can transform the way we design, coordinate, and execute projects.",
-            "I enjoy working with BIM tools (Revit, ACC, CAD) and exploring web development & automation—building utilities like BIM-related scripts that reduce repetitive work.",
-            "I'm focused on becoming a future-ready engineer who can combine civil engineering fundamentals with digital tools, automation, and efficient workflows."
+            "I am a Licensed Civil Engineer working at the intersection of infrastructure development and digital engineering. My work combines structural design thinking, BIM-based workflows, and precision technical documentation to deliver reliable and efficient engineering solutions.",
+            "Alongside traditional civil engineering practice, I develop digital tools and automation systems that improve coordination, workflow efficiency, and project execution. I approach engineering as an integrated system — where physical construction and digital intelligence work together to create smarter, more scalable infrastructure."
         ]
     },
     "whatIDo": [
@@ -150,7 +149,7 @@
         "location": "Kannur, Kerala, India"
     },
     "socials": {
-        "linkedin": "https://www.linkedin.com/in/pradul-p-4b7188235/",
+        "linkedin": "https://in.linkedin.com/in/pradul",
         "github": "https://github.com/pradul-p",
         "portfolio": "https://pradul-portfolio.pages.dev"
     }
