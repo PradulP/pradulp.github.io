@@ -1,8 +1,10 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "../components/Typewriter";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 import skillsData from "../data/skills.json";
 import projectsData from "../data/Projects.json";
+import SEO from "../components/SEO";
 import { Search, Info, ExternalLink, Terminal, Cpu, ChevronLeft, ChevronRight, Linkedin } from "lucide-react";
 
 /**
@@ -232,7 +234,6 @@ function SkillCard({ skill, categoryTitle, onClick, index }) {
   );
 }
 
-import useGoogleCMS from "../hooks/useGoogleCMS";
 
 export default function SkillsSection() {
   const { data: cmsSkills } = useGoogleCMS("skills");
@@ -243,6 +244,10 @@ export default function SkillsSection() {
     if (cmsSkills && cmsSkills.length > 0) {
       const groupsMap = {};
       cmsSkills.forEach(skill => {
+        // Visibility Check
+        if (skill.visible === false) return;
+        if (typeof skill.visible === 'string' && skill.visible.toLowerCase() === 'false') return;
+
         const cat = skill.category || "General";
         if (!groupsMap[cat]) groupsMap[cat] = { title: cat, skills: [] };
         groupsMap[cat].skills.push({
@@ -310,7 +315,10 @@ export default function SkillsSection() {
   };
 
   return (
-    <section id={sectionId} className="min-h-screen w-full bg-slate-950 text-slate-50 px-4 py-16 md:px-10 lg:px-24 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-sky-500/30 pb-20 overflow-x-hidden">
+      <SEO title="Skills" description="My technical expertise in Civil Engineering software and Full Stack Web Development." />
+
+      {/* Global Background Elements */}
       {/* Background neon glow */}
       <div className="pointer-events-none absolute inset-0 opacity-60">
         <div className="absolute -top-40 -left-20 w-72 h-72 rounded-full bg-sky-500/20 blur-3xl" />
@@ -566,6 +574,6 @@ export default function SkillsSection() {
           </div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   );
 }

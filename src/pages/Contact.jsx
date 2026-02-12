@@ -14,6 +14,7 @@ import {
   Terminal,
   AlertCircle
 } from "lucide-react";
+import SEO from "../components/SEO";
 
 // REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT URL
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzFfwOv7qY3uxzkJ_psn9IkGHRhMwlos0OfE4n-Of3bxVm3BntKqHvmDdUGP_Rs0zdQAA/exec";
@@ -148,6 +149,7 @@ const Contact = () => {
 
   return (
     <main className="min-h-screen relative overflow-hidden font-sans selection:bg-sky-500/30 bg-slate-950 pb-20">
+      <SEO title="Contact" description="Get in touch for collaborations, projects, or inquiries." />
 
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(var(--cad-grid)_1px,transparent_1px),linear-gradient(90deg,var(--cad-grid)_1px,transparent_1px)] bg-[size:30px_30px]" />

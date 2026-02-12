@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import content from "../data/index";
-import SEOHelmet from "../components/SEOHelmet";
+import SEO from "../components/SEO";
 import FeaturedSection from "../components/FeaturedSection";
 import WhatIDoGrid from "../components/WhatIDoGrid";
 import InnovationPreview from "../components/InnovationPreview";
@@ -102,10 +102,9 @@ export default function Home() {
       border border-white/5
       shadow-[0_0_50px_rgba(0,0,0,0.7)]
     ">
-            <SEOHelmet
+            <SEO
                 title={`${hero.name || "Pradul P"} — Civil Engineer & BIM Specialist`}
                 description={hero.tagline}
-                image={hero.avatar || "/pradul-avatar.jpg"}
             />
 
             {/* Background technical elements */}

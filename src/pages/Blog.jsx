@@ -1,8 +1,9 @@
 // src/pages/Blog.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "../components/Typewriter";
 import useGoogleCMS from "../hooks/useGoogleCMS";
+import SEO from "../components/SEO";
 import content from "../data/index";
 import localBlog from "../data/blog.json";
 import {
@@ -19,7 +20,8 @@ import {
   Cpu
 } from "lucide-react";
 
-const postsFromFile = (localBlog && localBlog.posts) ? localBlog.posts : (content.blogPosts || []);
+// Move logic inside component to allow hooks/props to settle
+// const postsFromFile = (localBlog && localBlog.posts) ? localBlog.posts : (content.blog || []);
 
 // --- 3D FLIP CARD COMPONENT (Reusing Skills Logic) ---
 function BlogCard({ post, onClick, index }) {
@@ -128,11 +130,25 @@ function BlogCard({ post, onClick, index }) {
   );
 }
 
-
 export default function Blog() {
   const { data: cmsPosts } = useGoogleCMS("blog");
-  const localPosts = postsFromFile;
-  const blogPosts = (cmsPosts && cmsPosts.length > 0) ? cmsPosts : localPosts;
+
+  // Safe Fallback Logic
+  const localPosts = (localBlog && localBlog.posts) ? localBlog.posts : (content.blog || []);
+
+  const blogPosts = useMemo(() => {
+    // If CMS data exists and is an array, use it. Otherwise fallback.
+    const raw = (Array.isArray(cmsPosts) && cmsPosts.length > 0) ? cmsPosts : localPosts;
+
+    if (!Array.isArray(raw)) return [];
+
+    return raw.filter(post => {
+      // Show by default unless explicitly set to FALSE properties
+      if (post.visible === false) return false;
+      if (typeof post.visible === 'string' && post.visible.toLowerCase() === 'false') return false;
+      return true;
+    });
+  }, [cmsPosts]);
 
   const tags = ["All", ...Array.from(new Set(blogPosts.map((p) => p.tag).filter(Boolean))).sort()];
 
@@ -191,8 +207,8 @@ export default function Blog() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden font-sans selection:bg-sky-500/30 pb-20 bg-slate-950">
-
+    <section className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-emerald-500/30">
+      <SEO title="Blog" description="Insights on Engineering, Tech, and Innovation." />
       {/* Background Glows */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-100px] left-[-100px] w-[500px] h-[500px] bg-sky-500/10 blur-[120px] rounded-full" />
@@ -355,6 +371,6 @@ export default function Blog() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 }

@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Lock, LayoutDashboard, FileText, Briefcase, Cpu, Database, Save, LogOut, CheckCircle } from "lucide-react";
+import { Lock, LayoutDashboard, FileText, Briefcase, Cpu, Database, Save, LogOut, CheckCircle, Table } from "lucide-react";
+import { FORM_URLS } from "../data/config";
+import AdminDataView from "../components/AdminDataView";
 
-// Local Storage Key for form URLs
-const STORAGE_KEY = "admin_form_urls";
-// Simple hardcoded password (change this if needed)
-const ADMIN_PASS = "admin123";
+// Local Storage Key for form URLs - Updated to v2 to ensure config defaults load
+const STORAGE_KEY = "admin_form_urls_v2";
+// Load password from environment variable
+const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASSWORD || "admin123";
 
 const TABS = [
     { id: "blog", label: "New Blog Post", icon: FileText },
     { id: "project", label: "New Project", icon: Briefcase },
     { id: "skill", label: "New Skill", icon: Cpu },
     { id: "innovation", label: "New Innovation", icon: Database },
+    { id: "data", label: "View Data", icon: Table },
 ];
 
 export default function AdminPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [password, setPassword] = useState("");
     const [activeTab, setActiveTab] = useState("blog");
-    const [formUrls, setFormUrls] = useState({
-        blog: "",
-        project: "",
-        skill: "",
-        innovation: ""
-    });
+    // Initialize with values from config
+    const [formUrls, setFormUrls] = useState(FORM_URLS);
     const [isEditingUrl, setIsEditingUrl] = useState(false);
 
     // Load saved URLs on mount
@@ -31,7 +30,9 @@ export default function AdminPage() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             try {
-                setFormUrls(JSON.parse(saved));
+                const savedUrls = JSON.parse(saved);
+                // Merge saved URLs with current config to ensure we have all keys
+                setFormUrls(prev => ({ ...prev, ...savedUrls }));
             } catch (e) {
                 console.error("Failed to parse saved URLs");
             }
@@ -188,35 +189,41 @@ export default function AdminPage() {
                     )}
                 </AnimatePresence>
 
-                {/* Embedded Form */}
-                <div className="flex-1 bg-slate-950 relative overflow-hidden">
-                    {formUrls[activeTab] ? (
-                        <iframe
-                            src={formUrls[activeTab]}
-                            className="w-full h-full border-0"
-                            title="Content Entry Form"
-                            allowFullScreen
-                        ></iframe>
+                {/* Content Area */}
+                <div className="flex-1 bg-slate-950 relative overflow-hidden flex flex-col">
+                    {activeTab === "data" ? (
+                        <AdminDataView />
                     ) : (
-                        <div className="flex flex-col items-center justify-center h-full text-slate-600 space-y-4">
-                            <div className="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center border border-slate-800">
-                                <CurrentIcon className="w-8 h-8 opacity-20" />
+                        formUrls[activeTab] ? (
+                            <iframe
+                                src={formUrls[activeTab]}
+                                className="w-full h-full border-0"
+                                title="Content Entry Form"
+                                allowFullScreen
+                            ></iframe>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-full text-slate-600 space-y-4">
+                                <div className="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center border border-slate-800">
+                                    <CurrentIcon className="w-8 h-8 opacity-20" />
+                                </div>
+                                <p className="text-sm font-mono uppercase tracking-wider">No Form Configured</p>
+                                <button
+                                    onClick={() => setIsEditingUrl(true)}
+                                    className="text-sky-500 hover:underline text-xs"
+                                >
+                                    Click to add Form URL
+                                </button>
                             </div>
-                            <p className="text-sm font-mono uppercase tracking-wider">No Form Configured</p>
-                            <button
-                                onClick={() => setIsEditingUrl(true)}
-                                className="text-sky-500 hover:underline text-xs"
-                            >
-                                Click to add Form URL
-                            </button>
-                        </div>
+                        )
                     )}
 
-                    {/* Status Indicator */}
-                    <div className="absolute bottom-4 right-6 bg-slate-900/80 backdrop-blur border border-slate-800 px-3 py-1 rounded-full text-[10px] font-mono text-slate-500 flex items-center gap-2 pointer-events-none">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        SECURE_LINK_ESTABLISHED
-                    </div>
+                    {/* Status Indicator (Only for forms) */}
+                    {activeTab !== "data" && (
+                        <div className="absolute bottom-4 right-6 bg-slate-900/80 backdrop-blur border border-slate-800 px-3 py-1 rounded-full text-[10px] font-mono text-slate-500 flex items-center gap-2 pointer-events-none">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            SECURE_LINK_ESTABLISHED
+                        </div>
+                    )}
                 </div>
             </main>
         </div>

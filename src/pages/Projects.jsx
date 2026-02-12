@@ -1,7 +1,9 @@
 import { useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 import db from "../data/Projects.json";
+import SEO from "../components/SEO";
 import { Search, Filter, ChevronRight, LayoutGrid, Terminal, Calendar, User, Code } from "lucide-react";
 
 /**
@@ -103,13 +105,46 @@ function ProjectCard({ proj, index }) {
   );
 }
 
-const CATEGORY_FILTERS = [
-  { id: "all", label: "All Projects", icon: LayoutGrid },
-  { id: "civil", label: "Civil & BIM", icon: Terminal },
-  { id: "web", label: "Web & Digital", icon: Code }
-];
+const ProjectCategories = ({ activeCategory, setActiveCategory, categories }) => {
+  return (
+    <div className="lg:col-span-8 flex gap-2 overflow-x-auto pb-2 custom-scrollbar no-scrollbar-on-mobile">
+      <button
+        key="all"
+        onClick={() => setActiveCategory("all")}
+        className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold border transition-all uppercase tracking-tight
+                    ${activeCategory === "all"
+            ? "border-sky-500 bg-sky-500/10 text-sky-50 shadow-[0_0_20px_rgba(14,165,233,0.3)]"
+            : "border-slate-800 bg-slate-950/30 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+          }`}
+      >
+        <LayoutGrid className={`w-4 h-4 ${activeCategory === "all" ? 'text-sky-400' : 'text-slate-500'}`} />
+        All Projects
+      </button>
+      {categories.map((cat) => {
+        const isActive = activeCategory === cat;
+        // Simple icon logic based on name, fallback to Code
+        let Icon = Code;
+        if (cat.toLowerCase().includes('civil') || cat.toLowerCase().includes('bim')) Icon = Terminal;
 
-import useGoogleCMS from "../hooks/useGoogleCMS";
+        return (
+          <button
+            key={cat}
+            onClick={() => setActiveCategory(cat)}
+            className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold border transition-all uppercase tracking-tight
+                      ${isActive
+                ? "border-sky-500 bg-sky-500/10 text-sky-50 shadow-[0_0_20px_rgba(14,165,233,0.3)]"
+                : "border-slate-800 bg-slate-950/30 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+              }`}
+          >
+            <Icon className={`w-4 h-4 ${isActive ? 'text-sky-400' : 'text-slate-500'}`} />
+            {cat}
+          </button>
+        )
+      })}
+    </div>
+  );
+};
+
 
 export default function Projects() {
   const { data: cmsProjects } = useGoogleCMS("projects");
@@ -117,18 +152,30 @@ export default function Projects() {
 
   const allProjects = useMemo(() => {
     const raw = (cmsProjects && cmsProjects.length > 0) ? cmsProjects : localProjects;
-    return raw.map(p => ({
-      ...p,
-      // Normalize CMS flat fields to match JSON structure
-      links: p.links || { demo: p.demo_link, repo: p.repo_link },
-      tech: Array.isArray(p.tech) ? p.tech : (typeof p.tech === 'string' ? p.tech.split('|') : []),
-      highlights: Array.isArray(p.highlights) ? p.highlights : (typeof p.highlights === 'string' ? p.highlights.split('|') : []),
-      images: Array.isArray(p.images) ? p.images : (typeof p.images === 'string' ? p.images.split('|') : [])
-    }));
+    return raw
+      .filter(p => {
+        // Consistency filter: Hide if visible is false/FALSE
+        if (p.visible === false) return false;
+        if (typeof p.visible === 'string' && p.visible.toLowerCase() === 'false') return false;
+        return true;
+      })
+      .map(p => ({
+        ...p,
+        // Normalize CMS flat fields to match JSON structure
+        links: p.links || { demo: p.demo_link, repo: p.repo_link },
+        tech: Array.isArray(p.tech) ? p.tech : (typeof p.tech === 'string' ? p.tech.split('|') : []),
+        highlights: Array.isArray(p.highlights) ? p.highlights : (typeof p.highlights === 'string' ? p.highlights.split('|') : []),
+        images: Array.isArray(p.images) ? p.images : (typeof p.images === 'string' ? p.images.split('|') : [])
+      }));
   }, [cmsProjects, localProjects]);
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const scrollRef = useRef(null);
+
+  const categories = useMemo(() => {
+    const cats = new Set(allProjects.map(p => p.category).filter(Boolean));
+    return Array.from(cats);
+  }, [allProjects]);
 
   const filteredProjects = useMemo(() => {
     let filtered = allProjects;
@@ -148,6 +195,7 @@ export default function Projects() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 px-4 py-20 md:px-10 lg:px-24 relative overflow-hidden">
+      <SEO title="Projects" description="Explore my portfolio of Civil Engineering and Web Development projects." keywords="BIM, Revit, React, Civil Engineering, Web Dev, Portfolio" />
       {/* Background neon elements */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 -right-20 w-96 h-96 rounded-full bg-sky-500/10 blur-[120px]" />
@@ -199,26 +247,7 @@ export default function Projects() {
             />
           </div>
 
-          <div className="lg:col-span-8 flex gap-2 overflow-x-auto pb-2 custom-scrollbar no-scrollbar-on-mobile">
-            {CATEGORY_FILTERS.map((cat) => {
-              const Icon = cat.icon;
-              const isActive = activeCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold border transition-all uppercase tracking-tight
-                      ${isActive
-                      ? "border-sky-500 bg-sky-500/10 text-sky-50 shadow-[0_0_20px_rgba(14,165,233,0.3)]"
-                      : "border-slate-800 bg-slate-950/30 text-slate-400 hover:border-slate-700 hover:text-slate-200"
-                    }`}
-                >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-sky-400' : 'text-slate-500'}`} />
-                  {cat.label}
-                </button>
-              )
-            })}
-          </div>
+          <ProjectCategories activeCategory={activeCategory} setActiveCategory={setActiveCategory} categories={categories} />
         </div>
 
         {/* PROJECTS GRID */}

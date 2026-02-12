@@ -3,6 +3,8 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useNavigate } from "react-router-dom";
 import content from "../data/index";
 import Typewriter from "../components/Typewriter";
+import useGoogleCMS from "../hooks/useGoogleCMS";
+import SEO from "../components/SEO";
 import { ChevronRight, ExternalLink, Atom, Cpu, Code2, Globe, Database, Terminal, Zap, Lock, MessageCircle, Mail } from "lucide-react";
 
 // Existing Calculators...
@@ -190,18 +192,24 @@ const ScaleConverter = () => {
 }
 
 
-import useGoogleCMS from "../hooks/useGoogleCMS";
 
 const Innovation = () => {
   const { data: cmsInnovationItems } = useGoogleCMS("innovation");
   const { innovation, contact } = content;
 
   const items = useMemo(() => {
-    const raw = (cmsInnovationItems && cmsInnovationItems.length > 0) ? cmsInnovationItems : (innovation.items || []);
-    return raw.map(item => ({
-      ...item,
-      tech: Array.isArray(item.tech) ? item.tech : (typeof item.tech === 'string' ? item.tech.split('|') : [])
-    }));
+    const raw = (cmsInnovationItems && cmsInnovationItems.length > 0) ? cmsInnovationItems : (Array.isArray(innovation) ? innovation : []);
+    return raw
+      .filter(item => {
+        // Visibility toggle
+        if (item.visible === false) return false;
+        if (typeof item.visible === 'string' && item.visible.toLowerCase() === 'false') return false;
+        return true;
+      })
+      .map(item => ({
+        ...item,
+        tech: Array.isArray(item.tech) ? item.tech : (typeof item.tech === 'string' ? item.tech.split('|') : [])
+      }));
   }, [cmsInnovationItems, innovation]);
 
   const [selected, setSelected] = useState(null);
@@ -259,9 +267,9 @@ const Innovation = () => {
 
 
   return (
-    <main className="min-h-screen relative overflow-hidden pb-20 bg-slate-950 selection:bg-sky-500/30">
-
-      {/* Background CAD Grid */}
+    <section className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-purple-500/30 pb-20 overflow-hidden relative">
+      <SEO title="Innovation Lab" description="Showcasing experimental projects, prototypes, and R&D." />
+      {/* Dynamic Background */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(var(--cad-grid)_1px,transparent_1px),linear-gradient(90deg,var(--cad-grid)_1px,transparent_1px)] bg-[size:30px_30px]" />
 
       {/* Floating Orbs for Ambience */}
@@ -511,7 +519,7 @@ const Innovation = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </main>
+    </section>
   );
 };
 

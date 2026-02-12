@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import db from "../data/Projects.json";
-import SEOHelmet from "../components/SEOHelmet";
+import SEO from "../components/SEO";
 import ProjectImageCarousel from "../components/ProjectImageCarousel";
 import {
   ChevronLeft,
@@ -101,7 +101,7 @@ export default function ProjectDetail() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
-      <SEOHelmet title={`${title} | Project Details`} description={summary} />
+      <SEO title={`${title} | Project Details`} description={summary} />
 
       {/* Background technical elements */}
       <div className="pointer-events-none absolute inset-0">
