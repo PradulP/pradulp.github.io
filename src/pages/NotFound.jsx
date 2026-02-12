@@ -30,9 +30,9 @@ const NotFound = () => {
         </div>
 
         <div className="font-mono text-xs text-left bg-slate-950 p-4 rounded-lg border border-slate-800 text-slate-400 space-y-1 shadow-inner">
-          <p className="text-red-500">> ERROR: Target path not found.</p>
-          <p className="text-emerald-500">> DIAGNOSTIC: Route verification failed.</p>
-          <p className="text-sky-500 animate-pulse">> SUGGESTION: Initiate manual reboot to Homepage.</p>
+          <p className="text-red-500">&gt; ERROR: Target path not found.</p>
+          <p className="text-emerald-500">&gt; DIAGNOSTIC: Route verification failed.</p>
+          <p className="text-sky-500 animate-pulse">&gt; SUGGESTION: Initiate manual reboot to Homepage.</p>
           <p className="mt-2 text-slate-600 typing-cursor">_</p>
         </div>
 
