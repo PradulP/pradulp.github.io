@@ -36,12 +36,15 @@ export default function Experience() {
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    if (location.pathname.includes("education")) {
+    const searchParams = new URLSearchParams(location.search);
+    const tabParam = searchParams.get("tab");
+
+    if (location.pathname.includes("education") || tabParam === "education") {
       setTab("education");
     } else {
       setTab("experience");
     }
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
   // Debugging
   // console.log("Content Experience:", content?.experience);

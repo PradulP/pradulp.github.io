@@ -264,7 +264,9 @@ export default function Home() {
                                                 <Briefcase className="w-5 h-5" />
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-slate-200">{currentRole ? currentRole.role : "Building Items"}</p>
+                                                <p className="text-sm font-bold text-slate-200">
+                                                    {currentRole ? (currentRole.roles?.[0]?.title || currentRole.role) : "Building Items"}
+                                                </p>
                                                 <p className="text-xs text-sky-400 font-medium">@ {currentRole ? currentRole.company : "Stealth Mode"}</p>
                                             </div>
                                         </div>
@@ -370,11 +372,13 @@ export default function Home() {
                                         Latest Role
                                     </span>
                                     <div>
-                                        <h3 className="font-bold text-xl text-slate-100">{experience[0].role}</h3>
+                                        <h3 className="font-bold text-xl text-slate-100">
+                                            {experience[0].roles?.[0]?.title || experience[0].role}
+                                        </h3>
                                         <p className="text-sky-400 text-sm font-medium mt-1">{experience[0].company}</p>
                                     </div>
                                     <ul className="list-disc list-inside space-y-2 text-sm text-slate-400 pt-2">
-                                        {experience[0].points?.slice(0, 2).map((pt, i) => <li key={i}>{pt}</li>)}
+                                        {(experience[0].roles?.[0]?.points || experience[0].points)?.slice(0, 2).map((pt, i) => <li key={i}>{pt}</li>)}
                                     </ul>
                                     <div className="pt-6 mt-2 border-t border-slate-800/50">
                                         <Link to="/experience" className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-emerald-400 transition-colors flex items-center gap-2">
@@ -405,7 +409,7 @@ export default function Home() {
                                         {education[0].description}
                                     </p>
                                     <div className="pt-6 mt-2 border-t border-slate-800/50">
-                                        <Link to="/experience" className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-sky-400 transition-colors flex items-center gap-2">
+                                        <Link to="/experience?tab=education" className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-sky-400 transition-colors flex items-center gap-2">
                                             View Academic Record <ArrowRight className="w-3 h-3" />
                                         </Link>
                                     </div>
