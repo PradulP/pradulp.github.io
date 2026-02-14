@@ -31,6 +31,12 @@ const Typewriter = ({ text, delay = 0, speed = 50, onComplete, className = "" })
     const [started, setStarted] = useState(false);
     const [completed, setCompleted] = useState(false);
 
+    // Keep onComplete stable across renders to prevent effect resets
+    const onCompleteRef = React.useRef(onComplete);
+    useEffect(() => {
+        onCompleteRef.current = onComplete;
+    }, [onComplete]);
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setStarted(true);
@@ -39,7 +45,7 @@ const Typewriter = ({ text, delay = 0, speed = 50, onComplete, className = "" })
     }, [delay]);
 
     useEffect(() => {
-        if (!started || completed) return; // Prevent re-running if completed
+        if (!started || completed) return;
 
         let i = 0;
         const interval = setInterval(() => {
@@ -49,12 +55,12 @@ const Typewriter = ({ text, delay = 0, speed = 50, onComplete, className = "" })
             } else {
                 clearInterval(interval);
                 setCompleted(true);
-                if (onComplete) onComplete();
+                if (onCompleteRef.current) onCompleteRef.current();
             }
         }, speed);
 
         return () => clearInterval(interval);
-    }, [text, speed, started, completed, onComplete]);
+    }, [text, speed, started, completed]);
 
     return <span className={className}>{displayedText}</span>;
 };
@@ -119,129 +125,172 @@ export default function Home() {
             <div className="max-w-7xl mx-auto px-4 pt-24 md:pt-32 relative space-y-20">
 
                 {/* ================= HERO SECTION ================= */}
-                <section className="grid lg:grid-cols-12 gap-8">
-                    <div className="lg:col-span-8 space-y-6">
-                        <div className="space-y-4">
-                            {/* Typing Output */}
-                            <div className="font-mono text-sm text-emerald-400 opacity-80 h-8 flex items-center gap-2">
-                                <span className="text-emerald-500">➜</span> {typedText}<span className="animate-pulse">_</span>
-                            </div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5, duration: 0.8 }}
-                            >
-                                <div className="flex items-center gap-3 mb-4">
-                                    <span className="px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-[10px] font-bold uppercase tracking-widest">
-                                        DIGITAL INFRASTRUCTURE ENGINEERING
-                                    </span>
-                                    <span className="h-px w-8 bg-sky-500/30" />
-                                    <span className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">Civil Engineer</span>
-                                </div>
-
-                                <h1 className="text-5xl md:text-7xl font-black italic text-slate-100 uppercase tracking-tighter leading-[0.9] mb-6 min-h-[1.8em] md:min-h-[1.5em]">
-                                    <Typewriter
-                                        text=""
-                                        delay={500}
-                                        speed={50}
-                                        onComplete={() => setShowName(true)}
-                                    />
-                                    {showName && (
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400 pr-4">
-                                            <Typewriter
-                                                text={hero.name}
-                                                speed={80}
-                                                onComplete={() => setShowHeadline(true)}
-                                            />
-                                        </span>
-                                    )}
-                                </h1>
-
-                                <div className="min-h-[3em] md:min-h-[2em]">
-                                    {showHeadline && (
-                                        <p className="text-xl md:text-2xl text-slate-200 font-bold max-w-2xl leading-tight">
-                                            <Typewriter
-                                                text={hero.headline}
-                                                speed={30}
-                                                onComplete={() => setShowTagline(true)}
-                                            />
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div className="min-h-[4em] mt-4 border-l-2 border-slate-800 pl-4">
-                                    {showTagline && (
-                                        <p className="text-slate-400 max-w-2xl leading-relaxed text-base">
-                                            <Typewriter text={hero.tagline} speed={20} />
-                                        </p>
-                                    )}
-                                </div>
-                            </motion.div>
+                <section className="grid lg:grid-cols-12 gap-12 items-center">
+                    <div className="lg:col-span-7 space-y-8 relative z-10">
+                        {/* Decorative Top Line */}
+                        <div className="flex items-center gap-4 text-xs font-mono text-emerald-500/80 tracking-widest uppercase">
+                            <span className="text-emerald-500 font-bold">➜</span>
+                            <span>{typedText}</span>
+                            <span className="animate-pulse">_</span>
                         </div>
 
-                        {/* Quick Access Buttons */}
+                        <motion.div
+                            initial={{ opacity: 1, y: 0 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0 }}
+                            className="space-y-6"
+                        >
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className="px-4 py-2 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-[10px] font-bold uppercase tracking-widest shadow-[0_0_10px_rgba(56,189,248,0.1)]">
+                                    DIGITAL INFRASTRUCTURE ENGINEERING
+                                </span>
+                                <span className="h-px w-8 bg-sky-500/30" />
+                                <span className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">CIVIL ENGINEER</span>
+                            </div>
+
+                            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400 uppercase tracking-tighter leading-[0.9] min-h-[1.5em] md:min-h-[1.2em] drop-shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+                                <Typewriter
+                                    text="PRADUL P"
+                                    delay={0}
+                                    speed={80}
+                                    // Start the next line when this is ~50% done (simulated by a separate timer in useEffect below, 
+                                    // but for simplicity here we just start the next one with a shorter delay instead of waiting for onComplete)
+                                    onComplete={() => { }}
+                                />
+                            </h1>
+
+                            <div className="min-h-[3em] md:min-h-[2em]">
+                                <p className="text-xl md:text-3xl text-slate-200 font-bold max-w-4xl leading-tight">
+                                    {/* Started with a delay that allows it to begin while "PRADUL P" is still typing */}
+                                    <Typewriter
+                                        text="Licensed Civil Engineer | "
+                                        delay={500}
+                                        speed={40}
+                                        className="text-slate-100"
+                                        onComplete={() => setShowTagline(true)}
+                                    />
+                                    {/* The colored parts are appended after the base text types, or we can type them all together. 
+                                        To keep the color, we render them conditionally or animate them. 
+                                        Simplest approach for mixed color typing is to show them after a delay or type them as blocks.
+                                        Given the constraint, let's fade them in as a block after the prefix types to ensure color precision. */}
+                                    {showTagline && (
+                                        <motion.span
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ duration: 0.5 }}
+                                        >
+                                            <span className="text-emerald-400">Infrastructure Systems</span>
+                                            <span className="text-slate-500 mx-2">&</span>
+                                            <span className="text-sky-400">Digital Engineering</span>
+                                        </motion.span>
+                                    )}
+                                </p>
+                            </div>
+
+                            <div className="mt-6 pl-4 border-l-4 border-sky-500/50">
+                                {showTagline && (
+                                    <motion.p
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.8, duration: 0.5 }}
+                                        className="text-slate-400 max-w-2xl leading-relaxed text-sm md:text-base font-medium"
+                                    >
+                                        I work on real-world infrastructure projects while delivering engineering solutions through structural detailing, BIM modeling, and precision-driven documentation. Alongside core civil engineering practice, I develop digital tools and web-based systems that improve workflow efficiency, automation, and project coordination — integrating physical construction expertise with modern digital engineering.
+                                    </motion.p>
+                                )}
+                            </div>
+                        </motion.div>
+
+                        {/* Quick Access Buttons - Modernized */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 3.5 }} // Delayed to appear after typing starts
-                            className="flex flex-wrap gap-4 pt-4"
+                            transition={{ delay: 0.6 }}
+                            className="flex flex-wrap gap-5 pt-4"
                         >
-                            <Link to="/projects" className="group flex items-center gap-3 px-6 py-4 bg-slate-900/50 border border-slate-800 hover:border-sky-500/50 rounded-xl transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-500/10">
-                                <div className="w-10 h-10 rounded-lg bg-sky-500/10 flex items-center justify-center group-hover:bg-sky-500/20 transition-colors">
-                                    <Database className="w-5 h-5 text-sky-400" />
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Explore Work</div>
-                                    <div className="font-black italic text-slate-100 uppercase tracking-tight">View Projects</div>
-                                </div>
+                            <Link to="/projects" className="relative group px-8 py-4 bg-sky-600 text-slate-950 font-bold uppercase tracking-widest text-xs rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(56,189,248,0.4)]">
+                                <div className="absolute inset-0 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <span className="relative z-10 flex items-center gap-2">
+                                    <Database className="w-4 h-4" /> View Projects
+                                </span>
                             </Link>
 
-                            <Link to="/about" className="group flex items-center gap-3 px-6 py-4 bg-slate-900/50 border border-slate-800 hover:border-emerald-500/50 rounded-xl transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10">
-                                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
-                                    <Terminal className="w-5 h-5 text-emerald-400" />
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Know More</div>
-                                    <div className="font-black italic text-slate-100 uppercase tracking-tight">About Me</div>
-                                </div>
+                            <Link to="/about" className="relative group px-8 py-4 bg-slate-900 border border-slate-700 text-slate-300 font-bold uppercase tracking-widest text-xs rounded-lg overflow-hidden transition-all hover:border-emerald-500 hover:text-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                                <span className="relative z-10 flex items-center gap-2">
+                                    <Terminal className="w-4 h-4" /> About Me
+                                </span>
                             </Link>
                         </motion.div>
                     </div>
 
-                    {/* Side Status Panel */}
-                    <div className="lg:col-span-4 lg:pt-12">
+                    {/* Side Status Panel - HUD Style */}
+                    <div className="lg:col-span-5 relative">
+                        {/* Decorative background grid behind the HUD */}
+                        <div className="absolute -inset-10 bg-gradient-to-br from-sky-500/10 to-emerald-500/10 rounded-full blur-3xl opacity-30 animate-pulse" />
+
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 1 }}
-                            className="bg-slate-900/30 border border-slate-800/50 p-6 rounded-2xl backdrop-blur-md relative overflow-hidden"
+                            transition={{ delay: 0.8 }}
+                            className="relative bg-slate-950/80 border border-sky-500/20 p-1 rounded-2xl backdrop-blur-xl shadow-2xl"
                         >
-                            <div className="absolute top-0 right-0 p-3 opacity-20"><Activity className="w-24 h-24 text-sky-500" /></div>
+                            {/* Corner Accents */}
+                            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-sky-500 rounded-tl-lg" />
+                            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-sky-500 rounded-tr-lg" />
+                            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sky-500 rounded-bl-lg" />
+                            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sky-500 rounded-br-lg" />
 
-                            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-6 flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                Status
-                            </h3>
+                            <div className="bg-slate-900/50 p-6 rounded-xl border border-slate-800/50 relative overflow-hidden group">
+                                {/* Scanline */}
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent h-[200%] w-full animate-scan pointer-events-none" />
 
-                            <div className="space-y-6 relative z-10">
-                                {/* Current Role */}
-                                <div className="space-y-1">
-                                    <p className="text-[10px] text-slate-400 uppercase tracking-wider">Current Role</p>
-                                    <p className="text-sm font-bold text-slate-200">{currentRole ? currentRole.role : "Building Items"}</p>
-                                    <p className="text-xs text-sky-400 font-medium">@ {currentRole ? currentRole.company : "Stealth Mode"}</p>
+                                <div className="flex justify-between items-start mb-6">
+                                    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-sky-500/80 flex items-center gap-2">
+                                        <Activity className="w-4 h-4" /> System Status
+                                    </h3>
+                                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-pulse">
+                                        ONLINE
+                                    </span>
                                 </div>
 
-                                {/* Location */}
-                                <div className="pt-4 border-t border-slate-800/50 flex justify-between items-center text-xs">
-                                    <span className="text-slate-500 font-medium">Based in</span>
-                                    <span className="font-mono text-slate-300">{contact.location || "Earth"}</span>
-                                </div>
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <div className="text-[10px] text-slate-500 uppercase tracking-widest flex justify-between">
+                                            <span>Current Role</span>
+                                            <span className="text-sky-500/50">ID: #001</span>
+                                        </div>
+                                        <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-md bg-sky-900/20 flex items-center justify-center border border-sky-500/20 text-sky-400">
+                                                <Briefcase className="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-bold text-slate-200">{currentRole ? currentRole.role : "Building Items"}</p>
+                                                <p className="text-xs text-sky-400 font-medium">@ {currentRole ? currentRole.company : "Stealth Mode"}</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                {/* Focus */}
-                                <div className="pt-2 flex justify-between items-center text-xs">
-                                    <span className="text-slate-500 font-medium">Focus</span>
-                                    <span className="font-mono text-slate-300">{hero.focus}</span>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-1">
+                                            <span className="text-[10px] text-slate-500 uppercase tracking-wider">Location</span>
+                                            <div className="p-2 bg-slate-950 rounded border border-slate-800 text-xs text-slate-300 font-mono">
+                                                {contact.location || "Earth"}
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <span className="text-[10px] text-slate-500 uppercase tracking-wider">Availability</span>
+                                            <div className="p-2 bg-slate-950 rounded border border-slate-800 text-xs text-emerald-400 font-mono flex items-center gap-2">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Open
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Tech Data Visual */}
+                                    <div className="flex gap-0.5 mt-2 opacity-30">
+                                        {Array.from({ length: 20 }).map((_, i) => (
+                                            <div key={i} className="h-1 bg-sky-500 flex-1 rounded-full" style={{ opacity: Math.random() }} />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
@@ -249,28 +298,49 @@ export default function Home() {
                 </section>
 
                 {/* ================= PROFILE SUMMARY (2) ================= */}
-                <section className="bg-slate-900/40 border border-slate-800/50 p-8 rounded-3xl backdrop-blur-sm relative overflow-hidden">
-                    <SectionTitle>Profile Summary</SectionTitle>
-                    <div className="grid md:grid-cols-12 gap-8 items-start relative z-10">
-                        <div className="md:col-span-8">
-                            <p className="text-base md:text-lg text-slate-300 leading-loose">
-                                {about.paragraphs?.[0] ?? "Civil engineer and BIM enthusiast working across site, design, and digital tools."}
-                            </p>
-                            <div className="mt-6">
-                                <Link to="/about" className="inline-flex items-center text-sm font-bold text-sky-400 hover:text-emerald-400 transition-colors uppercase tracking-widest">
-                                    Read full profile <ArrowRight className="w-4 h-4 ml-2" />
+                <section className="relative mt-20">
+                    <div className="absolute inset-0 bg-slate-900/40 skew-y-1 transform rounded-3xl -z-10" />
+
+                    <div className="bg-slate-900/60 border border-sky-900/30 p-8 md:p-12 rounded-3xl backdrop-blur-md relative overflow-hidden">
+                        {/* Background mesh */}
+                        <div className="absolute top-0 right-0 w-full h-full bg-[linear-gradient(rgba(56,189,248,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-50" />
+
+                        <div className="grid md:grid-cols-12 gap-10 items-center relative z-10">
+                            <div className="md:col-span-12 lg:col-span-7">
+                                <SectionTitle>Profile Summary</SectionTitle>
+                                <p className="text-lg md:text-xl text-slate-300 leading-relaxed font-light mb-8 border-l-2 border-sky-500/50 pl-6">
+                                    {about.paragraphs?.[0] ?? "Civil engineer and BIM enthusiast working across site, design, and digital tools."}
+                                </p>
+
+                                <Link to="/about" className="inline-flex items-center gap-3 text-xs font-bold text-slate-900 bg-sky-500 hover:bg-sky-400 px-6 py-3 rounded-lg uppercase tracking-widest transition-all shadow-lg shadow-sky-500/20 hover:scale-105">
+                                    Read Full Profile <ArrowRight className="w-4 h-4" />
                                 </Link>
                             </div>
-                        </div>
-                        <div className="md:col-span-4 border-l border-slate-800 pl-8 hidden md:block">
-                            <div className="space-y-6">
-                                <div>
-                                    <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Core Discipline</div>
-                                    <div className="text-sm font-bold text-emerald-400">Civil Engineering</div>
-                                </div>
-                                <div>
-                                    <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Specialization</div>
-                                    <div className="text-sm font-bold text-sky-400">BIM & Digital Twin</div>
+
+                            {/* Tech Specs Panel */}
+                            <div className="md:col-span-12 lg:col-span-5 bg-slate-950/50 rounded-2xl p-6 border border-slate-800 relative group hover:border-sky-500/30 transition-colors">
+                                <div className="absolute top-0 right-0 p-3 opacity-10 text-9xl font-black text-slate-800 leading-none select-none -z-10 overflow-hidden">01</div>
+
+                                <div className="grid gap-6">
+                                    <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 group-hover:border-emerald-500/30 transition-colors">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
+                                                <Briefcase className="w-5 h-5" />
+                                            </div>
+                                            <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Core Discipline</div>
+                                        </div>
+                                        <div className="text-xl font-bold text-slate-100 pl-2 border-l-2 border-emerald-500">Civil Engineering</div>
+                                    </div>
+
+                                    <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 group-hover:border-sky-500/30 transition-colors">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="p-2 bg-sky-500/10 rounded-lg text-sky-400">
+                                                <Database className="w-5 h-5" />
+                                            </div>
+                                            <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Specialization</div>
+                                        </div>
+                                        <div className="text-xl font-bold text-slate-100 pl-2 border-l-2 border-sky-500">BIM & Digital Twin</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

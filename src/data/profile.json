@@ -122,22 +122,26 @@
     ],
     "education": [
         {
-            "degree": "B.Tech in Civil Engineering",
+            "degree": "B.TECH IN CIVIL ENGINEERING",
+            "shortName": "B.TECH",
+            "backgroundText": "B.TECH",
             "place": "St. Thomas College of Engineering & Technology, Sivapuram, Kannur",
-            "years": "2020 – 2024",
-            "description": "Completed undergraduate studies in Civil Engineering with a strong focus on structural fundamentals, construction practices, and digital modeling workflows. Final year project involved designing an energy-efficient college building using advanced BIM tools.",
+            "years": "2020 — 2024",
+            "description": "Completed undergraduate studies in Civil Engineering with emphasis on structural design, infrastructure systems, construction practices, and digital modeling workflows. Developed skills in engineering drawing, CAD drafting, technical documentation, and analytical problem-solving through academic projects and practical training.\n\nFinal year project involved the planning and design of an energy-efficient G+2 educational building using advanced BIM tools, including structural analysis, coordinated modeling, and performance optimization.",
             "highlights": [
-                "Placement Cell – Coordinator",
-                "NSS 512 – Volunteer",
-                "Tech Fest – Coordinator",
-                "VBLAZE – Developer"
+                "Placement Cell — Coordinator",
+                "NSS Unit 512 — Volunteer",
+                "Tech Fest — Coordinator",
+                "VBlaze — Web Developer"
             ]
         },
         {
-            "degree": "Higher Secondary Education (Science)",
+            "degree": "HIGHER SECONDARY — SCIENCE",
+            "shortName": "HSE",
+            "backgroundText": "PLUS TWO",
             "place": "Anjarakandy Higher Secondary School, Kannur",
-            "years": "2018 – 2020",
-            "description": "Completed higher secondary education in the science stream, building a strong foundation in mathematics and physics.",
+            "years": "2018 — 2020",
+            "description": "Focused on Physics, Chemistry, and Mathematics, building the foundation for engineering studies.",
             "highlights": [
                 "NSS Volunteer"
             ]

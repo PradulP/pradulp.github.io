@@ -148,14 +148,16 @@ const Contact = () => {
   };
 
   return (
-    <main className="min-h-screen relative overflow-hidden font-sans selection:bg-sky-500/30 bg-slate-950 pb-20">
+    <main className="min-h-screen w-full max-w-[100vw] overflow-x-hidden relative font-sans selection:bg-sky-500/30 bg-slate-950 pb-40">
       <SEO title="Contact" description="Get in touch for collaborations, projects, or inquiries." />
 
-      {/* Background Ambience */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(var(--cad-grid)_1px,transparent_1px),linear-gradient(90deg,var(--cad-grid)_1px,transparent_1px)] bg-[size:30px_30px]" />
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-sky-500/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* Background Ambience - Wrapped to prevent overflow */}
+      <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(var(--cad-grid)_1px,transparent_1px),linear-gradient(90deg,var(--cad-grid)_1px,transparent_1px)] bg-[size:30px_30px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-sky-500/5 blur-[120px] rounded-full" />
+      </div>
 
-      <div className="max-w-6xl mx-auto px-6 pt-24 md:pt-32 relative z-10 space-y-12">
+      <div className="max-w-6xl mx-auto px-6 pt-24 md:pt-32 relative z-10 space-y-12 w-full">
 
         {/* HEADER SECTION */}
         <header className="space-y-6 text-center md:text-left">
@@ -254,7 +256,7 @@ const Contact = () => {
                     <input
                       name="name" value={form.Name} onChange={handleChange}
                       className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
-                      placeholder="John Doe"
+                      placeholder="Your Name"
                     />
                   </div>
                   <div className="space-y-2">
@@ -262,7 +264,7 @@ const Contact = () => {
                     <input
                       name="email" type="email" value={form.Email} onChange={handleChange}
                       className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
-                      placeholder="name@example.com"
+                      placeholder="Your Email"
                     />
                   </div>
                 </div>

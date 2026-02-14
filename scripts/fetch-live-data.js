@@ -23,7 +23,8 @@ const FILES = {
     blog: 'blog.json',
     project: 'Projects.json',
     skill: 'skills.json',
-    innovation: 'innovation.json'
+    innovation: 'innovation.json',
+    experience: 'experience.json'
 };
 
 async function fetchData(type) {

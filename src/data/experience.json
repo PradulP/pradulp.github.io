@@ -1,0 +1,175 @@
+[
+    {
+        "company": "Paradigm IT Private Limited",
+        "backgroundText": "PARADIGM",
+        "subtitle": "Infrastructure Projects",
+        "location": "Infopark, Kochi, India",
+        "period": "Jul 2024 — Present",
+        "isCurrent": true,
+        "roles": [
+            {
+                "title": "Junior Engineer",
+                "period": "Dec 2024 — Present",
+                "isCurrent": true,
+                "summary": "Infrastructure projects · BIM workflows · Technical documentation",
+                "points": [
+                    "Preparing construction-ready AutoCAD and Revit drawings for infrastructure works",
+                    "Contributing to BIM-based modeling and detailing processes",
+                    "Supporting geotechnical and soil-related documentation using site data",
+                    "Coordinating with design and rebar teams to align drawings with project requirements"
+                ],
+                "tools": [
+                    "AutoCAD",
+                    "Revit",
+                    "BIM Modelling",
+                    "BIM 360",
+                    "Autodesk Construction Cloud (ACC)"
+                ]
+            },
+            {
+                "title": "Trainee Engineer",
+                "period": "Jul 2024 — Dec 2024",
+                "summary": "Geotechnical drawings · Formwork documentation · Drafting support",
+                "points": [
+                    "Prepared geotechnical and infrastructure formwork drawings using AutoCAD",
+                    "Assisted in revisions and updates for ongoing infrastructure projects",
+                    "Supported drawing coordination and documentation tasks",
+                    "Gained practical exposure to engineering workflows and construction processes"
+                ],
+                "tools": [
+                    "AutoCAD",
+                    "Geotechnical Drawings",
+                    "Infrastructure Formwork Drawings",
+                    "Navisworks"
+                ]
+            }
+        ]
+    },
+    {
+        "company": "VBlaze",
+        "backgroundText": "VBLAZE",
+        "subtitle": "Web Development Projects",
+        "period": "Jun 2022 — Jun 2024",
+        "roles": [
+            {
+                "title": "Project Head (Part-Time)",
+                "period": "Jan 2023 — Jun 2024",
+                "summary": "Leadership · Project coordination · Frontend development",
+                "points": [
+                    "Led development of web-based projects using modern frontend technologies",
+                    "Managed small teams, assigned tasks, and ensured timely delivery",
+                    "Resolved technical and design challenges while maintaining quality standards",
+                    "Strengthened leadership, problem-solving, and coordination skills"
+                ],
+                "tools": [
+                    "React",
+                    "Tailwind CSS",
+                    "JavaScript"
+                ]
+            },
+            {
+                "title": "Frontend Developer",
+                "period": "Jun 2022 — Jun 2024",
+                "summary": "UI development · Responsive design · Frontend engineering",
+                "points": [
+                    "Designed and developed responsive web interfaces",
+                    "Implemented reusable components using modern frameworks",
+                    "Collaborated with team members to deliver functional web solutions"
+                ],
+                "tools": [
+                    "HTML",
+                    "CSS",
+                    "JavaScript",
+                    "React",
+                    "Bootstrap",
+                    "Tailwind CSS"
+                ]
+            }
+        ]
+    },
+    {
+        "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC)",
+        "backgroundText": "NATPAC",
+        "subtitle": "Parking Policy Framework for Kerala",
+        "location": "Thalassery, Kerala, India",
+        "period": "Feb 2024",
+        "roles": [
+            {
+                "title": "Intern — Parking Policy Development Project",
+                "period": "Feb 2024",
+                "summary": "Field surveys · Data collection · Infrastructure planning",
+                "points": [
+                    "Conducted user opinion surveys and collected feedback from residents and commuters",
+                    "Gathered land-use data to evaluate potential parking infrastructure sites",
+                    "Observed parking behavior, entry/exit patterns, and utilization rates",
+                    "Contributed data insights for regional planning and policy development"
+                ]
+            }
+        ]
+    },
+    {
+        "company": "S&R Consultants",
+        "backgroundText": "S&R CONS",
+        "subtitle": "Structural Design & Project Management Training",
+        "period": "Oct 2022 — Nov 2023",
+        "roles": [
+            {
+                "title": "Trainee — Structural Design Program",
+                "period": "Oct 2022 — Nov 2023",
+                "summary": "Structural analysis · Estimation · Construction planning",
+                "points": [
+                    "Modeled and analyzed structural systems using ETABS",
+                    "Prepared beam-column layouts and bar bending schedules",
+                    "Performed project estimation and cost analysis",
+                    "Learned rebar optimization techniques for efficient construction"
+                ],
+                "tools": [
+                    "ETABS",
+                    "Estimation Software",
+                    "AutoCAD",
+                    "Bar Bending Schedules",
+                    "Structural Design"
+                ]
+            }
+        ]
+    },
+    {
+        "company": "Kerala Irrigation Infrastructure Development Corporation Ltd.",
+        "shortName": "KIIDC",
+        "backgroundText": "KIIDC",
+        "subtitle": "Regulator Cum Bridge Project",
+        "location": "Thalassery, Kerala, India",
+        "period": "May 2023",
+        "roles": [
+            {
+                "title": "Intern — Bridge Construction Exposure",
+                "period": "May 2023",
+                "summary": "Site exposure · Construction practices · Quality control",
+                "points": [
+                    "Observed bridge construction processes and engineering practices",
+                    "Gained understanding of quality control procedures and site coordination",
+                    "Learned safety protocols and real-world construction workflows"
+                ]
+            }
+        ]
+    },
+    {
+        "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC)",
+        "backgroundText": "NATPAC",
+        "subtitle": "Traffic Data Collection Study",
+        "location": "Muzhappilangad, Kerala, India",
+        "period": "Sep 2022",
+        "roles": [
+            {
+                "title": "Intern — Traffic Survey Project",
+                "period": "Sep 2022",
+                "summary": "Traffic analysis · Field surveys · Transportation planning",
+                "points": [
+                    "Conducted traffic surveys on selected road corridors",
+                    "Collected data on vehicle volume, types, and peak-hour usage",
+                    "Supported transportation planning and development studies"
+                ]
+            }
+        ]
+    }
+]

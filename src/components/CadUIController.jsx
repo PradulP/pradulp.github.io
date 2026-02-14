@@ -3,7 +3,7 @@ import { cadSounds } from '../utils/cadSounds';
 
 export default function CadUIController() {
     const [theme, setTheme] = useState('dark'); // 'dark', 'blueprint', 'paper'
-    const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+    const cursorRef = useRef(null);
     const [isHoveringProject, setIsHoveringProject] = useState(false);
     const [isMouseDown, setIsMouseDown] = useState(false);
 
@@ -24,11 +24,18 @@ export default function CadUIController() {
 
         const handleMouseMove = (e) => {
             if (window.innerWidth < 768) return; // Disable cursor tracking on mobile
-            setCursorPos({ x: e.clientX, y: e.clientY });
+
+            // Direct DOM manipulation for performance (avoids React render cycle on every frame)
+            if (cursorRef.current) {
+                cursorRef.current.style.left = `${e.clientX}px`;
+                cursorRef.current.style.top = `${e.clientY}px`;
+            }
 
             // Check if hovering a project card or interactive element
             const target = e.target;
-            const isProject = target.closest('.project-card') || target.closest('a') || target.closest('button');
+            // Use closest to check for interactive elements
+            // We throttle this state update by only updating if changed (React does this auto, but logic is heavy)
+            const isProject = target.closest('.project-card') || target.closest('a') || target.closest('button') || target.closest('input');
             setIsHoveringProject(!!isProject);
         };
 
@@ -54,7 +61,7 @@ export default function CadUIController() {
             window.removeEventListener('mousedown', handleMouseDown);
             window.removeEventListener('mouseup', handleMouseUp);
         };
-    }, []);
+    }, []); // Empty dependency array is fine here as we use functional updates or refs where needed
 
     const toggleTheme = () => {
         const themes = ['dark', 'blueprint', 'paper'];
@@ -66,32 +73,33 @@ export default function CadUIController() {
         <>
             {/* 1. Technical Crosshair/Cursor - DESKTOP ONLY */}
             <div
-                className={`fixed pointer-events-none z-[9999] transition-transform duration-75 ease-out hidden md:block ${isHoveringProject ? 'scale-125' : 'scale-100'}`}
+                ref={cursorRef}
+                className={`fixed pointer-events-none z-[10000] transition-[transform,width,height] duration-100 ease-out hidden md:block ${isHoveringProject ? 'mix-blend-difference' : ''}`}
                 style={{
-                    left: cursorPos.x,
-                    top: cursorPos.y,
-                    transform: `translate(-50%, -50%)`,
-                    width: '40px',
-                    height: '40px'
+                    left: '-100px', // Initial off-screen
+                    top: '-100px',
+                    transform: 'translate(-50%, -50%)',
+                    width: isHoveringProject ? '60px' : '40px',
+                    height: isHoveringProject ? '60px' : '40px'
                 }}
             >
                 {/* 
                    ROUND CIRCLE: 
                    Visible on Mouse Down OR Hovering Interactive Elements
                 */}
-                <div className={`absolute inset-0 border border-sky-400 rounded-full transition-all duration-200 m-2
-                    ${(isMouseDown || isHoveringProject) ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
+                <div className={`absolute inset-0 border border-sky-400 rounded-full transition-all duration-200
+                    ${(isMouseDown || isHoveringProject) ? 'opacity-100 scale-100 border-2' : 'opacity-0 scale-50 border'}`}
                 />
 
                 {/* 
                    CAD CROSSHAIR: 
                    Visible ONLY when NOT clicking and NOT hovering
                 */}
-                <div className={`absolute inset-0 transition-all duration-200 ${(!isMouseDown && !isHoveringProject) ? 'opacity-100 scale-100' : 'opacity-0 scale-150'}`}>
-                    <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-sky-400/80" />
-                    <div className="absolute left-1/2 top-0 w-[1.5px] h-full bg-sky-400/80" />
+                <div className={`absolute inset-0 transition-opacity duration-200 ${(!isMouseDown && !isHoveringProject) ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className="absolute top-1/2 left-0 w-full h-[1px] bg-sky-400/80" />
+                    <div className="absolute left-1/2 top-0 w-[1px] h-full bg-sky-400/80" />
                     {/* Tiny center intersection point */}
-                    <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-sky-400 -translate-x-1/2 -translate-y-1/2 rotate-45" />
+                    <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-sky-400 -translate-x-1/2 -translate-y-1/2" />
                 </div>
             </div>
 
