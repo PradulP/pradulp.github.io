@@ -5,70 +5,129 @@ import useGoogleCMS from "../hooks/useGoogleCMS";
 import skillsData from "../data/skills.json";
 import projectsData from "../data/Projects.json";
 import SEO from "../components/SEO";
-import { Search, Info, ExternalLink, Terminal, Cpu, ChevronLeft, ChevronRight, Linkedin } from "lucide-react";
+import SkillCard from "../components/SkillCard";
+import { Search, Info, ExternalLink, Terminal, Cpu, ChevronLeft, ChevronRight, Linkedin, CheckCircle2, Briefcase, GraduationCap, FlaskConical } from "lucide-react";
 
 /**
- * Convert a text level label into a rough percentage
+ * Convert a text level label into a precise percentage based on professional guidance
  */
 function levelToPercent(level) {
   if (!level) return 60;
   const l = level.toLowerCase();
-  if (l.includes("advanced") || l.includes("expert")) return 90;
+
+  // Expert / Daily use: 90–100%
+  if (l.includes("expert") || l.includes("daily") || l.includes("lead")) return 95;
+  if (l.includes("advanced")) return 90;
+
+  // Strong professional: 80–89%
   if (l.includes("strong")) return 85;
+
+  // Confident / Intermediate: 70–79%
   if (l.includes("intermediate")) return 75;
-  if (l.includes("daily")) return 70;
+
+  // Working knowledge: 60–69%
   if (l.includes("working")) return 65;
-  if (l.includes("learning")) return 50;
-  return 70;
+
+  // Learning: < 60%
+  if (l.includes("learning") || l.includes("basic")) return 50;
+
+  return 70; // Default
 }
 
 /**
- * Generate short text bullet points about where a given skill is used.
+ * Generate ELITE text bullet points about where a given skill is used.
  */
 function getSkillUsage(skillName, categoryTitle) {
-  if (!categoryTitle) return ["Used in professional workflows."];
-
   const name = skillName.toLowerCase();
-  const cat = categoryTitle.toLowerCase();
+  const cat = (categoryTitle || "").toLowerCase();
   const uses = [];
 
-  if (cat.includes("bim") || name.includes("revit") || name.includes("navisworks") || name.includes("autocad")) {
+  // 1. Civil / BIM / Revit Elite Context
+  if (cat.includes("civil") || cat.includes("revit") || name.includes("navisworks") || name.includes("autocad")) {
     uses.push(
-      "Used in BIM and CAD production work on live infrastructure projects.",
-      "Applied for modeling, coordination, and construction drawings.",
-      "Explored further in personal R&D around BIM automation and workflows."
+      "Used in professional infrastructure projects for modeling, coordination, and construction documentation.",
+      "Applied in LIVE project environments for clash detection and inter-disciplinary collaboration.",
+      "Critical for delivering GFC (Good for Construction) drawings and accurate BOQs."
     );
-  } else if (cat.includes("web") || name.includes("react") || name.includes("javascript") || name.includes("tailwind")) {
+  }
+  // 2. Web / Frontend Elite Context
+  else if (cat.includes("web") || name.includes("react") || name.includes("javascript") || name.includes("tailwind")) {
     uses.push(
-      "Used for your personal portfolio and experimental web tools.",
-      "Helps bridge engineering, BIM and modern web technology."
+      "Used to build scalable, component-based user interfaces for personal and experimental tools.",
+      "Bridging the gap between traditional engineering software and modern web dashboards.",
+      "Optimized for performance and responsive design across devices."
     );
-  } else if (cat.includes("tools") || name.includes("excel") || name.includes("sheets") || name.includes("vs code") || name.includes("notion")) {
+  }
+  // 3. Automation / Python Elite Context
+  else if (cat.includes("automation") || name.includes("python") || name.includes("dynamo") || name.includes("script")) {
     uses.push(
-      "Used daily for calculations, data tracking and documentation.",
-      "Supports BIM, CAD and project coordination workflows."
+      "Deployed to automate repetitive BIM tasks, saving significant man-hours on large projects.",
+      "Used for complex geometry processing and data management within Revit/Dynamo environments.",
+      "Developing custom add-ins to extend native software capabilities."
     );
-  } else if (cat.includes("soft")) {
+  }
+  // 4. Tools / Soft Skills Elite Context
+  else if (cat.includes("tools") || cat.includes("soft")) {
     uses.push(
-      "Used in team coordination and communication on site and remotely.",
-      "Helps with client discussions, reviews and issue resolution."
+      "Used daily for high-stakes coordination between design teams and site execution.",
+      "Facilitating clearer communication of technical concepts to non-technical stakeholders.",
+      "Managing project data reliability and documentation standards."
     );
+  }
+  // Fallback
+  else {
+    uses.push("Utilized in professional workflows to enhance productivity and output quality.");
   }
 
-  if (!uses.length) {
-    uses.push("Used across academic work, professional projects and personal experiments.");
-  }
   return uses;
+}
+
+/**
+ * Determine experience context context (Live, Academic, R&D)
+ */
+function getExperienceContext(skillName, categoryTitle) {
+  const name = skillName.toLowerCase();
+  const cat = (categoryTitle || "").toLowerCase();
+  const context = [];
+
+  // Everyone gets R&D/Personal by default as this is a portfolio
+  context.push({ label: "Personal R&D / Tools", icon: FlaskConical });
+
+  // Live Projects Logic
+  if (
+    cat.includes("civil") ||
+    cat.includes("revit") ||
+    name.includes("autocad") ||
+    name.includes("navisworks") ||
+    name.includes("site") ||
+    name.includes("coordination") ||
+    name.includes("excel") ||
+    name.includes("acc")
+  ) {
+    context.unshift({ label: "Live Infrastructure Projects", icon: Briefcase });
+  }
+
+  // Academic Logic
+  if (
+    cat.includes("civil") ||
+    name.includes("matlab") ||
+    name.includes("sap") ||
+    name.includes("etabs")
+  ) {
+    context.push({ label: "Academic Major Projects", icon: GraduationCap });
+  }
+
+  return context;
 }
 
 /**
  * Individual skill card with 3D flip and circular progress
  */
-function SkillCard({ skill, categoryTitle, onClick, index }) {
+function SkillCardDeprecated({ skill, categoryTitle, onClick, index }) {
   const [hovered, setHovered] = useState(false);
   const percent = levelToPercent(skill.level);
   const radius = 26;
-  const strokeWidth = 5;
+  const strokeWidth = 4;
   const circumference = 2 * Math.PI * radius;
 
   const registryId = `SKL-C${(index + 1).toString().padStart(2, '0')}`;
@@ -76,7 +135,7 @@ function SkillCard({ skill, categoryTitle, onClick, index }) {
 
   return (
     <motion.div
-      className="relative w-full h-[280px] cursor-pointer group"
+      className="relative w-full h-[300px] cursor-pointer group"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={onClick}
@@ -85,147 +144,159 @@ function SkillCard({ skill, categoryTitle, onClick, index }) {
       transition={{ duration: 0.4, delay: index * 0.05 }}
       style={{ perspective: "1500px" }}
     >
-      {/* Technical Border Effect */}
-      <div className={`absolute -inset-[1px] rounded-2xl transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'} bg-gradient-to-br from-sky-500/50 via-transparent to-sky-500/30 blur-[2px]`} />
+      {/* Technical Border Hover Glow - Blueprint Style */}
+      <div className={`absolute -inset-[2px] rounded-none transition-all duration-500 ${hovered ? 'opacity-100 border-2 border-cyan-500/50 border-dashed' : 'opacity-0 border border-slate-700'} pointer-events-none`} />
 
       <motion.div
         className="w-full h-full relative"
         animate={{ rotateY: hovered ? 180 : 0 }}
-        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        transition={{ type: "spring", stiffness: 200, damping: 25 }}
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* FRONT SIDE */}
+        {/* FRONT SIDE - BLUEPRINT THEME */}
         <div
-          className="absolute inset-0 bg-slate-950 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between backdrop-blur-md shadow-[0_0_30px_rgba(0,0,0,0.5)] overflow-hidden"
-          style={{ backfaceVisibility: "hidden" }}
+          className="absolute inset-0 bg-[#0B1121] border border-slate-700/60 p-6 flex flex-col justify-between shadow-2xl overflow-hidden group-hover:border-cyan-500/40 transition-colors"
+          style={{
+            backfaceVisibility: "hidden",
+            backgroundImage: "linear-gradient(rgba(6,182,212,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,0.05) 1px, transparent 1px)",
+            backgroundSize: "20px 20px"
+          }}
         >
-          {/* Background Letter & Registry Number */}
-          <div className="absolute top-2 right-4 opacity-[0.03] select-none pointer-events-none flex flex-col items-end">
-            <span className="text-[120px] font-black leading-none">{displayLetter}</span>
-            <span className="text-[20px] font-mono -mt-6">{registryId}</span>
+          {/* Blueprint Deco: Corner Marks */}
+          <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-cyan-500/30" />
+          <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-cyan-500/30" />
+          <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-cyan-500/30" />
+          <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-cyan-500/30" />
+          {/* Subtle Grid Pattern Overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20 pointer-events-none" />
+
+          {/* Background Letter */}
+          <div className="absolute top-4 right-4 opacity-[0.04] select-none pointer-events-none flex flex-col items-end transform group-hover:scale-110 transition-transform duration-700">
+            <span className="text-[140px] font-black leading-none bg-gradient-to-b from-white to-transparent bg-clip-text text-transparent">{displayLetter}</span>
           </div>
 
-          <div className="flex justify-between items-start relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-sky-500/5 border border-sky-500/20 flex items-center justify-center relative">
-                <Cpu className="w-5 h-5 text-sky-500/80" />
-                <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-500/80 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+          <div className="relative z-10">
+            <div className="flex justify-between items-start mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center relative shadow-lg group-hover:shadow-sky-500/20 transition-all">
+                  <Cpu className="w-5 h-5 text-sky-500" />
+                  <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-slate-950 border-2 border-slate-800 flex items-center justify-center">
+                    <div className={`w-1.5 h-1.5 rounded-full ${hovered ? 'bg-emerald-400 shadow-[0_0_5px_rgba(52,211,153,0.8)]' : 'bg-slate-600'}`} />
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[9px] font-mono text-slate-500 uppercase tracking-widest leading-none mb-1">ID_REF</div>
+                  <div className="text-[11px] font-mono font-bold text-sky-400 tracking-wider bg-sky-500/5 px-1.5 py-0.5 rounded border border-sky-500/10">
+                    {registryId}
+                  </div>
+                </div>
               </div>
-              <div>
-                <p className="text-[11px] font-mono font-bold text-sky-400 tracking-wider">
-                  {registryId}
-                </p>
-              </div>
-            </div>
-            <div className="text-right">
-              <span className="text-[9px] font-mono font-bold text-sky-400/80 border border-sky-500/20 px-2 py-0.5 rounded uppercase tracking-tighter">
+
+              <span className="text-[9px] font-mono font-bold text-slate-500 border border-slate-800 bg-slate-900/50 px-2 py-1 rounded uppercase tracking-wider">
                 {categoryTitle}
               </span>
             </div>
-          </div>
 
-          <div className="space-y-4 relative z-10">
-            <h3 className="text-2xl font-black italic text-slate-100 uppercase tracking-tighter leading-[0.9] break-words">
+            <h3 className="text-xl md:text-2xl font-black italic text-slate-100 uppercase tracking-tighter leading-none break-words mb-2 drop-shadow-lg min-h-[3rem] flex items-end">
               {skill.name}
             </h3>
+          </div>
 
+          <div className="space-y-5 relative z-10 flex-grow flex flex-col justify-end">
             <div className="flex items-center gap-5">
-              <div className="relative w-14 h-14 flex-shrink-0">
-                <svg className="w-full h-full" viewBox="0 0 64 64">
-                  <circle cx="32" cy="32" r={radius} stroke="rgba(51,65,85,0.2)" strokeWidth={strokeWidth} fill="none" />
+              <div className="relative w-16 h-16 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 64 64">
+                  <circle cx="32" cy="32" r={radius} stroke="rgba(14,165,233,0.1)" strokeWidth={strokeWidth} fill="none" />
                   <motion.circle
-                    cx="32" cy="32" r={radius} stroke="rgb(14,165,233)" strokeWidth={strokeWidth} fill="none"
+                    cx="32" cy="32" r={radius} stroke="url(#gradient-sky)" strokeWidth={strokeWidth} fill="none"
                     strokeDasharray={circumference}
                     initial={{ strokeDashoffset: circumference }}
                     animate={{ strokeDashoffset: hovered ? circumference - (percent / 100) * circumference : circumference }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
                     strokeLinecap="round"
+                    className="drop-shadow-[0_0_4px_rgba(14,165,233,0.5)]"
                   />
+                  <defs>
+                    <linearGradient id="gradient-sky" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#0ea5e9" />
+                      <stop offset="100%" stopColor="#34d399" />
+                    </linearGradient>
+                  </defs>
                 </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[11px] font-mono font-bold text-sky-400">{percent}%</span>
+                <div className="absolute inset-0 flex items-center justify-center flex-col">
+                  <span className="text-[12px] font-black text-slate-200">{percent}%</span>
                 </div>
               </div>
 
-              <div className="flex-1 flex flex-col gap-2">
+              <div className="flex-1 space-y-2">
                 <div className="flex justify-between items-center text-[9px] font-mono text-slate-500 uppercase font-black tracking-widest">
-                  <span>Performance</span>
+                  <span>Proficiency</span>
                 </div>
-                <div className="h-1.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                <div className="h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800 shadow-inner">
                   <motion.div
-                    className="h-full bg-sky-500"
+                    className="h-full bg-gradient-to-r from-sky-500 to-emerald-400"
                     initial={{ width: 0 }}
-                    animate={{ width: "70%" }}
-                    transition={{ duration: 1.5, ease: "circOut" }}
+                    animate={{ width: hovered ? "70%" : "30%" }} // Dynamic animation on hover
+                    transition={{ duration: 0.5 }}
                   />
                 </div>
-                <span className="text-xs font-black text-slate-200 uppercase tracking-tight">{skill.level}</span>
+                <span className="text-[10px] font-black text-sky-400 uppercase tracking-tight block text-right">{skill.level}</span>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-between items-center text-[10px] text-sky-400 font-bold border-t border-slate-800/50 pt-3 relative z-10">
-            <span className="flex items-center gap-1.5 group-hover:underline underline-offset-4 uppercase tracking-tight">
-              Read details
-            </span>
-            <span className="text-[14px]">→</span>
-          </div>
+          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-500 via-emerald-500 to-sky-500 opacity-50" />
         </div>
 
         {/* BACK SIDE */}
         <div
-          className="absolute inset-0 bg-slate-950 border border-sky-500/30 rounded-2xl p-5 flex flex-col backdrop-blur-xl shadow-[0_0_50px_rgba(14,165,233,0.1)] overflow-hidden"
+          className="absolute inset-0 bg-slate-950/95 border border-sky-500/50 rounded-3xl p-6 flex flex-col backdrop-blur-xl shadow-[0_0_50px_rgba(14,165,233,0.15)] overflow-hidden"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          {/* Background Letter & Registry Number (Back Side) */}
-          <div className="absolute top-2 right-4 opacity-[0.03] select-none pointer-events-none flex flex-col items-end">
-            <span className="text-[120px] font-black leading-none">{displayLetter}</span>
-            <span className="text-[20px] font-mono -mt-6">{registryId}</span>
-          </div>
-
-          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl opacity-10">
+          {/* Scanline Animation */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-3xl opacity-20">
             <motion.div
               className="w-full h-1/2 bg-gradient-to-b from-transparent via-sky-500 to-transparent"
               animate={{ y: ["-100%", "200%"] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
             />
           </div>
 
           <div className="relative z-10 flex flex-col h-full">
-            {/* Header section */}
-            <div className="flex justify-between items-start mb-3">
+            <div className="flex justify-between items-start mb-4 pb-4 border-b border-slate-800/50">
               <div>
-                <p className="text-[9px] uppercase tracking-[0.2em] text-sky-400 font-bold mb-1">Details</p>
-                <h4 className="text-base font-black italic text-slate-100 uppercase tracking-tighter leading-[0.95] pr-2 line-clamp-2">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-sky-400 font-bold mb-1">Details</p>
+                <h4 className="text-lg font-black italic text-slate-100 uppercase tracking-tighter leading-none line-clamp-1">
                   {skill.name}
                 </h4>
               </div>
-              <span className="text-[9px] font-mono font-bold text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded-full uppercase bg-sky-500/5 flex-shrink-0">
-                {skill.level}
+              <div className="p-2 rounded bg-slate-900 border border-slate-800">
+                <Info className="w-4 h-4 text-sky-500" />
+              </div>
+            </div>
+
+            <div className="flex-1 min-h-0 bg-slate-900/40 border border-slate-800/50 p-4 rounded-xl overflow-y-auto custom-scrollbar shadow-inner">
+              <p className="text-xs text-slate-300 leading-relaxed font-medium mb-4">
+                {skill.details || "Integrated as a core component of my engineering stack, utilized for high-precision workflows and project delivery."}
+              </p>
+
+              {/* Experience Context Indicators */}
+              <div className="space-y-2">
+                <p className="text-[9px] uppercase tracking-widest text-slate-500 font-bold mb-1">Used On:</p>
+                {getExperienceContext(skill.name, categoryTitle).map((ctx, i) => (
+                  <div key={i} className="flex items-center gap-2 text-[10px] text-slate-400">
+                    <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                    {ctx.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
+              <span className="text-[9px] font-mono text-slate-500">TAP TO EXPAND</span>
+              <span className="text-[10px] font-bold text-sky-400 uppercase flex items-center gap-2 group-hover:gap-3 transition-all">
+                Full Specs <ChevronRight className="w-3 h-3" />
               </span>
-            </div>
-
-            {/* Metadata section */}
-            <div className="space-y-1 mb-3">
-              <p className="text-[10px] text-slate-400 flex items-center gap-2">
-                Category: <span className="text-slate-200 font-semibold">{categoryTitle}</span>
-              </p>
-              <p className="text-[10px] text-slate-400 flex items-center gap-2">
-                Comfort level: <span className="text-sky-400 font-bold">{percent}%</span>
-              </p>
-            </div>
-
-            {/* Content section - Scrollable description */}
-            <div className="flex-1 min-h-0 bg-slate-900/40 border border-slate-800/50 p-3 rounded-xl overflow-y-auto custom-scrollbar">
-              <p className="text-[11px] text-slate-300 leading-relaxed font-medium">
-                {skill.details || "Integrated as a core component of my engineering stack."}
-              </p>
-            </div>
-
-            {/* Footer - Fixed at bottom */}
-            <div className="flex justify-between items-center text-[10px] font-bold text-slate-400 transition-colors uppercase pt-3 mt-3 border-t border-slate-800/50">
-              <span className="group-hover:text-sky-400 transition-colors">Click for more</span>
-              <span className="text-sky-400">Tap / Click ⟲</span>
             </div>
           </div>
         </div>
@@ -237,7 +308,17 @@ function SkillCard({ skill, categoryTitle, onClick, index }) {
 
 export default function SkillsSection() {
   const { data: cmsSkills } = useGoogleCMS("skills");
-  const { sectionId, eyebrow, title, description, badges, groups: localGroups, note } = skillsData;
+  const { sectionId, eyebrow, title, description, groups: localGroups, note } = skillsData;
+
+  // ELITE Signature Badges (Hardcoded as per request)
+  const eliteBadges = [
+    "Infrastructure Projects",
+    "BIM Workflows",
+    "Digital Engineering",
+    "Construction Documentation",
+    "Automation & Tools",
+    "Hybrid Civil + Tech"
+  ];
 
   // Compute groups from CMS or Local
   const groups = useMemo(() => {
@@ -299,11 +380,12 @@ export default function SkillsSection() {
   const handleCardClick = (skill, categoryTitle) => {
     const percent = levelToPercent(skill.level);
     const usage = getSkillUsage(skill.name, categoryTitle);
+    const context = getExperienceContext(skill.name, categoryTitle);
     const relatedProjects = projectsData.projects.filter(p =>
       p.tech.some(t => t.toLowerCase().includes(skill.name.toLowerCase()))
     );
 
-    setSelectedSkill({ ...skill, categoryTitle, percent, usage, relatedProjects });
+    setSelectedSkill({ ...skill, categoryTitle, percent, usage, context, relatedProjects });
   };
 
   const closeModal = () => setSelectedSkill(null);
@@ -319,24 +401,23 @@ export default function SkillsSection() {
       <SEO title="Skills" description="My technical expertise in Civil Engineering software and Full Stack Web Development." />
 
       {/* Global Background Elements */}
-      {/* Background neon glow */}
-      <div className="pointer-events-none absolute inset-0 opacity-60">
-        <div className="absolute -top-40 -left-20 w-72 h-72 rounded-full bg-sky-500/20 blur-3xl" />
-        <div className="absolute -bottom-40 -right-10 w-72 h-72 rounded-full bg-fuchsia-500/20 blur-3xl" />
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-sky-500/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 fixed z-0">
+        <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-sky-500/10 blur-[120px] rounded-full mix-blend-screen opacity-50 animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-emerald-500/10 blur-[120px] rounded-full mix-blend-screen opacity-50 animate-pulse" style={{ animationDelay: "3s" }} />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] opacity-20" />
       </div>
 
-      <div className="max-w-6xl mx-auto relative space-y-10">
+      <div className="max-w-7xl mx-auto relative z-10 space-y-12 pt-12 md:pt-20 px-4 md:px-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
-            {eyebrow && <p className="text-sm uppercase tracking-[0.25em] text-sky-400">{eyebrow}</p>}
-            {title && <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter mt-2 leading-none text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-emerald-400 to-sky-400 animate-gradient-x pb-2"><Typewriter text={title} speed={50} /></h2>}
-            {description && <p className="text-sm md:text-base text-slate-400 mt-3 max-w-xl">{description}</p>}
+            {eyebrow && <p className="text-xs font-bold uppercase tracking-[0.25em] text-sky-500 mb-2 px-1">{eyebrow}</p>}
+            {title && <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500 drop-shadow-2xl"><Typewriter text={title} speed={50} /></h2>}
+            {description && <p className="text-sm md:text-lg text-slate-400 mt-4 max-w-2xl font-light leading-relaxed border-l-2 border-sky-500/30 pl-4">{description}</p>}
           </div>
-          {badges && badges.length > 0 && (
-            <div className="inline-flex flex-wrap gap-2 text-xs md:text-sm justify-start md:justify-end">
-              {badges.map(badge => (
-                <span key={badge} className="px-3 py-1 rounded-full border border-slate-700 bg-slate-900/70 text-slate-100 shadow-[0_0_18px_rgba(56,189,248,0.25)]">
+          {eliteBadges && eliteBadges.length > 0 && (
+            <div className="flex flex-wrap gap-2 justify-start md:justify-end max-w-lg">
+              {eliteBadges.map(badge => (
+                <span key={badge} className="px-3 py-1 text-[10px] uppercase tracking-widest font-bold rounded-lg border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-sky-500/30 hover:text-sky-400 transition-colors cursor-default hover:bg-sky-500/5">
                   {badge}
                 </span>
               ))}
@@ -345,53 +426,66 @@ export default function SkillsSection() {
         </div>
 
         {/* Global Search Bar */}
-        <div className="relative max-w-md mx-auto">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-          <input
-            type="text"
-            placeholder="Search skills or tags..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-900/50 border border-slate-800 rounded-full py-2.5 pl-11 pr-4 text-sm text-sky-300 placeholder:text-slate-600 outline-none focus:border-sky-500/50 transition-all"
-          />
+        <div className="relative max-w-2xl mx-auto group">
+          <div className="absolute -inset-1 bg-gradient-to-r from-sky-500/20 via-emerald-500/20 to-sky-500/20 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+          <div className="relative flex items-center bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden shadow-2xl transition-all group-hover:border-slate-700">
+            <Search className="ml-4 w-5 h-5 text-sky-500" />
+            <input
+              type="text"
+              placeholder="Search entire technical stack..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-transparent border-none py-4 px-4 text-slate-200 placeholder:text-slate-600 focus:ring-0 text-sm md:text-base font-medium"
+            />
+            <div className="pr-4 hidden md:flex items-center gap-2 text-[10px] text-slate-600 font-mono">
+              <span className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">CTRL</span> + <span className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">F</span>
+            </div>
+          </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-1 md:p-2 relative group-cats">
-          <div className="px-3 py-2 flex items-center justify-between gap-3">
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Skill Categories</p>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between px-2">
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">Category Select</p>
+            </div>
             {activeGroup.title && (
-              <p className="text-[10px] text-slate-400 font-mono">
-                STATUS: <span className="text-sky-400 uppercase">{activeGroup.title}</span>
-              </p>
+              <div className="px-3 py-1 rounded bg-sky-500/10 border border-sky-500/20 text-[10px] font-mono font-bold text-sky-400 uppercase tracking-wider shadow-[0_0_10px_rgba(14,165,233,0.2)]">
+                Active_Layer: {activeGroup.title}
+              </div>
             )}
           </div>
 
-          <div className="relative flex items-center">
+          <div className="relative group/nav">
             {/* Left Button */}
             <button
               onClick={() => scroll("left")}
-              className="hidden lg:flex absolute left-0 z-20 h-full w-10 items-center justify-start bg-gradient-to-r from-slate-950 to-transparent text-slate-400 hover:text-sky-400 transition-colors"
+              className="hidden lg:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-sky-500 transition-all shadow-lg hover:shadow-sky-500/20"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
 
             <div
               ref={scrollRef}
-              className="flex gap-3 overflow-x-auto px-4 pb-4 pt-1 custom-scrollbar scroll-smooth w-full"
+              className="flex gap-4 overflow-x-auto px-1 pb-4 pt-1 custom-scrollbar scroll-smooth w-full mask-linear-gradient"
             >
               {filteredGroups.map((group, index) => (
                 <button
                   key={group.title}
                   onClick={() => setActiveIndex(index)}
-                  className={`flex-shrink-0 px-4 py-2.5 rounded-xl text-xs md:text-sm border transition-all whitespace-nowrap flex items-center gap-2
-                    ${index === activeIndex
-                      ? "border-sky-500 bg-sky-500/20 text-sky-50 shadow-[0_0_25px_rgba(56,189,248,0.45)]"
-                      : "border-slate-800 bg-slate-900/80 text-slate-300 hover:border-sky-500/60 hover:bg-slate-900"
+                  className={`flex-shrink-0 relative group px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all overflow-hidden border
+                     ${index === activeIndex
+                      ? "border-sky-500 bg-sky-500 text-slate-950 shadow-[0_0_20px_rgba(14,165,233,0.4)] scale-105"
+                      : "border-slate-800 bg-slate-900/50 text-slate-400 hover:border-sky-500/50 hover:text-slate-200 hover:bg-slate-900"
                     }`}
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.75)]" />
-                  <span>{group.title}</span>
-                  {group.skills && <span className="text-[0.65rem] text-slate-400">{group.skills.length}</span>}
+                  <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] transition-transform duration-700 ${index === activeIndex ? 'group-hover:translate-x-[100%]' : ''}`} />
+                  <span className="relative z-10 flex items-center gap-2">
+                    {group.title}
+                    <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${index === activeIndex ? 'bg-slate-950/20 text-slate-900' : 'bg-slate-800 text-slate-500'}`}>
+                      {group.skills?.length || 0}
+                    </span>
+                  </span>
                 </button>
               ))}
             </div>
@@ -399,7 +493,7 @@ export default function SkillsSection() {
             {/* Right Button */}
             <button
               onClick={() => scroll("right")}
-              className="hidden lg:flex absolute right-0 z-20 h-full w-10 items-center justify-end bg-gradient-to-l from-slate-950 to-transparent text-slate-400 hover:text-sky-400 transition-colors"
+              className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-sky-500 transition-all shadow-lg hover:shadow-sky-500/20"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -407,11 +501,11 @@ export default function SkillsSection() {
         </div>
 
         <motion.div
-          key={activeGroup.title} // Forces re-render animation when group changes
+          key={activeGroup.title}
           initial="hidden"
           animate="visible"
           variants={variants}
-          className="grid gap-5 md:gap-6 md:grid-cols-2 xl:grid-cols-3"
+          className="grid gap-6 md:gap-8 md:grid-cols-2 xl:grid-cols-3 pb-20"
         >
           {activeGroup.skills.length > 0 ? (
             activeGroup.skills.map((skill, index) => {
@@ -422,18 +516,20 @@ export default function SkillsSection() {
                   skill={skill}
                   categoryTitle={activeGroup.title}
                   onClick={() => handleCardClick(skill, activeGroup.title)}
-                  index={index} // Use local index for simpler staggered delay
+                  index={index}
+                  getExperienceContext={getExperienceContext}
                 />
               )
             })
           ) : (
-            <div className="col-span-full py-10 text-center text-slate-500 text-sm italic">
-              No matching skills found.
+            <div className="col-span-full py-20 text-center border border-dashed border-slate-800 rounded-3xl bg-slate-900/20">
+              <Terminal className="w-12 h-12 text-slate-700 mx-auto mb-4" />
+              <p className="text-slate-500 text-sm uppercase tracking-widest font-bold">No modules found matching query</p>
             </div>
           )}
         </motion.div>
 
-        {note && <p className="text-xs text-slate-500">* {note}</p>}
+        {note && <div className="text-center pb-8"><p className="text-[10px] text-slate-600 font-mono uppercase tracking-widest">* {note}</p></div>}
       </div>
 
       <AnimatePresence>
@@ -449,7 +545,7 @@ export default function SkillsSection() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative z-50 w-full max-w-lg rounded-2xl border border-sky-500/30 bg-slate-950/95 shadow-[0_0_50px_rgba(14,165,233,0.3)] overflow-hidden flex flex-col"
+                className="relative z-50 w-full max-w-lg rounded-2xl border border-sky-500/30 bg-[#0B1121]/95 shadow-[0_0_50px_rgba(14,165,233,0.3)] overflow-hidden flex flex-col"
               >
                 {/* Background blueprint effect */}
                 <div className="absolute inset-0 bg-blueprint opacity-[0.03] pointer-events-none" />
@@ -516,6 +612,26 @@ export default function SkillsSection() {
 
                   {/* Content Body */}
                   <div className="space-y-6 text-sm text-slate-300">
+                    {/* Experience Context - Elite Addition */}
+                    {selectedSkill.context && (
+                      <div>
+                        <h4 className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
+                          <span className="w-1 h-3 bg-emerald-500/50" />
+                          Validated Experience
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedSkill.context.map((ctx, idx) => {
+                            const Icon = ctx.icon;
+                            return (
+                              <div key={idx} className="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg hover:border-emerald-500/30 transition-colors">
+                                <Icon className="w-3.5 h-3.5 text-emerald-500" />
+                                <span className="text-[11px] text-slate-300 font-bold">{ctx.label}</span>
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )}
                     <div>
                       <h4 className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
                         <span className="w-1 h-3 bg-sky-500/50" />

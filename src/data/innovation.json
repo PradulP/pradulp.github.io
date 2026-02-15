@@ -3,6 +3,7 @@
     {
       "id": 1,
       "title": "AutoCAD Productivity Suite",
+      "slug": "auto-cad-productivity-suite",
       "type": "C# .NET / LISP",
       "status": "Production Use",
       "description": "Custom .NET plugins and advanced LISP routines developed to automate repetitive civil drafting and site level coordination tasks.",
@@ -17,11 +18,14 @@
       "links": {
         "repo": "https://github.com/PRADUL-P/Tools-for-AutoCAD"
       },
-      "showOnHome": true
+      "showOnHome": true,
+      "glimpse": "https://images.unsplash.com/photo-1581094794329-cd56b35d878a?q=80&w=1200",
+      "glimpseType": "image"
     },
     {
       "id": 2,
       "title": "Revit BIM Automation Pro",
+      "slug": "revit-bim-automation-pro",
       "type": "pyRevit / IronPython",
       "status": "Live Execution",
       "description": "A comprehensive library of pyRevit scripts designed for advanced BIM modelling, automated parameter syncing, and data-driven QA/QC.",
@@ -36,11 +40,14 @@
       "links": {
         "repo": "https://github.com/PRADUL-P/Tools-for-Revit"
       },
-      "showOnHome": true
+      "showOnHome": true,
+      "glimpse": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200",
+      "glimpseType": "image"
     },
     {
       "id": 3,
       "title": "Digital PDF Flip-Book Engine",
+      "slug": "digital-pdf-flip-book",
       "type": "Web Utility / Animation",
       "status": "Live Project",
       "description": "An interactive digital publication engine developed to convert traditional PDF documents into immersive 3D flip-books with real-time physics.",
@@ -55,11 +62,14 @@
       "links": {
         "demo": "https://enginexus.github.io/EngiNexus-24/"
       },
-      "showOnHome": true
+      "showOnHome": true,
+      "glimpse": "https://images.unsplash.com/photo-1507842217159-a550bb6c0f1b?q=80&w=1200",
+      "glimpseType": "image"
     },
     {
       "id": 4,
       "title": "Personal Finance Tracker",
+      "slug": "personal-finance-tracker",
       "type": "Web Application",
       "status": "Live Tool",
       "description": "A lightweight, secure money tracking web app designed for managing personal expenses and visualizing monthly financial trends.",
@@ -74,11 +84,14 @@
       "links": {
         "demo": "https://pradul-p.github.io/Money-Tracker/index.html"
       },
-      "showOnHome": false
+      "showOnHome": false,
+      "glimpse": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200",
+      "glimpseType": "image"
     },
     {
       "id": 5,
       "title": "AEC Calculation Engine",
+      "slug": "aec-calculation-engine",
       "type": "Engineering Logic",
       "status": "Live Modules",
       "description": "A suite of high-precision engineering calculators integrated directly into the web, bridging structural analysis formulas with interactive UI.",
@@ -89,7 +102,9 @@
         "SVG Animations"
       ],
       "hasTool": true,
-      "showOnHome": false
+      "showOnHome": false,
+      "glimpse": "",
+      "glimpseType": "none"
     }
   ]
 }

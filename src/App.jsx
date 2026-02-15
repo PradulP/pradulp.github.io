@@ -9,7 +9,9 @@ import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
 import Skills from "./pages/Skills";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import Innovation from "./pages/Innovation";
+import InnovationDetail from "./pages/InnovationDetail";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import AdminInnovation from "./pages/AdminInnovation";
@@ -42,7 +44,9 @@ function App() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/skills" element={<Skills />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogDetail />} />
               <Route path="/innovation" element={<Innovation />} />
+              <Route path="/innovation/:id" element={<InnovationDetail />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/admin/innovation" element={<AdminInnovation />} />
               <Route path="/contact" element={<Contact />} />

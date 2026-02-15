@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import db from "../data/Projects.json";
 import SEO from "../components/SEO";
 import ProjectImageCarousel from "../components/ProjectImageCarousel";
@@ -17,7 +17,15 @@ import {
   FileText,
   Layers,
   User,
-  Calendar
+  Calendar,
+  Zap,
+  Target,
+  Workflow,
+  CheckCircle2,
+  AlertTriangle,
+  Lightbulb,
+  Package,
+  Trophy
 } from "lucide-react";
 
 function isYouTube(url = "") {
@@ -49,9 +57,35 @@ function getYouTubeEmbedUrl(url = "") {
   return null;
 }
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+};
+
+const SectionHeader = ({ icon: Icon, title, className = "" }) => (
+  <div className={`flex items-center gap-3 mb-6 ${className}`}>
+    <div className="p-2 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-400">
+      <Icon className="w-5 h-5" />
+    </div>
+    <h3 className="text-xl md:text-2xl font-black italic text-slate-100 uppercase tracking-tighter">
+      {title}
+    </h3>
+  </div>
+);
+
 export default function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { scrollYProgress } = useScroll();
+
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+
   const projects = db.projects || [];
   const index = useMemo(
     () => projects.findIndex(p => String(p.id) === String(id)),
@@ -79,11 +113,23 @@ export default function ProjectDetail() {
     title,
     subtitle,
     type,
+    category,
     year,
+    duration,
     role,
+    location,
+    scope,
     summary,
+    overview,
+    objectives,
+    approach,
     highlights,
     tech,
+    engineeringSummary,
+    challenges,
+    deliverables,
+    outcome, // or impact
+    learnings,
     images = [],
     model,
     links
@@ -97,164 +143,215 @@ export default function ProjectDetail() {
   );
   const [markupMode, setMarkupMode] = useState(false);
 
-  const registryId = `PRJ-${project.category.substring(0, 3).toUpperCase()}-${(index + 1).toString().padStart(2, '0')}`;
+  const registryId = `PRJ-${category?.substring(0, 3).toUpperCase() || "UNK"}-${(index + 1).toString().padStart(2, '0')}`;
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
       <SEO title={`${title} | Project Details`} description={summary} />
 
-      {/* Background technical elements */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-500/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-fuchsia-500/5 blur-[120px] rounded-full" />
-        <div className="absolute inset-0 bg-blueprint opacity-[0.03]" />
+      {/* 1) Reading Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 via-emerald-500 to-sky-500 origin-left z-50"
+        style={{ scaleX }}
+      />
+
+      {/* Background technical elements - ENHANCED with Parallax */}
+      <div className="pointer-events-none absolute inset-0 fixed">
+        <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-sky-500/10 blur-[120px] rounded-full mix-blend-screen animate-pulse" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-emerald-500/10 blur-[120px] rounded-full mix-blend-screen animate-pulse" style={{ animationDelay: "2s" }} />
+        <motion.div
+          style={{ y: backgroundY }}
+          className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] opacity-20"
+        />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 pt-24 md:pt-32 relative space-y-12">
-        {/* ================= PROJECT HEADER ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-8 space-y-6">
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <span className="text-[10px] font-mono font-black text-sky-400 bg-sky-500/10 border border-sky-500/30 px-2 py-1 rounded uppercase tracking-[0.2em]">
-                  {registryId}
-                </span>
-                <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">
-                  Status: <span className="text-emerald-400">Archived_Detail</span>
-                </span>
-              </div>
+      <div className="max-w-7xl mx-auto px-4 pt-24 md:pt-32 relative space-y-24">
 
-              <h1 className="text-4xl md:text-6xl font-black italic text-slate-50 uppercase tracking-tighter leading-[0.85]">
-                {title}
-              </h1>
-              <p className="text-lg md:text-xl text-sky-400/80 font-bold italic tracking-tight">{subtitle}</p>
-            </div>
-
-            <p className="text-slate-300 text-sm md:text-base leading-relaxed max-w-3xl">
-              {summary}
-            </p>
-
-            <div className="flex flex-wrap gap-4 pt-2">
-              <div className="flex items-center gap-2 bg-slate-900/50 border border-slate-800 px-4 py-2 rounded-xl">
-                <Calendar className="w-4 h-4 text-slate-500" />
-                <div>
-                  <p className="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Timeline</p>
-                  <p className="text-xs font-mono text-slate-200">{year}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 bg-slate-900/50 border border-slate-800 px-4 py-2 rounded-xl">
-                <Layers className="w-4 h-4 text-slate-500" />
-                <div>
-                  <p className="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Discipline</p>
-                  <p className="text-xs font-mono text-slate-200 uppercase">{type}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 bg-slate-900/50 border border-slate-800 px-4 py-2 rounded-xl">
-                <User className="w-4 h-4 text-slate-500" />
-                <div>
-                  <p className="text-[9px] uppercase tracking-widest text-slate-500 font-bold">Responsibility</p>
-                  <p className="text-xs font-mono text-slate-200 uppercase">{role}</p>
-                </div>
-              </div>
+        {/* ================= 1) PROJECT HEADER ================= */}
+        <motion.header
+          initial="hidden" animate="visible" variants={fadeInUp}
+          className="space-y-8 text-center md:text-left relative z-10"
+        >
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
+            <span className="text-[10px] font-mono font-black text-sky-400 bg-slate-900/80 border border-sky-500/30 px-3 py-1.5 rounded uppercase tracking-[0.2em] mb-2 md:mb-0 shadow-[0_0_15px_rgba(14,165,233,0.2)]">
+              {registryId}
+            </span>
+            <div className="h-px flex-grow bg-gradient-to-r from-slate-800 to-transparent hidden md:block mt-3" />
+            <div className="flex items-center gap-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+              <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest hidden md:block">
+                {type} · {year}
+              </span>
             </div>
           </div>
 
-          <div className="lg:col-span-4 lg:pt-8">
-            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-sky-500/20 group-hover:border-sky-500/50 transition-colors" />
-              <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-sky-500/20 group-hover:border-sky-500/50 transition-colors" />
+          <div>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black italic text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500 uppercase tracking-tighter leading-[0.85] mb-6 drop-shadow-2xl">
+              {title}
+            </h1>
+            <p className="text-xl md:text-3xl text-sky-400 font-bold italic tracking-tight relative max-w-4xl mx-auto md:mx-0">
+              {subtitle}
+              <span className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-to-r from-sky-500 to-transparent rounded-full hidden md:block" />
+            </p>
+          </div>
+        </motion.header>
 
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-6 flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-sky-500" />
-                Technical Stack
-              </h3>
+        {/* ================= 2) INFO PANEL (HUD STYLE) ================= */}
+        <motion.section
+          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
+          className="bg-slate-950/40 border border-slate-800/60 rounded-[2rem] p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group shadow-2xl"
+        >
+          {/* Glass reflections */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
+          <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-all duration-700 transform group-hover:scale-110 group-hover:rotate-12">
+            <Terminal className="w-48 h-48 text-slate-100" />
+          </div>
 
-              <div className="flex flex-wrap gap-2.5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8 relative z-10">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-sky-500/70">
+                <User className="w-3 h-3" /> Role
+              </div>
+              <div className="text-lg font-bold text-slate-100 tracking-wide">{role}</div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-sky-500/70">
+                <Layers className="w-3 h-3" /> Type
+              </div>
+              <div className="text-lg font-bold text-slate-100 tracking-wide">{type}</div>
+            </div>
+
+            {location && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-sky-500/70">
+                  <Zap className="w-3 h-3" /> Location
+                </div>
+                <div className="text-lg font-bold text-slate-100 tracking-wide">{location}</div>
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-sky-500/70">
+                <Calendar className="w-3 h-3" /> Duration
+              </div>
+              <div className="text-lg font-bold text-slate-100 tracking-wide">{duration || year}</div>
+            </div>
+
+            {scope && (
+              <div className="space-y-2 lg:col-span-2 pt-2 border-t border-slate-800/50">
+                <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-sky-500/70">
+                  <Target className="w-3 h-3" /> Scope
+                </div>
+                <div className="font-medium text-slate-300 leading-relaxed">{scope}</div>
+              </div>
+            )}
+
+            <div className="space-y-3 lg:col-span-2 pt-2 border-t border-slate-800/50">
+              <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-sky-500/70">
+                <Cpu className="w-3 h-3" /> Tools Stack
+              </div>
+              <div className="flex flex-wrap gap-2">
                 {tech.map((t, idx) => (
-                  <motion.span
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    key={t}
-                    className="px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-950/80 text-[11px] font-mono text-slate-300 group-hover:border-sky-500/30 transition-colors"
-                  >
+                  <span key={t} className="px-3 py-1 rounded-lg bg-slate-900 border border-slate-700/50 text-slate-300 text-xs font-mono hover:border-sky-500/40 hover:text-sky-400 transition-colors cursor-default">
                     {t}
-                  </motion.span>
+                  </span>
                 ))}
               </div>
-
-              <div className="mt-8 pt-6 border-t border-slate-800/50">
-                <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 uppercase">
-                  <span>Validation Score</span>
-                  <span className="text-emerald-400">98.4% PASSED</span>
-                </div>
-                <div className="w-full h-1 bg-slate-800 rounded-full mt-2 overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: "98.4%" }}
-                    transition={{ duration: 1.5, ease: "circOut" }}
-                    className="h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"
-                  />
-                </div>
-              </div>
             </div>
           </div>
-        </div>
+        </motion.section>
 
-        {/* ================= MEDIA SECTION ================= */}
-        <section className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              {images.length > 0 && (
-                <button
-                  onClick={() => setActiveMedia("images")}
-                  className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-bold transition-all border uppercase tracking-widest
-                    ${activeMedia === "images"
-                      ? "border-sky-500 bg-sky-500/10 text-sky-400 shadow-[0_0_20px_rgba(14,165,233,0.3)]"
-                      : "border-slate-800 bg-slate-900/50 text-slate-500 hover:border-slate-700 hover:text-slate-300"}`}
-                >
-                  <ImageIcon className="w-4 h-4" /> Visuals
-                </button>
-              )}
-              {modelSrc && (
-                <button
-                  onClick={() => setActiveMedia("model")}
-                  className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-bold transition-all border uppercase tracking-widest
-                    ${activeMedia === "model"
-                      ? "border-sky-500 bg-sky-500/10 text-sky-400 shadow-[0_0_20px_rgba(14,165,233,0.3)]"
-                      : "border-slate-800 bg-slate-900/50 text-slate-500 hover:border-slate-700 hover:text-slate-300"}`}
-                >
-                  <Box className="w-4 h-4" /> 3D View
-                </button>
-              )}
-              {links?.demo && (
-                <button
-                  onClick={() => setActiveMedia("video")}
-                  className={`flex items-center gap-2 px-6 py-2 rounded-xl text-xs font-bold transition-all border uppercase tracking-widest
-                    ${activeMedia === "video"
-                      ? "border-sky-500 bg-sky-500/10 text-sky-400 shadow-[0_0_20px_rgba(14,165,233,0.3)]"
-                      : "border-slate-800 bg-slate-900/50 text-slate-500 hover:border-slate-700 hover:text-slate-300"}`}
-                >
-                  {isYouTube(links.demo) ? <><PlayCircle className="w-4 h-4" /> Reel</> : <><Globe className="w-4 h-4" /> External</>}
-                </button>
-              )}
-            </div>
+        {/* ================= 3) OVERVIEW ================= */}
+        <section className="grid lg:grid-cols-12 gap-10">
+          <div className="lg:col-span-8 space-y-8">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+              <SectionHeader icon={FileText} title="Project Overview" />
+              <div className="prose prose-invert prose-lg max-w-none text-slate-300 leading-relaxed">
+                <p>{overview || summary}</p>
+              </div>
+            </motion.div>
 
-            {activeMedia === "images" && (
-              <button
-                onClick={() => setMarkupMode(!markupMode)}
-                className={`flex items-center gap-3 px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border
-                  ${markupMode
-                    ? "border-emerald-500 bg-emerald-500/10 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
-                    : "border-slate-800 bg-slate-900/50 text-slate-500 hover:border-emerald-500/30 hover:text-emerald-500/50"}`}
-              >
-                <div className={`w-2 h-2 rounded-full ${markupMode ? 'bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-slate-700'}`} />
-                {markupMode ? "Engineering_Markup_Active" : "Enable_Engineering_Markup"}
-              </button>
+            {/* ================= 4) OBJECTIVES ================= */}
+            {objectives && objectives.length > 0 && (
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="pt-8">
+                <SectionHeader icon={Target} title="Objectives" />
+                <ul className="grid sm:grid-cols-2 gap-4">
+                  {objectives.map((obj, i) => (
+                    <li key={i} className="flex gap-3 bg-slate-900/30 p-4 rounded-xl border border-slate-800 hover:border-sky-500/30 transition-colors">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                      <span className="text-sm text-slate-300">{obj}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
+
+            {/* ================= 5) APPROACH ================= */}
+            {approach && approach.length > 0 && (
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="pt-8">
+                <SectionHeader icon={Workflow} title="Approach & Methodology" />
+                <div className="space-y-6 relative ml-3 before:absolute before:inset-0 before:w-px before:bg-gradient-to-b before:from-sky-500 before:to-transparent before:opacity-30">
+                  {approach.map((step, i) => (
+                    <div key={i} className="relative pl-8">
+                      <span className="absolute left-[-4px] top-1 w-2.5 h-2.5 rounded-full bg-sky-500 border-4 border-slate-950 shadow-[0_0_10px_rgba(14,165,233,0.5)]" />
+                      <h4 className="font-bold text-slate-200 mb-1">{step.title || `Phase ${i + 1}`}</h4>
+                      <p className="text-sm text-slate-400">{step.desc || step}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             )}
           </div>
 
-          <div className="relative rounded-3xl border border-slate-800 bg-slate-950 overflow-hidden shadow-2xl group/media min-h-[400px]">
+          <div className="lg:col-span-4 space-y-6">
+            {/* Engineering Summary (Moved to sidebar for layout balance or kept in main?) - Let's keep specific Engineering features here */}
+            {/* Sticky sidebar content could go here */}
+          </div>
+        </section>
+
+        {/* ================= 6) VISUAL GALLERY (FULL WIDTH) ================= */}
+        <section className="space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <SectionHeader icon={ImageIcon} title="Visual Gallery" className="mb-0" />
+            <div className="flex items-center gap-2">
+              {[
+                { id: 'images', icon: ImageIcon, label: 'Visuals', available: images.length > 0 },
+                { id: 'model', icon: Box, label: '3D View', available: !!modelSrc },
+                { id: 'video', icon: PlayCircle, label: 'Reel', available: !!links?.demo }
+              ].map(media => media.available && (
+                <button
+                  key={media.id}
+                  onClick={() => setActiveMedia(media.id)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all border uppercase tracking-widest
+                    ${activeMedia === media.id
+                      ? "border-sky-500 bg-sky-500/10 text-sky-400"
+                      : "border-slate-800 bg-slate-900/50 text-slate-500 hover:text-slate-300"}`}
+                >
+                  <media.icon className="w-4 h-4" /> {media.label}
+                </button>
+              ))}
+
+              {activeMedia === "images" && images.length > 0 && (
+                <div className="h-6 w-px bg-slate-800 mx-2 hidden md:block" />
+              )}
+
+              {activeMedia === "images" && images.length > 0 && (
+                <button
+                  onClick={() => setMarkupMode(!markupMode)}
+                  className={`flex items-center gap-3 px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all border
+                   ${markupMode
+                      ? "border-emerald-500 bg-emerald-500/10 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                      : "border-slate-800 bg-slate-900/50 text-slate-500 hover:border-emerald-500/30 hover:text-emerald-500/50"}`}
+                >
+                  <div className={`w-2 h-2 rounded-full ${markupMode ? 'bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-slate-700'}`} />
+                  {markupMode ? "Engineering_Markup_Active" : "Enable_Engineering_Markup"}
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="relative rounded-3xl border border-slate-800 bg-slate-950 overflow-hidden shadow-2xl group/media min-h-[400px] relative">
             {/* Engineering Markup HUD Overlay */}
             <AnimatePresence>
               {activeMedia === "images" && markupMode && (
@@ -262,57 +359,59 @@ export default function ProjectDetail() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-20 pointer-events-none overflow-hidden"
+                  className="absolute inset-0 z-50 pointer-events-none overflow-hidden border-2 border-emerald-500/50 rounded-3xl"
                 >
                   {/* Digital Grid Overlay */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_70%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,rgba(2,6,23,0.4)_100%)]" />
+
                   <div className="absolute top-1/2 left-0 w-full h-px bg-emerald-500/30" />
                   <div className="absolute left-1/2 top-0 w-px h-full bg-emerald-500/30" />
 
                   {/* Dynamic Corners */}
-                  <div className="absolute top-10 left-10 p-4 border-l-2 border-t-2 border-emerald-500/40 bg-slate-950/60 backdrop-blur-sm font-mono text-[9px] text-emerald-400 space-y-1">
-                    <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" /> SCANNING_ASSET...</div>
-                    <div>COORDINATE_REF: X504-Y882-Z11.2</div>
-                    <div>DATA_LOCK: {title.toUpperCase()}</div>
-                    <div>LAYER: {type.toUpperCase()}</div>
+                  <div className="absolute top-8 left-8 p-4 border-l-2 border-t-2 border-emerald-500 bg-slate-950/80 backdrop-blur-md font-mono text-[10px] text-emerald-400 space-y-1 shadow-lg">
+                    <div className="flex items-center gap-2 font-bold"><div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" /> SCANNING_ASSET...</div>
+                    <div className="text-emerald-300/70">COORDINATE_REF: X504-Y882-Z11.2</div>
+                    <div className="text-emerald-300/70">DATA_LOCK: {title.substring(0, 15)}...</div>
+                    <div className="text-emerald-300/70">LAYER: {type.toUpperCase()}</div>
                   </div>
 
-                  <div className="absolute bottom-10 right-10 p-4 border-r-2 border-b-2 border-emerald-500/40 bg-slate-950/60 backdrop-blur-sm font-mono text-[9px] text-emerald-400 text-right space-y-1">
-                    <div>ENGINE_ID: CAD_CORE_DS_2.0</div>
-                    <div>FIRMWARE: PRDL_V{new Date().getYear()}</div>
-                    <div className="text-emerald-200/50 font-black">VALIDATED_BY_PRADUL_P</div>
+                  <div className="absolute bottom-8 right-8 p-4 border-r-2 border-b-2 border-emerald-500 bg-slate-950/80 backdrop-blur-md font-mono text-[10px] text-emerald-400 text-right space-y-1 shadow-lg">
+                    <div className="font-bold">ENGINE_ID: CAD_CORE_DS_2.0</div>
+                    <div className="text-emerald-300/70">FIRMWARE: PRDL_V{new Date().getFullYear()}</div>
+                    <div className="text-emerald-200 font-black tracking-widest mt-1">VALIDATED_BY_PRADUL_P</div>
                   </div>
 
                   {/* Redline Circles & Callouts */}
-                  <div className="absolute top-1/3 right-1/4 group-hover:scale-110 transition-transform duration-1000">
-                    <div className="w-24 h-24 border-2 border-dashed border-emerald-500/40 rounded-full animate-[spin_20s_linear_infinite]" />
+                  <div className="absolute top-1/3 right-1/4">
+                    <div className="w-32 h-32 border-2 border-dashed border-emerald-500/60 rounded-full animate-[spin_10s_linear_infinite]" />
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-[10px] font-mono text-emerald-400 bg-slate-950 px-2">DET_REV</span>
+                      <span className="text-[10px] font-mono font-bold text-emerald-950 bg-emerald-500 px-1 py-0.5 rounded">DET_REV</span>
                     </div>
                   </div>
 
                   {/* Measurement Lines */}
-                  <div className="absolute bottom-[30%] left-[15%] w-[40%] h-px bg-emerald-500/40">
-                    <div className="absolute -left-1 -top-1 w-2 h-2 bg-emerald-500" />
-                    <div className="absolute -right-1 -top-1 w-2 h-2 bg-emerald-500" />
-                    <div className="absolute top-2 left-1/2 -translate-x-1/2 text-[10px] font-mono text-emerald-400 uppercase tracking-widest bg-slate-950 px-2 whitespace-nowrap">
+                  <div className="absolute bottom-[30%] left-[15%] w-[40%] h-px bg-emerald-500">
+                    <div className="absolute -left-1 -top-1.5 w-3 h-3 border border-emerald-500 bg-slate-950" />
+                    <div className="absolute -right-1 -top-1.5 w-3 h-3 border border-emerald-500 bg-slate-950" />
+                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest bg-slate-950/80 px-2 py-1 rounded whitespace-nowrap border border-emerald-500/30">
                       Dimension_Span: 24,400mm
                     </div>
                   </div>
 
                   <motion.div
-                    className="absolute inset-x-0 h-1/2 bg-gradient-to-b from-transparent via-emerald-500/20 to-transparent"
-                    animate={{ y: ["-100%", "200%"] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-x-0 h-[20%] bg-gradient-to-b from-emerald-500/0 via-emerald-500/10 to-emerald-500/0"
+                    animate={{ top: ["-20%", "120%"] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                   />
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div className={`w-full h-full ${markupMode ? 'grayscale brightness-50 contrast-125' : ''} transition-all duration-700`}>
+            <div className={`w-full h-full ${markupMode ? 'grayscale brightness-75 contrast-125' : ''} transition-all duration-700`}>
               {activeMedia === "images" && <ProjectImageCarousel images={images} />}
               {activeMedia === "model" && modelSrc && (
-                <div className="h-[500px] w-full bg-slate-900 border-none">
+                <div className="h-[600px] w-full bg-slate-900 border-none">
                   <model-viewer
                     src={modelSrc}
                     camera-controls
@@ -350,90 +449,200 @@ export default function ProjectDetail() {
                 </div>
               )}
             </div>
+            {/* Image Caption */}
+            {(activeMedia === "images" || activeMedia === "model") && project.caption && (
+              <p className="text-center text-sm text-slate-500 font-mono mt-4 italic">
+                  // {project.caption}
+              </p>
+            )}
+
           </div>
         </section>
 
-        {/* ================= PROJECT BRIEF ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <FileText className="w-5 h-5 text-sky-400" />
-              <h3 className="text-xl font-black italic text-slate-100 uppercase tracking-tighter">Project Highlights</h3>
-            </div>
+        {/* ================= 7) HIGHLIGHTS & 8) ENGINEERING SUMMARY ================= */}
+        <section className="grid lg:grid-cols-2 gap-12">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <SectionHeader icon={Zap} title="Key Features" />
             <ul className="space-y-4">
               {highlights.map((h, i) => (
-                <motion.li
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  key={h}
-                  className="flex gap-4 group"
-                >
-                  <span className="flex-shrink-0 w-6 h-6 rounded bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-[10px] font-black text-sky-400 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">
+                <li key={i} className="flex gap-4 group">
+                  <span className="flex-shrink-0 w-6 h-6 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-[10px] font-black text-emerald-400">
                     {i + 1}
                   </span>
-                  <span className="text-slate-300 text-sm md:text-base leading-relaxed">{h}</span>
-                </motion.li>
+                  <span className="text-slate-300 leading-relaxed">{h}</span>
+                </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
-          <div className="bg-slate-900/30 border border-slate-800/50 rounded-3xl p-8 backdrop-blur-sm relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-2 h-full bg-sky-500/20" />
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Terminal className="w-5 h-5 text-sky-400" />
-                <h3 className="text-xl font-black italic text-slate-100 uppercase tracking-tighter">System Output</h3>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <SectionHeader icon={Cpu} title="Engineering Summary" />
+            <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-3xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-5">
+                <Cpu className="w-24 h-24 text-slate-100" />
               </div>
-              <div className="font-mono text-xs text-slate-400 space-y-4 leading-relaxed">
-                <p className="text-emerald-400/80">$ initialize --project-scan --deep</p>
-                <p>Analysing {project.category === 'civil' ? 'structural integrity and BIM compliance' : 'code quality and deployment status'}... Done.</p>
-                <p>{summary}</p>
-                <p className="p-4 bg-slate-950/80 border-l border-sky-500 rounded text-[11px] text-slate-500 italic">
-                  "{project.category === 'civil'
-                    ? 'Professional excellence achieved through meticulous planning and adherence to engineering standards.'
-                    : 'Built with modern web technologies and best practices for optimal performance and user experience.'}"
-                </p>
-                <p className="text-emerald-400/80">$ status: COMPLETE // session: TERMINATED</p>
+              <p className="text-slate-300 leading-relaxed relative z-10">
+                {engineeringSummary || summary}
+              </p>
+              <div className="mt-6 pt-6 border-t border-slate-800 flex gap-4 text-xs font-mono text-slate-500 uppercase tracking-wider">
+                <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> System_Optimized</div>
+                <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-sky-500" /> Standards_Compliant</div>
               </div>
             </div>
+          </motion.div>
+        </section>
+
+        {/* ================= 9) CHALLENGES & SOLUTIONS ================= */}
+        {challenges && challenges.length > 0 && (
+          <motion.section initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <SectionHeader icon={AlertTriangle} title="Challenges & Solutions" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {challenges.map((c, i) => (
+                <div key={i} className="bg-slate-900/30 border border-slate-800 rounded-2xl p-6 hover:border-amber-500/30 transition-colors group">
+                  <div className="mb-4">
+                    <h4 className="text-amber-500 font-bold uppercase tracking-wider text-xs mb-2">Constraint</h4>
+                    <p className="text-slate-300 font-medium">{c.constraint || c.problem}</p>
+                  </div>
+                  <div className="pt-4 border-t border-slate-800/50">
+                    <h4 className="text-emerald-500 font-bold uppercase tracking-wider text-xs mb-2">Solution</h4>
+                    <p className="text-slate-400 text-sm">{c.solution}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* ================= 10) DELIVERABLES & 11) OUTCOME ================= */}
+        <section className="grid lg:grid-cols-12 gap-10">
+          <div className="lg:col-span-5">
+            {deliverables && deliverables.length > 0 && (
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-slate-900/30 border border-slate-800 rounded-3xl p-8 h-full">
+                <SectionHeader icon={Package} title="Deliverables" className="mb-8" />
+                <ul className="space-y-4">
+                  {deliverables.map((d, i) => (
+                    <li key={i} className="flex items-center gap-3 text-slate-300">
+                      <Box className="w-4 h-4 text-sky-500" />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
           </div>
-        </div>
 
-        {/* ================= NAVIGATION ================= */}
-        <div className="pt-12 border-t border-slate-800 space-y-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <Link to="/projects" className="group flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-slate-500 hover:text-sky-400 transition-colors">
-              <div className="w-8 h-8 rounded-full border border-slate-800 flex items-center justify-center group-hover:border-sky-500/50 transition-colors">
-                <ChevronLeft className="w-4 h-4" />
-              </div>
-              Back to Database
-            </Link>
+          <div className="lg:col-span-7 space-y-8">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+              <SectionHeader icon={Trophy} title="Outcome & Impact" />
+              <p className="text-lg text-slate-300 leading-relaxed border-l-4 border-emerald-500 pl-6 bg-gradient-to-r from-emerald-500/5 to-transparent py-2">
+                {outcome || "Project completed successfully meeting all requirements."}
+              </p>
+            </motion.div>
 
-            <div className="flex items-center gap-6">
-              {prevProject && (
+            {learnings && (
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+                <SectionHeader icon={Lightbulb} title="Learnings" />
+                <p className="text-slate-400 leading-relaxed">
+                  {learnings}
+                </p>
+              </motion.div>
+            )}
+          </div>
+        </section>
+
+        {/* ================= 13) LINKS / FOOTER ================= */}
+        <section className="pt-12 border-t border-slate-800 flex flex-col items-center gap-8">
+          <div className="flex flex-wrap gap-4 justify-center">
+            {links?.demo && (
+              <a href={links.demo} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-8 py-4 bg-sky-500 hover:bg-sky-400 text-slate-950 font-black uppercase tracking-widest rounded-xl transition-all shadow-lg hover:shadow-sky-500/20">
+                <PlayCircle className="w-5 h-5" /> {links.label || "Project Walkthrough"}
+              </a>
+            )}
+            {links?.repo && (
+              <a href={links.repo} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-black uppercase tracking-widest rounded-xl transition-all border border-slate-700">
+                <Terminal className="w-4 h-4" /> Source Code
+              </a>
+            )}
+          </div>
+        </section>
+
+        {/* ================= 13) FOOTER NAVIGATION ================= */}
+        <section className="pt-20 pb-10 border-t border-slate-800/50">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+
+            {/* Previous Project */}
+            <div className="flex justify-start order-2 md:order-1">
+              {prevProject ? (
                 <button
                   onClick={() => navigate(`/projects/${prevProject.id}`)}
-                  className="flex flex-col items-end group"
+                  className="group text-left space-y-1"
                 >
-                  <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold group-hover:text-sky-400 transition-colors">Previous Asset</span>
-                  <span className="text-sm font-black italic text-slate-300 uppercase tracking-tighter group-hover:text-slate-100 transition-colors">{prevProject.title}</span>
+                  <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest group-hover:text-emerald-400 transition-colors">
+                    <ChevronLeft className="w-4 h-4" /> Previous
+                  </div>
+                  <div className="text-sm font-bold text-slate-300 group-hover:text-white transition-colors max-w-[200px] truncate">
+                    {prevProject.title}
+                  </div>
                 </button>
-              )}
-              <div className="w-px h-8 bg-slate-800" />
-              {nextProject && (
-                <button
-                  onClick={() => navigate(`/projects/${nextProject.id}`)}
-                  className="flex flex-col items-start group"
-                >
-                  <span className="text-[9px] uppercase tracking-widest text-slate-600 font-bold group-hover:text-sky-400 transition-colors">Next Asset</span>
-                  <span className="text-sm font-black italic text-slate-300 uppercase tracking-tighter group-hover:text-slate-100 transition-colors">{nextProject.title}</span>
-                </button>
+              ) : (
+                <div /> // Empty spacer
               )}
             </div>
+
+            {/* Back to Database */}
+            <div className="flex justify-center order-1 md:order-2">
+              <Link
+                to="/projects"
+                className="flex items-center gap-3 px-6 py-3 rounded-full border border-slate-700 bg-slate-900/50 text-slate-300 text-xs font-black uppercase tracking-[0.2em] hover:bg-slate-800 hover:border-sky-500/50 hover:text-sky-400 transition-all shadow-lg hover:shadow-sky-500/10 group"
+              >
+                <div className="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-sky-500 transition-colors" />
+                Database_Index
+              </Link>
+            </div>
+
+            {/* Next Project */}
+            <div className="flex justify-end order-3 md:order-3">
+              {nextProject ? (
+                <button
+                  onClick={() => navigate(`/projects/${nextProject.id}`)}
+                  className="group text-right space-y-1"
+                >
+                  <div className="flex items-center justify-end gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest group-hover:text-sky-400 transition-colors">
+                    Next Asset <ChevronRight className="w-4 h-4" />
+                  </div>
+                  <div className="text-sm font-bold text-slate-300 group-hover:text-white transition-colors max-w-[200px] truncate">
+                    {nextProject.title}
+                  </div>
+                </button>
+              ) : (
+                <div /> // Empty spacer
+              )}
+            </div>
+
           </div>
-        </div>
+
+          {/* Copyright / Footer Note */}
+          <div className="text-center mt-16 pt-8 border-t border-slate-900 text-[10px] text-slate-700 font-mono">
+            SYSTEM_ID: PROJ_DET_V2.5 • RENDER_COMPLETE
+          </div>
+        </section>
+
+        {/* Floating Command Menu */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="fixed bottom-8 right-8 z-40 flex flex-col gap-3"
+        >
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="p-3 bg-slate-900/80 backdrop-blur-md border border-slate-700 text-sky-400 rounded-xl hover:bg-sky-500 hover:text-slate-950 transition-all shadow-lg hover:shadow-sky-500/30 group"
+            title="Back to Top"
+          >
+            <ChevronLeft className="w-5 h-5 rotate-90" />
+          </button>
+        </motion.div>
       </div>
     </main>
   );

@@ -3,6 +3,7 @@
     {
       "id": 1,
       "title": "Mastering pyRevit: Why Every BIM Engineer Needs Python",
+      "slug": "mastering-pyrevit-python",
       "date": "2026-01-20",
       "tag": "Automation",
       "status": "published",
@@ -14,6 +15,7 @@
     {
       "id": 2,
       "title": "AEC Web Apps: Why I Build Tools with React and Vite",
+      "slug": "aec-web-apps-react",
       "date": "2026-02-02",
       "tag": "Web Dev",
       "status": "published",
@@ -25,6 +27,7 @@
     {
       "id": 3,
       "title": "Why I Care About Digital Tools as a Civil Engineer",
+      "slug": "digital-tools-civil-engineer",
       "date": "2025-11-01",
       "tag": "Strategy",
       "status": "published",
@@ -36,6 +39,7 @@
     {
       "id": 4,
       "title": "The Evolution of AutoCAD: From Drawing to Data Engineering",
+      "slug": "evolution-of-autocad",
       "date": "2025-11-15",
       "tag": "CAD",
       "status": "published",
@@ -47,6 +51,7 @@
     {
       "id": 5,
       "title": "Mastering the Digital Twin: Beyond 3D Modelling",
+      "slug": "mastering-digital-twin",
       "date": "2026-01-15",
       "tag": "BIM",
       "status": "published",
@@ -58,6 +63,7 @@
     {
       "id": 6,
       "title": "First Steps Into BIM & Revit Automation",
+      "slug": "bim-revit-automation",
       "date": "2025-11-10",
       "tag": "Automation",
       "status": "published",
@@ -69,6 +75,7 @@
     {
       "id": 7,
       "title": "Balancing Site Work, Office, and Learning to Code",
+      "slug": "balancing-site-code",
       "date": "2026-02-05",
       "tag": "Career",
       "status": "published",
@@ -80,6 +87,7 @@
     {
       "id": 8,
       "title": "BIM 360 & Construction Cloud: Managing Global Data",
+      "slug": "bim-360-construction-cloud",
       "date": "2026-02-08",
       "tag": "Cloud",
       "status": "published",
