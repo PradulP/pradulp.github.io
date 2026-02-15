@@ -169,9 +169,9 @@ const Navbar = () => {
                         onClick={handleNavClick}
                         className="flex items-center gap-2 text-sm md:text-base font-semibold text-slate-100"
                     >
-                        {hero.avatar ? (
+                        {hero.logo || hero.avatar ? (
                             <img
-                                src={hero.avatar}
+                                src={hero.logo || hero.avatar}
                                 alt={hero.name || "Profile"}
                                 className="h-8 w-8 rounded-full border border-slate-700 object-cover"
                             />
