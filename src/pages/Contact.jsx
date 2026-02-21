@@ -15,14 +15,12 @@ import {
   AlertCircle
 } from "lucide-react";
 import SEO from "../components/SEO";
-
-// REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT URL
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzFfwOv7qY3uxzkJ_psn9IkGHRhMwlos0OfE4n-Of3bxVm3BntKqHvmDdUGP_Rs0zdQAA/exec";
+import { CONTACT_FORM_URL } from "../data/config";
 
 const Contact = () => {
   const { contact, socials } = content || {};
 
-  const primaryEmail = contact?.email || "pradul.p123@gmail.com";
+  const primaryEmail = contact?.email || "pradul.public@gmail.com";
   const location = contact?.location || "Kochi, Kerala, India";
   const whatsappNumber = contact?.whatsapp || "+918078376902";
   const linkedinUrl = socials?.linkedin || "https://www.linkedin.com/in/pradul/";
@@ -104,8 +102,8 @@ const Contact = () => {
       return;
     }
 
-    if (GOOGLE_SCRIPT_URL.includes("YOUR_SCRIPT_ID_HERE")) {
-      alert("Please configure the Google Script URL in Contact.jsx first! Check src/data/INSTRUCTIONS_CONTACT_SETUP.md");
+    if (!CONTACT_FORM_URL || CONTACT_FORM_URL.includes("YOUR_SCRIPT_ID_HERE") || CONTACT_FORM_URL.includes("YOUR_URL_HERE")) {
+      alert("Please configure the Contact Form URL in src/data/config.js!");
       return;
     }
 
@@ -121,7 +119,7 @@ const Contact = () => {
       params.append("Message", form.Message);
 
       // Fetch to Google Apps Script
-      await fetch(GOOGLE_SCRIPT_URL, {
+      await fetch(CONTACT_FORM_URL, {
         method: "POST",
         body: params,
         mode: "no-cors",
@@ -240,7 +238,7 @@ const Contact = () => {
               </div>
 
               {/* Alert for Setup */}
-              {GOOGLE_SCRIPT_URL.includes("YOUR_SCRIPT_ID_HERE") && (
+              {(!CONTACT_FORM_URL || CONTACT_FORM_URL.includes("YOUR_SCRIPT_ID_HERE") || CONTACT_FORM_URL.includes("YOUR_URL_HERE")) && (
                 <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg flex gap-3 text-amber-300 text-xs font-mono">
                   <AlertCircle className="w-5 h-5 flex-shrink-0" />
                   <div>

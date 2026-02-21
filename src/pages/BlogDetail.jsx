@@ -1,8 +1,9 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useMemo, useState, useRef, useEffect } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import db from "../data/blog.json";
 import content from "../data/index";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 import SEO from "../components/SEO";
 import {
     ChevronLeft,
@@ -18,6 +19,7 @@ import {
     Share2,
     Bookmark
 } from "lucide-react";
+import { tagImages, generateSlug } from "./Blog";
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -39,13 +41,15 @@ export default function BlogDetail() {
     const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
     // Data Fetching
+    const { data: cmsPosts } = useGoogleCMS("blog");
     const posts = useMemo(() => {
+        if (cmsPosts && cmsPosts.length > 0) return cmsPosts;
         // Combine local DB and content.blog if structure matches, prioritize db.posts
         return (db.posts && db.posts.length > 0) ? db.posts : (content.blog || []);
-    }, []);
+    }, [cmsPosts]);
 
     const index = useMemo(
-        () => posts.findIndex(p => (p.slug === id) || (String(p.id) === String(id))),
+        () => posts.findIndex(p => (p.slug === id) || (String(p.id) === String(id)) || (generateSlug(p.title) === id)),
         [posts, id]
     );
 
@@ -139,6 +143,16 @@ export default function BlogDetail() {
                     variants={fadeInUp}
                     className="space-y-6 mb-12 border-b border-slate-800 pb-12"
                 >
+                    {/* Featured Image */}
+                    <div className="w-full h-64 md:h-96 rounded-2xl overflow-hidden mb-8 relative border border-slate-800">
+                        <img
+                            src={post.image || tagImages[post.tag] || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop"}
+                            alt={post.title}
+                            className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                    </div>
+
                     <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
                         <span className="px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 uppercase font-black tracking-widest">
                             {post.tag}
@@ -210,7 +224,7 @@ export default function BlogDetail() {
                 {/* Footer / Next-Prev */}
                 <div className="border-t border-slate-800 pt-12 flex flex-col md:flex-row justify-between gap-6">
                     {prevPost ? (
-                        <Link to={`/blog/${prevPost.slug || prevPost.id}`} className="group text-left">
+                        <Link to={`/blog/${prevPost.slug || generateSlug(prevPost.title)}`} className="group text-left">
                             <span className="text-xs font-mono text-slate-500 uppercase flex items-center gap-1 mb-1 group-hover:text-sky-400 transition-colors">
                                 <ChevronLeft className="w-3 h-3" /> Previous Entry
                             </span>
@@ -219,7 +233,7 @@ export default function BlogDetail() {
                     ) : <div />}
 
                     {nextPost ? (
-                        <Link to={`/blog/${nextPost.slug || nextPost.id}`} className="group text-right">
+                        <Link to={`/blog/${nextPost.slug || generateSlug(nextPost.title)}`} className="group text-right">
                             <span className="text-xs font-mono text-slate-500 uppercase flex items-center justify-end gap-1 mb-1 group-hover:text-emerald-400 transition-colors">
                                 Next Entry <ChevronRight className="w-3 h-3" />
                             </span>

@@ -13,6 +13,7 @@ import innovationData from "./innovation.json";
 import certificationsData from "./certifications.json";
 import experienceData from "./experience.json";
 import profileData from "./profile.json";
+import educationData from "./education.json";
 
 // Helper to safely get array from data
 const getArray = (data, key) => {
@@ -26,12 +27,12 @@ const content = {
     // Base Profile Data
     hero: profileData.hero || {},
     about: profileData.about || {},
-    education: profileData.education || [],
     contact: profileData.contact || {},
     socials: profileData.socials || {},
     whatIDo: profileData.whatIDo || [],
 
     // Overrides & External Data
+    education: getArray(educationData, 'items').length ? getArray(educationData, 'items') : (profileData.education || []),
     experience: getArray(experienceData, 'experience'), // Handles both [] and { experience: [] }
     projects: getArray(projectsData, 'projects'),
     skills: skillsData || {},

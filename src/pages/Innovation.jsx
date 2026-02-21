@@ -8,6 +8,25 @@ import SEO from "../components/SEO";
 import db from "../data/innovation.json";
 import { ChevronRight, Database, Terminal, Atom, Cpu, Globe } from "lucide-react";
 
+// --- TYPE IMAGES MAPPING ---
+export const typeImages = {
+  "LISP": "https://images.unsplash.com/photo-1555680202-c86f0e12f086?q=80&w=800&auto=format&fit=crop",
+  "pyRevit / IronPython": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop",
+  "Web Utility / Animation": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+  "Web Application": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop",
+  "Engineering Logic": "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=800&auto=format&fit=crop"
+};
+
+export const getDefaultImage = (type) => {
+  if (!type) return "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop";
+  return typeImages[type.trim()] || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop";
+};
+
+export const generateSlug = (title) => {
+  if (!title) return "";
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+};
+
 // --- INNOVATION CARD COMPONENT ---
 const InnovationCard = ({ item, index }) => {
   const navigate = useNavigate();
@@ -25,11 +44,17 @@ const InnovationCard = ({ item, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      onClick={() => navigate(`/innovation/${item.slug || item.id}`)}
+      onClick={() => navigate(`/innovation/${item.slug || generateSlug(item.title)}`)}
       className="group relative bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded-2xl p-6 hover:border-purple-500/50 hover:bg-slate-900/60 transition-all duration-300 cursor-pointer overflow-hidden h-[280px] flex flex-col justify-between"
     >
+      {/* Background Image Cover */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <img src={item.image || item.glimpse || getDefaultImage(item.type)} alt={item.title} className="w-full h-full object-cover opacity-10 group-hover:opacity-30 transition-transform duration-700 group-hover:scale-110" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-slate-900/50" />
+      </div>
+
       {/* Hover Glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
 
       <div className="relative z-10 flex flex-col h-full justify-between space-y-4">
         <div>
@@ -136,18 +161,18 @@ export default function Innovation() {
       <div className="fixed top-20 right-0 w-[500px] h-[500px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-sky-500/5 blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 pt-24 md:pt-32 relative z-10 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-10 lg:px-24 pt-24 md:pt-32 relative z-10 space-y-16">
 
         {/* HEADER */}
         <header className="space-y-4">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse shadow-[0_0_10px_#a855f7]" />
-            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-purple-400">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest md:tracking-[0.3em] text-purple-400 break-words max-w-full">
               Engineering_R&D_Division
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-black italic text-slate-100 uppercase tracking-tighter leading-none">
+          <h1 className="text-4xl md:text-6xl font-black italic text-slate-100 uppercase tracking-tighter leading-none break-words max-w-full mb-2">
             <Typewriter text="Innovation" delay={100} speed={80} onComplete={() => setShowTitle(true)} />
             <br />
             {showTitle && (

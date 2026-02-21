@@ -1,110 +1,113 @@
 {
-  "items": [
-    {
-      "id": 1,
-      "title": "AutoCAD Productivity Suite",
-      "slug": "auto-cad-productivity-suite",
-      "type": "C# .NET / LISP",
-      "status": "Production Use",
-      "description": "Custom .NET plugins and advanced LISP routines developed to automate repetitive civil drafting and site level coordination tasks.",
-      "details": "Focused on increasing drafting efficiency by 40% through automated layer management, coordinate extraction, and batch printing utilities specifically for site layouts. Proven on multiple real-world residential and commercial site plans.",
-      "tech": [
-        "C#",
-        ".NET",
-        "AutoCAD API",
-        "LISP"
-      ],
-      "hasTool": true,
-      "links": {
-        "repo": "https://github.com/PRADUL-P/Tools-for-AutoCAD"
-      },
-      "showOnHome": true,
-      "glimpse": "https://images.unsplash.com/photo-1581094794329-cd56b35d878a?q=80&w=1200",
-      "glimpseType": "image"
-    },
-    {
-      "id": 2,
-      "title": "Revit BIM Automation Pro",
-      "slug": "revit-bim-automation-pro",
-      "type": "pyRevit / IronPython",
-      "status": "Live Execution",
-      "description": "A comprehensive library of pyRevit scripts designed for advanced BIM modelling, automated parameter syncing, and data-driven QA/QC.",
-      "details": "Includes tools for automated Room Data Sheet generation, parameter auditing, and bulk sheet naming. Currently used to maintain model health in complex B.Tech final year college projects and site coordination.",
-      "tech": [
-        "Python",
-        "pyRevit",
-        "Revit API",
-        "Dynamo"
-      ],
-      "hasTool": true,
-      "links": {
-        "repo": "https://github.com/PRADUL-P/Tools-for-Revit"
-      },
-      "showOnHome": true,
-      "glimpse": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200",
-      "glimpseType": "image"
-    },
-    {
-      "id": 3,
-      "title": "Digital PDF Flip-Book Engine",
-      "slug": "digital-pdf-flip-book",
-      "type": "Web Utility / Animation",
-      "status": "Live Project",
-      "description": "An interactive digital publication engine developed to convert traditional PDF documents into immersive 3D flip-books with real-time physics.",
-      "details": "Engineered a custom flip-book interface using HTML/CSS/JS that simulates physical page physics and lighting. Designed to showcase technical articles and magazines in a modern, engaging digital format.",
-      "tech": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Turn.js"
-      ],
-      "hasTool": true,
-      "links": {
-        "demo": "https://enginexus.github.io/EngiNexus-24/"
-      },
-      "showOnHome": true,
-      "glimpse": "https://images.unsplash.com/photo-1507842217159-a550bb6c0f1b?q=80&w=1200",
-      "glimpseType": "image"
-    },
-    {
-      "id": 4,
-      "title": "Personal Finance Tracker",
-      "slug": "personal-finance-tracker",
-      "type": "Web Application",
-      "status": "Live Tool",
-      "description": "A lightweight, secure money tracking web app designed for managing personal expenses and visualizing monthly financial trends.",
-      "details": "Developed as a utility tool for students and individuals to track spending. Features include expense logging, categorical visualization, and historical data persistence via local storage/backend integration.",
-      "tech": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Chart.js"
-      ],
-      "hasTool": true,
-      "links": {
-        "demo": "https://pradul-p.github.io/Money-Tracker/index.html"
-      },
-      "showOnHome": false,
-      "glimpse": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200",
-      "glimpseType": "image"
-    },
-    {
-      "id": 5,
-      "title": "AEC Calculation Engine",
-      "slug": "aec-calculation-engine",
-      "type": "Engineering Logic",
-      "status": "Live Modules",
-      "description": "A suite of high-precision engineering calculators integrated directly into the web, bridging structural analysis formulas with interactive UI.",
-      "details": "Includes the Beam Analyzer, Gradient Solver, and Scale Converter. These tools allow site engineers to perform complex checks on-site without needing heavy desktop software, ensuring data-driven decisions on the ground.",
-      "tech": [
-        "React",
-        "Mathematics",
-        "SVG Animations"
-      ],
-      "hasTool": true,
-      "showOnHome": false,
-      "glimpse": "",
-      "glimpseType": "none"
-    }
-  ]
+    "items": [
+        {
+            "timestamp": "",
+            "id": 1,
+            "title": "AutoCAD Productivity Suite",
+            "type": " LISP",
+            "status": "Production Use",
+            "description": "Custom .NET plugins and advanced LISP routines developed to automate repetitive civil drafting and site level coordination tasks.",
+            "details": "Focused on increasing drafting efficiency by 40% through automated layer management, coordinate extraction, and batch printing utilities specifically for site layouts. Proven on multiple real-world residential and commercial site plans.",
+            "tech": [
+                "C#",
+                ".NET",
+                "AutoCAD API",
+                "LISP"
+            ],
+            "repo_link": "https://github.com/PRADUL-P/Tools-for-AutoCAD",
+            "demo_link": "",
+            "visible": true,
+            "image": "",
+            "use_cases": "",
+            "features": "",
+            "impact": ""
+        },
+        {
+            "timestamp": "",
+            "id": 2,
+            "title": "Revit BIM Automation",
+            "type": "pyRevit / IronPython",
+            "status": "Live Execution",
+            "description": "A comprehensive library of pyRevit scripts designed for advanced BIM modelling, automated parameter syncing, and data-driven QA/QC.",
+            "details": "Includes tools for automated Room Data Sheet generation, parameter auditing, and bulk sheet naming. Currently used to maintain model health in complex B.Tech final year college projects and site coordination.",
+            "tech": [
+                "Python",
+                "pyRevit",
+                "Revit API",
+                "Dynamo"
+            ],
+            "repo_link": "https://github.com/PRADUL-P/Tools-for-Revit",
+            "demo_link": "",
+            "visible": true,
+            "image": "",
+            "use_cases": "",
+            "features": "",
+            "impact": ""
+        },
+        {
+            "timestamp": "",
+            "id": 3,
+            "title": "Digital PDF Flip-Book Engine",
+            "type": "Web Utility / Animation",
+            "status": "Live Project",
+            "description": "An interactive digital publication engine developed to convert traditional PDF documents into immersive 3D flip-books with real-time physics.",
+            "details": "Engineered a custom flip-book interface using HTML/CSS/JS that simulates physical page physics and lighting. Designed to showcase technical articles and magazines in a modern, engaging digital format.",
+            "tech": [
+                "HTML",
+                "CSS",
+                "JavaScript",
+                "Turn.js"
+            ],
+            "repo_link": "",
+            "demo_link": "https://enginexus.github.io/EngiNexus-24/",
+            "visible": true,
+            "image": "",
+            "use_cases": "",
+            "features": "",
+            "impact": ""
+        },
+        {
+            "timestamp": "",
+            "id": 4,
+            "title": "Personal Finance Tracker",
+            "type": "Web Application",
+            "status": "Live Tool",
+            "description": "A lightweight, secure money tracking web app designed for managing personal expenses and visualizing monthly financial trends.",
+            "details": "Developed as a utility tool for students and individuals to track spending. Features include expense logging, categorical visualization, and historical data persistence via local storage/backend integration.",
+            "tech": [
+                "HTML",
+                "CSS",
+                "JavaScript",
+                "Chart.js"
+            ],
+            "repo_link": "",
+            "demo_link": "https://pradul-p.github.io/Money-Tracker/index.html",
+            "visible": true,
+            "image": "",
+            "use_cases": "",
+            "features": "",
+            "impact": ""
+        },
+        {
+            "timestamp": "",
+            "id": 5,
+            "title": "AEC Calculation Engine",
+            "type": "Engineering Logic",
+            "status": "Live Modules",
+            "description": "A suite of high-precision engineering calculators integrated directly into the web, bridging structural analysis formulas with interactive UI.",
+            "details": "Includes the Beam Analyzer, Gradient Solver, and Scale Converter. These tools allow site engineers to perform complex checks on-site without needing heavy desktop software, ensuring data-driven decisions on the ground.",
+            "tech": [
+                "React",
+                "Mathematics",
+                "SVG Animations"
+            ],
+            "repo_link": "",
+            "demo_link": "",
+            "visible": false,
+            "image": "",
+            "use_cases": "",
+            "features": "",
+            "impact": ""
+        }
+    ]
 }

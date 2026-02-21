@@ -21,6 +21,8 @@ import {
     MessageCircle,
     Mail
 } from "lucide-react";
+import { generateSlug } from "../pages/Blog";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 
 // Animations
 import { fadeInUp, containerVariants, itemVariants } from "../utils/animations";
@@ -78,6 +80,39 @@ export default function Home() {
         contact = {}
     } = content;
 
+    const { data: cmsProjects } = useGoogleCMS("projects");
+    const { data: cmsBlog } = useGoogleCMS("blog");
+    const { data: cmsInnovation } = useGoogleCMS("innovation");
+    const { data: cmsExperience } = useGoogleCMS("experience");
+
+    // Use CMS data if available, otherwise fallback to local JSON
+    const displayProjects = cmsProjects?.length ? cmsProjects : (projects || []);
+    const displayInnovation = cmsInnovation?.length ? cmsInnovation : (innovation || []);
+    const displayExperience = cmsExperience?.length ? cmsExperience : (experience || []);
+
+    // Logic to calculate dynamic stats
+    const calculateYears = () => {
+        if (!displayExperience.length) return 5;
+        const years = displayExperience.map(e => {
+            const dateStr = String(e.period || "").split(/[—-]/)[0];
+            const match = dateStr.match(/\d{4}/);
+            return match ? parseInt(match[0]) : null;
+        }).filter(Boolean);
+        if (!years.length) return 5;
+        return new Date().getFullYear() - Math.min(...years);
+    };
+
+    const stats = {
+        years: calculateYears(),
+        projects: displayProjects.length,
+        tools: displayInnovation.length,
+        designs: 50 // Keeping this as a summary of all site works
+    };
+
+    // For blog, we sort by date descending and take the latest visible post
+    const allBlogs = cmsBlog?.length ? cmsBlog : (blog || []);
+    const latestBlog = allBlogs.filter(p => p.visible !== false).sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
     // Typing Sequence State
     const [showName, setShowName] = useState(false);
     const [showHeadline, setShowHeadline] = useState(false);
@@ -97,9 +132,25 @@ export default function Home() {
         return () => clearInterval(interval);
     }, []);
 
-    const currentRole = experience.find(e => e.isCurrent) || experience[0];
-    const primaryEmail = contact.email || "pradul.p123@gmail.com";
+    const currentRole = displayExperience.find(e => e.isCurrent) || displayExperience[0];
+    const primaryEmail = contact.email || "pradul.public@gmail.com";
     const whatsappNumber = (contact.whatsapp || "918078376902").replace(/[^0-9]/g, "");
+
+    const formatDate = (iso) => {
+        if (!iso) return "";
+        try {
+            // Check for ISO Date string (like 2026-01-19T18:30:00.000Z)
+            if (/^\d{4}-\d{2}-\d{2}T/.test(String(iso))) {
+                const d = new Date(iso);
+                if (!isNaN(d.getTime())) {
+                    return d.toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "2-digit" });
+                }
+            }
+            return String(iso);
+        } catch {
+            return String(iso);
+        }
+    };
 
     return (
         <main className="min-h-screen
@@ -341,7 +392,7 @@ export default function Home() {
                                             </div>
                                             <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Specialization</div>
                                         </div>
-                                        <div className="text-xl font-bold text-slate-100 pl-2 border-l-2 border-sky-500">BIM & Digital Twin</div>
+                                        <div className="text-xl font-bold text-slate-100 pl-2 border-l-2 border-sky-500">BIM & Digital Engineering</div>
                                     </div>
                                 </div>
                             </div>
@@ -427,17 +478,17 @@ export default function Home() {
                             View All <ArrowRight className="w-4 h-4" />
                         </Link>
                     </div>
-                    <FeaturedSection projects={projects} maxItems={6} />
+                    <FeaturedSection projects={displayProjects?.filter(p => p.visible !== false)} maxItems={6} />
                 </section>
 
                 {/* ================= CERTIFICATIONS & ACHIEVEMENTS (5) ================= */}
                 {/* Stats Counter integrated here or separate? Keeping logical flow. */}
                 <section className="border-y border-slate-800/50 bg-slate-900/20 backdrop-blur-sm -mx-4 px-4 md:-mx-0 md:px-0 md:rounded-2xl">
                     <div className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-slate-800/50">
-                        <StatsCounter from={0} to={2} duration={1000} suffix="+" label="YEARS EXPERIENCE" />
-                        <StatsCounter from={0} to={projects.length || 10} duration={1500} suffix="+" label="PROJECTS DELIVERED" />
-                        <StatsCounter from={0} to={content.certifications?.length || 6} duration={1200} suffix="+" label="CERTIFICATIONS" />
-                        <StatsCounter from={0} to={100} duration={2000} suffix="%" label="COMMITMENT" />
+                        <StatsCounter from={0} to={stats.years} duration={1} suffix="+" label="YEARS EXPERIENCE" />
+                        <StatsCounter from={0} to={stats.projects} duration={1.5} suffix="+" label="PROJECTS DELIVERED" />
+                        <StatsCounter from={0} to={stats.tools} duration={1.2} suffix="+" label="ENGINEERING TOOLS" />
+                        <StatsCounter from={0} to={stats.designs} duration={2} suffix="+" label="SITE WORKS" />
                     </div>
                 </section>
 
@@ -495,21 +546,21 @@ export default function Home() {
                 )}
 
                 {/* ================= LATEST NOTE (9) ================= */}
-                {blog?.[0] && (
+                {latestBlog?.[0] && (
                     <section>
                         <SectionTitle>Latest Note</SectionTitle>
-                        <Link to="/blog" className="group block relative rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden hover:border-sky-500/50 transition-all duration-500 p-8">
+                        <Link to={`/blog/${latestBlog[0].slug || generateSlug(latestBlog[0].title)}`} className="group block relative rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden hover:border-sky-500/50 transition-all duration-500 p-8">
                             <div className="flex flex-col md:flex-row gap-8 items-start">
                                 <div className="flex-1 space-y-4">
                                     <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
-                                        <span className="text-emerald-400">{blog[0].date}</span>
+                                        <span className="text-emerald-400">{formatDate(latestBlog[0].date)}</span>
                                         <span>•</span>
-                                        <span className="text-slate-400">{blog[0].readTime || "Read now"}</span>
+                                        <span className="text-slate-400">{latestBlog[0].readtime || latestBlog[0].readTime || "Read now"}</span>
                                     </div>
                                     <h3 className="text-2xl font-bold text-slate-100 group-hover:text-sky-400 transition-colors leading-tight">
-                                        {blog[0].title}
+                                        {latestBlog[0].title}
                                     </h3>
-                                    <p className="text-sm text-slate-400 leading-relaxed max-w-3xl">{blog[0].summary}</p>
+                                    <p className="text-sm text-slate-400 leading-relaxed max-w-3xl">{latestBlog[0].summary}</p>
                                 </div>
                                 <div className="md:self-center">
                                     <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-sky-400 transition-colors border border-slate-700 rounded-full px-4 py-2 group-hover:border-sky-500/50">

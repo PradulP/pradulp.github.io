@@ -4,6 +4,7 @@ import content from "../data/index";
 import localData from "../data/innovation.json";
 import { useMemo } from "react";
 import useShowOnHomeOverrides from "../hooks/useShowOnHomeOverrides";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 /**
  * InnovationPreview
  * Props:
@@ -19,7 +20,14 @@ import useShowOnHomeOverrides from "../hooks/useShowOnHomeOverrides";
  */
 
 export default function InnovationPreview({ limit = 3, pick = null, onOpen = () => { } }) {
-  const items = Array.isArray(localData) ? localData : (Array.isArray(localData?.items) ? localData.items : []);
+  const { data: cmsInnovation } = useGoogleCMS("innovation");
+
+  const items = useMemo(() => {
+    return (cmsInnovation && cmsInnovation.length > 0)
+      ? cmsInnovation
+      : (Array.isArray(localData) ? localData : (Array.isArray(localData?.items) ? localData.items : []));
+  }, [cmsInnovation]);
+
   const contentPick = Array.isArray(content?.homeInnovation) ? content.homeInnovation : null;
 
   // new: get overrides

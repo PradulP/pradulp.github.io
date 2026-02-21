@@ -50,10 +50,12 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
 
   /* ================= IMAGE FALLBACK ================= */
 
+  const demoLink = selected?.demo_link || (typeof selected?.links === 'object' ? selected?.links?.demo : null);
+
   const hasYoutube =
-    selected?.links?.demo &&
-    (selected.links.demo.includes("youtube.com") ||
-      selected.links.demo.includes("youtu.be"));
+    demoLink &&
+    (demoLink.includes("youtube.com") ||
+      demoLink.includes("youtu.be"));
 
   /* ================= UI HELPERS ================= */
 
@@ -93,8 +95,8 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
                   key={p.id}
                   onClick={() => setSelectedIndex(idx)}
                   className={`w-full text-left p-3 rounded-xl flex gap-3 transition-all duration-300 group ${idx === selectedIndex
-                      ? "bg-slate-800/80 border-l-4 border-sky-500 shadow-lg"
-                      : "hover:bg-slate-800/40 border-l-4 border-transparent"
+                    ? "bg-slate-800/80 border-l-4 border-sky-500 shadow-lg"
+                    : "hover:bg-slate-800/40 border-l-4 border-transparent"
                     }`}
                 >
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold transition-colors ${idx === selectedIndex ? "bg-sky-500 text-slate-900" : "bg-slate-800 text-slate-400 group-hover:text-slate-200"
@@ -203,12 +205,34 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
 
                 {hasYoutube && (
                   <a
-                    href={selected.links.demo}
+                    href={demoLink}
                     target="_blank"
                     rel="noreferrer"
                     className="px-4 py-1.5 rounded-full border border-red-900/50 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-medium transition flex items-center gap-2"
                   >
                     <span>▶</span> YouTube
+                  </a>
+                )}
+
+                {demoLink && !hasYoutube && (
+                  <a
+                    href={demoLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-1.5 rounded-full border border-emerald-900/50 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-medium transition"
+                  >
+                    Live Demo
+                  </a>
+                )}
+
+                {selected?.links?.repo && (
+                  <a
+                    href={selected.links.repo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-1.5 rounded-full border border-slate-600 hover:border-sky-400 hover:text-sky-400 text-slate-300 text-xs font-medium transition"
+                  >
+                    Source Code
                   </a>
                 )}
               </div>

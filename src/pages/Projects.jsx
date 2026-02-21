@@ -16,10 +16,10 @@ function ProjectCard({ proj, index }) {
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
+      transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
       onClick={() => navigate(`/projects/${proj.id}`)}
       className="group relative flex flex-col bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden cursor-pointer hover:border-sky-500/50 transition-all duration-500 shadow-2xl"
     >
@@ -159,6 +159,7 @@ export default function Projects() {
         if (typeof p.visible === 'string' && p.visible.toLowerCase() === 'false') return false;
         return true;
       })
+      .sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0))
       .map(p => ({
         ...p,
         // Normalize CMS flat fields to match JSON structure

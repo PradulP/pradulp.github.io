@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "sync": "node scripts/fetch-live-data.js",
-    "predeploy": "npm run sync && npm run build",
+    "sitemap": "node scripts/generate-sitemap.js",
+    "predeploy": "npm run sync && npm run sitemap && npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

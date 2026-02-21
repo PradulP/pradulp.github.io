@@ -16,8 +16,25 @@ import {
   Cpu,
   LayoutGrid,
   Filter,
-  ChevronRight
+  ChevronRight,
+  Image as ImageIcon
 } from "lucide-react";
+
+// --- TAG IMAGES MAPPING ---
+export const tagImages = {
+  "Automation": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop",
+  "Web Dev": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop",
+  "Strategy": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
+  "CAD": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800&auto=format&fit=crop",
+  "BIM": "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800&auto=format&fit=crop",
+  "Career": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop",
+  "Cloud": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop"
+};
+
+export const generateSlug = (title) => {
+  if (!title) return "";
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+};
 
 // --- BLOG CARD COMPONENT (Project-Style) ---
 function BlogCard({ post, index }) {
@@ -35,30 +52,23 @@ function BlogCard({ post, index }) {
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
-      onClick={() => navigate(`/blog/${post.slug || post.id}`)}
+      transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
+      onClick={() => navigate(`/blog/${post.slug || generateSlug(post.title)}`)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="group relative flex flex-col bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden cursor-pointer hover:border-sky-500/50 transition-all duration-500 shadow-2xl h-[320px]"
     >
-      {/* Abstract Cover Area (Replaces Image) */}
+      {/* Abstract Cover Area (Image) */}
       <div className="relative h-40 overflow-hidden bg-slate-900/50 border-b border-slate-800/50">
-        {/* Decorative Icon */}
-        <div className="absolute -right-4 -top-4 opacity-10 rotate-12 transition-transform duration-700 group-hover:rotate-0 group-hover:scale-110">
-          <FileText className="w-32 h-32 text-sky-500" />
-        </div>
-
-        {/* Scanner Line */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
-          <motion.div
-            className="w-full h-1/2 bg-gradient-to-b from-transparent via-sky-400 to-transparent"
-            animate={{ y: ["-100%", "200%"] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-          />
-        </div>
+        <img
+          src={post.image || tagImages[post.tag] || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop"}
+          alt={post.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
 
         {/* HUD Elements */}
         <div className="absolute top-3 left-3 flex gap-2">
@@ -74,7 +84,7 @@ function BlogCard({ post, index }) {
         </div>
 
         <div className="absolute bottom-3 left-3">
-          <span className="text-[9px] font-mono font-bold py-0.5 px-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded uppercase tracking-wider">
+          <span className="text-[9px] font-mono font-bold py-0.5 px-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded uppercase tracking-wider backdrop-blur-sm">
             {post.tag}
           </span>
         </div>
@@ -116,13 +126,15 @@ export default function Blog() {
   const blogPosts = useMemo(() => {
     const raw = (Array.isArray(cmsPosts) && cmsPosts.length > 0) ? cmsPosts : localPosts;
     if (!Array.isArray(raw)) return [];
-    return raw.filter(post => {
-      // Show by default unless explicitly set to FALSE properties
-      if (post.visible === false) return false;
-      if (typeof post.visible === 'string' && post.visible.toLowerCase() === 'false') return false;
-      return true;
-    });
-  }, [cmsPosts]);
+    return raw
+      .filter(post => {
+        // Show by default unless explicitly set to FALSE properties
+        if (post.visible === false) return false;
+        if (typeof post.visible === 'string' && post.visible.toLowerCase() === 'false') return false;
+        return true;
+      })
+      .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+  }, [cmsPosts, localPosts]);
 
   const tags = ["All", ...Array.from(new Set(blogPosts.map((p) => p.tag).filter(Boolean))).sort()];
 

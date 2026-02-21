@@ -1,8 +1,9 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion, useScroll, useSpring } from "framer-motion";
 import db from "../data/innovation.json";
 import content from "../data/index";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 import SEO from "../components/SEO";
 import {
     ChevronLeft,
@@ -16,8 +17,10 @@ import {
     Share2,
     MessageCircle,
     Mail,
-    Play
+    Play,
+    Globe
 } from "lucide-react";
+import { getDefaultImage, generateSlug } from "./Innovation";
 
 // --- CALCULATORS (Same as before) ---
 const BeamCalculator = () => {
@@ -135,12 +138,14 @@ export default function InnovationDetail() {
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
+    const { data: cmsInnovation } = useGoogleCMS("innovation");
     const items = useMemo(() => {
+        if (cmsInnovation && cmsInnovation.length > 0) return cmsInnovation;
         return (db.items && db.items.length > 0) ? db.items : (content.innovation || []);
-    }, []);
+    }, [cmsInnovation]);
 
     // Find by Slug or ID
-    const index = useMemo(() => items.findIndex(item => (item.slug === id) || (String(item.id) === String(id))), [items, id]);
+    const index = useMemo(() => items.findIndex(item => (item.slug === id) || (String(item.id) === String(id)) || (generateSlug(item.title) === id)), [items, id]);
     const item = items[index];
     const prevItem = items[index - 1];
     const nextItem = items[index + 1];
@@ -177,7 +182,7 @@ export default function InnovationDetail() {
             <SEO title={item.title} description={item.description} />
             <motion.div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 via-purple-500 to-emerald-500 origin-left z-50" style={{ scaleX }} />
 
-            <div className="relative z-10 max-w-5xl mx-auto px-6 py-24 md:py-32">
+            <div className="relative z-10 max-w-5xl mx-auto px-4 md:px-10 lg:px-24 py-24 md:py-32">
                 <Link to="/innovation" className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-500 hover:text-sky-400 mb-8 uppercase tracking-widest transition-colors group">
                     <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Lab
                 </Link>
@@ -210,7 +215,7 @@ export default function InnovationDetail() {
                 </header>
 
                 {/* Media Preview (Glimpse) Section */}
-                {item.glimpse && (
+                {(item.glimpse || item.image || getDefaultImage(item.type)) && (
                     <div className="mb-12 rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl relative group">
                         {item.glimpseType === 'video' ? (
                             <div className="aspect-video bg-neutral-900 flex items-center justify-center relative">
@@ -220,12 +225,19 @@ export default function InnovationDetail() {
                         ) : (
                             <div className="aspect-video bg-neutral-900 relative">
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80 z-10" />
-                                <img src={item.glimpse} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
+                                <img src={item.image || item.glimpse || getDefaultImage(item.type)} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
                                 <div className="absolute bottom-6 left-6 z-20">
-                                    <div className="bg-slate-950/80 backdrop-blur-md px-4 py-2 rounded-lg border border-slate-700 flex items-center gap-2">
-                                        <Play className="w-4 h-4 text-purple-400" fill="currentColor" />
-                                        <span className="text-xs font-mono font-bold uppercase tracking-widest text-slate-200">System_Preview</span>
-                                    </div>
+                                    {item.demo_link ? (
+                                        <a href={item.demo_link} target="_blank" rel="noreferrer" className="bg-slate-950/80 backdrop-blur-md px-4 py-2 rounded-lg border border-slate-700 flex items-center gap-2 hover:border-purple-500/50 transition-colors group/btn">
+                                            <Play className="w-4 h-4 text-purple-400 group-hover/btn:scale-110 transition-transform" fill="currentColor" />
+                                            <span className="text-xs font-mono font-bold uppercase tracking-widest text-slate-200">Launch Live System</span>
+                                        </a>
+                                    ) : (
+                                        <div className="bg-slate-950/80 backdrop-blur-md px-4 py-2 rounded-lg border border-slate-700 flex items-center gap-2">
+                                            <Database className="w-4 h-4 text-sky-400" />
+                                            <span className="text-xs font-mono font-bold uppercase tracking-widest text-slate-200">System Blueprint</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}
@@ -235,22 +247,60 @@ export default function InnovationDetail() {
                 {/* Body Content */}
                 <div className="space-y-12 mb-20">
                     <div className="grid md:grid-cols-2 gap-8">
-                        <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm">
-                            <h3 className="text-sm font-bold uppercase tracking-widest text-sky-400 mb-4 flex items-center gap-2"><Database className="w-4 h-4" /> Technical Description</h3>
-                            <p className="text-slate-300 leading-relaxed">{item.details}</p>
+                        <div className="space-y-8">
+                            <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm">
+                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-400 mb-4 flex items-center gap-2"><Database className="w-4 h-4" /> Technical Description</h3>
+                                <p className="text-slate-300 leading-relaxed mb-6">{item.details}</p>
+
+                                {item.impact && (
+                                    <div className="p-4 bg-sky-500/5 border border-sky-500/20 rounded-xl">
+                                        <p className="text-[10px] font-bold uppercase tracking-widest text-sky-400 mb-2">System Impact</p>
+                                        <p className="text-sm text-sky-100 font-medium">{item.impact}</p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {item.use_cases && item.use_cases.length > 0 && (
+                                <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm">
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-emerald-400 mb-4 flex items-center gap-2"><Globe className="w-4 h-4" /> Practical Use Cases</h3>
+                                    <ul className="space-y-3">
+                                        {item.use_cases.map((uc, i) => (
+                                            <li key={i} className="flex items-start gap-3 text-sm text-slate-300">
+                                                <ChevronRight className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                                                {uc}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
-                        <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm flex flex-col justify-between">
-                            <div>
+
+                        <div className="flex flex-col gap-8">
+                            <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm">
                                 <h3 className="text-sm font-bold uppercase tracking-widest text-purple-400 mb-4 flex items-center gap-2"><Cpu className="w-4 h-4" /> Tech Stack</h3>
-                                <div className="flex flex-wrap gap-2 mb-8">
+                                <div className="flex flex-wrap gap-2 mb-2">
                                     {item.tech.map((t, i) => (
                                         <span key={i} className="px-3 py-1.5 bg-slate-950 text-slate-400 font-mono text-xs uppercase font-bold border border-slate-800 rounded-lg">{t}</span>
                                     ))}
                                 </div>
                             </div>
 
+                            {item.features && item.features.length > 0 && (
+                                <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm flex-1">
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-amber-400 mb-4 flex items-center gap-2"><Atom className="w-4 h-4" /> Key Features</h3>
+                                    <ul className="space-y-3">
+                                        {item.features.map((ft, i) => (
+                                            <li key={i} className="flex items-start gap-3 text-sm text-slate-300">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)] shrink-0 mt-1.5" />
+                                                {ft}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
                             {/* Request Access Area */}
-                            <div className="pt-6 border-t border-slate-800/50">
+                            <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm mt-auto">
                                 <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-3">Request Full Access</p>
                                 <div className="flex gap-2">
                                     <button onClick={handleContactRedirect} className="flex-1 py-2 bg-sky-900/20 hover:bg-sky-500/20 border border-sky-500/30 text-sky-400 text-xs font-bold uppercase tracking-wider rounded flex items-center justify-center gap-2 transition-all">
@@ -280,13 +330,13 @@ export default function InnovationDetail() {
                 {/* Navigation Footer */}
                 <div className="border-t border-slate-800 pt-12 flex flex-col md:flex-row justify-between gap-6">
                     {prevItem ? (
-                        <Link to={`/innovation/${prevItem.slug || prevItem.id}`} className="group text-left">
+                        <Link to={`/innovation/${prevItem.slug || generateSlug(prevItem.title)}`} className="group text-left">
                             <span className="text-xs font-mono text-slate-500 uppercase flex items-center gap-1 mb-1 group-hover:text-purple-400 transition-colors"><ChevronLeft className="w-3 h-3" /> Previous System</span>
                             <h4 className="text-lg font-bold text-slate-200 line-clamp-1 group-hover:underline decoration-purple-500/50 underline-offset-4">{prevItem.title}</h4>
                         </Link>
                     ) : <div />}
                     {nextItem ? (
-                        <Link to={`/innovation/${nextItem.slug || nextItem.id}`} className="group text-right">
+                        <Link to={`/innovation/${nextItem.slug || generateSlug(nextItem.title)}`} className="group text-right">
                             <span className="text-xs font-mono text-slate-500 uppercase flex items-center justify-end gap-1 mb-1 group-hover:text-emerald-400 transition-colors">Next System <ChevronRight className="w-3 h-3" /></span>
                             <h4 className="text-lg font-bold text-slate-200 line-clamp-1 group-hover:underline decoration-emerald-500/50 underline-offset-4">{nextItem.title}</h4>
                         </Link>

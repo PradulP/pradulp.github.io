@@ -47,6 +47,55 @@ function doGet() {
   return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
 }
 
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+
+  try {
+    var doc = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = doc.getSheetByName("contact") || doc.getSheetByName("Contact");
+    if (!sheet) {
+      sheet = doc.insertSheet("contact");
+      sheet.appendRow(["Timestamp", "Name", "Email", "Phone", "Topic", "Message"]);
+    }
+
+    var rowData = [
+      new Date(),
+      e.parameter.Name || "",
+      e.parameter.Email || "",
+      e.parameter.Phone || "",
+      e.parameter.Topic || "",
+      e.parameter.Message || ""
+    ];
+
+    sheet.appendRow(rowData);
+
+    // Send Email Notification
+    var EMAIL_TO = "pradul.public@gmail.com";
+    if (EMAIL_TO) {
+       var subject = "Portfolio Inquiry from " + (e.parameter.Name || "Visitor");
+       var body = "Name: " + (e.parameter.Name || "") + "\n" +
+                  "Email: " + (e.parameter.Email || "") + "\n" +
+                  "Phone: " + (e.parameter.Phone || "") + "\n" +
+                  "Topic: " + (e.parameter.Topic || "") + "\n" +
+                  "Message: \n" + (e.parameter.Message || "");
+       
+       MailApp.sendEmail(EMAIL_TO, subject, body);
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ 'result': 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ 'result': 'error', 'error': err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
 // RUN THIS FUNCTION ONCE TO CREATE FORMS
 function setupForms() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();

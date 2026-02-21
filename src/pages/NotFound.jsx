@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
-import { AlertTriangle, Home, RefreshCcw } from "lucide-react";
+import { AlertTriangle, Home, RefreshCcw, MessageCircle, Mail } from "lucide-react";
 import Typewriter from "../components/Typewriter";
 
 const NotFound = () => {
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const waMessage = `Hi, I encountered an issue on your portfolio at: ${currentUrl}`;
+  const contactMessage = `I encountered a 404 error at: ${currentUrl}`;
+
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 relative overflow-hidden">
 
@@ -40,20 +44,34 @@ const NotFound = () => {
           The requested module is strictly offline or doesn't exist.
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-3 pt-4">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 pt-4 flex-wrap">
           <Link
             to="/"
-            className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-widest transition-all shadow-lg hover:shadow-sky-500/20 active:scale-95"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-widest transition-all shadow-lg hover:shadow-sky-500/20 active:scale-95"
           >
-            <RefreshCcw className="w-4 h-4" />
-            System Reboot (Home)
+            <Home className="w-4 h-4" />
+            Home
           </Link>
-          <Link
-            to="/contact"
-            className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-slate-700 hover:border-slate-500 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold text-xs uppercase tracking-widest transition-all active:scale-95"
-          >
-            Report Issue
-          </Link>
+
+          <div className="flex w-full sm:w-auto gap-2">
+            <a
+              href={`https://wa.me/918078376902?text=${encodeURIComponent(waMessage)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-emerald-500/30 hover:border-emerald-500/60 bg-slate-900/50 hover:bg-emerald-900/20 text-emerald-400 font-bold text-xs uppercase tracking-widest transition-all active:scale-95"
+            >
+              <MessageCircle className="w-4 h-4" />
+              WhatsApp
+            </a>
+
+            <Link
+              to={`/contact?topic=Bug%20Report&msg=${encodeURIComponent(contactMessage)}`}
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-slate-700 hover:border-slate-500 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold text-xs uppercase tracking-widest transition-all active:scale-95"
+            >
+              <Mail className="w-4 h-4" />
+              Report
+            </Link>
+          </div>
         </div>
       </div>
     </div>

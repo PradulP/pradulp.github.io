@@ -1,324 +1,394 @@
 {
-  "projects": [
-    {
-      "id": "energy-efficient-college",
-      "title": "Energy Efficient College Building",
-      "subtitle": "Integrated planning, structural design & energy optimisation",
-      "type": "Civil / BIM",
-      "category": "civil",
-      "year": "2024",
-      "duration": "Oct 2023 — May 2024",
-      "role": "Lead Designer & BIM Modeler",
-      "location": "Kerala, India (Academic Project)",
-      "scope": "Planning · Structural Design · Energy Simulation · Estimation · G+2 · ~24,000 sq.ft",
-      "summary": "Designed an energy-efficient G+2 educational facility using an integrated BIM workflow, covering site analysis, architectural planning, structural design, energy optimisation, cost estimation, and visualization.",
-      "overview": "Final-year project focused on developing a sustainable institutional building with reduced energy demand while maintaining structural safety and functional efficiency. The workflow progressed from site assessment to analysis, simulation, and documentation following NBC, KMBR, and relevant IS codes.",
-      "objectives": [
-        "Minimize operational energy demand using passive design strategies",
-        "Ensure structural safety and code compliance",
-        "Develop a coordinated BIM model (LOD 350)",
-        "Generate accurate quantity take-offs and cost estimation"
-      ],
-      "approach": [
+    "projects": [
         {
-          "title": "Site Analysis & Planning",
-          "desc": "Studied orientation, solar exposure, and wind conditions to optimise building placement."
+            "timestamp": "",
+            "id": "energy-efficient-college",
+            "title": "Energy Efficient College Building",
+            "subtitle": "Planning, analysis, design & energy optimisation",
+            "type": "Civil / BIM",
+            "category": "civil",
+            "year": 2024,
+            "role": "Final Year B.Tech Project",
+            "summary": "Designed an energy-efficient G+2 educational facility using an integrated BIM workflow, covering site analysis, architectural planning, structural design, energy optimisation, cost estimation, and visualization.",
+            "tech": [
+                "Revit ",
+                " ETABS ",
+                " AutoCAD ",
+                " Autodesk Green Building Studio ",
+                " Twinmotion ",
+                " Microsoft Excel"
+            ],
+            "highlights": [
+                "Coordinated BIM model as a single source of project data ",
+                " Energy optimisation through simulation ",
+                " Design compliant with NBC, KMBR, and IS codes ",
+                " Construction-ready drawings and estimates"
+            ],
+            "images": [
+                "/projects/p2.webp",
+                "/projects/p2.webp",
+                "/projects/p3.webp",
+                "/projects/p4.webp"
+            ],
+            "demo_link": "https://www.youtube.com/playlist?list=PLBip7ccT-VcvewoYcRrg2QGc7Ix3mKT8O",
+            "repo_link": "",
+            "visible": true,
+            "duration": "Oct 2023 — May 2024",
+            "location": "Kerala, India (Academic Project)",
+            "scope": "Planning  Structural Design  Energy Simulation  Estimation  G+2  ~24,000 sq.ft",
+            "overview": "Final-year project focused on developing a sustainable institutional building with reduced energy demand while maintaining structural safety and functional efficiency. The workflow progressed from site assessment to analysis, simulation, and documentation following NBC, KMBR, and relevant IS codes.",
+            "objectives": [
+                "Minimize operational energy demand using passive design strategies",
+                "Ensure structural safety and code compliance",
+                "Develop a coordinated BIM model (LOD 350)",
+                "Generate accurate quantity take-offs and cost estimation"
+            ],
+            "approach": [
+                {
+                    "title": "Site Analysis & Planning",
+                    "desc": "Studied orientation, solar exposure, and wind conditions to optimise building placement."
+                },
+                {
+                    "title": "Architectural BIM Modeling",
+                    "desc": "Developed architectural model with functional zoning and shading strategies."
+                },
+                {
+                    "title": "Structural Analysis",
+                    "desc": "Analyzed structural elements in ETABS for safety under design loads."
+                },
+                {
+                    "title": "Energy Simulation",
+                    "desc": "Evaluated thermal performance using Green Building Studio."
+                },
+                {
+                    "title": "Documentation",
+                    "desc": "Prepared drawings, schedules, estimates, and visualisations."
+                },
+                {
+                    "title": "Area Analysis",
+                    "desc": "Total Built-up Area: ~24,000 sq.ft across G+2 floors."
+                }
+            ],
+            "outcome": "Demonstrated integrated BIM workflow combining sustainability, structural safety, and functional planning. Achieved significant energy savings potential.",
+            "caption": "Front perspective view of the proposed academic building showcasing shading devices and architectural form."
         },
         {
-          "title": "Architectural BIM Modeling",
-          "desc": "Developed architectural model with functional zoning and shading strategies."
+            "timestamp": "",
+            "id": "smart-city-bim",
+            "title": "A Visionary Smart City",
+            "subtitle": "Urban-scale BIM concept design",
+            "type": "Civil / BIM",
+            "category": "civil",
+            "year": 2023,
+            "role": "BIM Modeler",
+            "summary": "Conceptual smart city design using BIM tools focusing on zoning, planning, and sustainable infrastructure.",
+            "tech": [
+                "Revit",
+                "AutoCAD"
+            ],
+            "highlights": [
+                "Prepared conceptual BIM models for urban planning.",
+                "Explored sustainable infrastructure layouts.",
+                "Created city-level visualisations."
+            ],
+            "images": [
+                "/projects/S11.webp",
+                "/projects/S22.webp"
+            ],
+            "demo_link": "https://youtu.be/WiaV3NmNlXg",
+            "repo_link": "",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
         },
         {
-          "title": "Structural Analysis",
-          "desc": "Analyzed structural elements in ETABS for safety under design loads."
+            "timestamp": "",
+            "id": "commercial-building-bim",
+            "title": "Commercial Building – BIM Design",
+            "subtitle": "Complete BIM workflow for a commercial project",
+            "type": "Civil / BIM",
+            "category": "civil",
+            "year": 2023,
+            "role": "BIM Modeler",
+            "summary": "Designed a commercial building using BIM tools with detailed modelling, drawings, and visualisation.",
+            "tech": [
+                "Revit",
+                "AutoCAD",
+                "Enscape"
+            ],
+            "highlights": [
+                "Created detailed BIM models.",
+                "Generated coordinated drawings.",
+                "Produced realistic renders."
+            ],
+            "images": [
+                "/projects/C11.webp",
+                "/projects/C12.webp",
+                "/projects/C13.webp",
+                "/projects/C14.webp"
+            ],
+            "demo_link": "https://youtu.be/l7f6IUEXNOE",
+            "repo_link": "",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
         },
         {
-          "title": "Energy Simulation",
-          "desc": "Evaluated thermal performance using Green Building Studio."
+            "timestamp": "",
+            "id": "residential-revit-series",
+            "title": "Residential Building Designs (Revit)",
+            "subtitle": "Multiple house design models",
+            "type": "Civil / BIM",
+            "category": "civil",
+            "year": 2022,
+            "role": "BIM Modeler",
+            "summary": "Series of residential house design projects using Revit and Enscape for modelling and visualisation.",
+            "tech": [
+                "Revit",
+                "AutoCAD",
+                "Enscape"
+            ],
+            "highlights": [
+                "Developed multiple parametric Revit models.",
+                "Prepared drawings and schedules.",
+                "Created walkthroughs and renders."
+            ],
+            "images": [
+                "/projects/h1.1.webp",
+                "/projects/h1.3.webp",
+                "/projects/h1.4.webp",
+                "/projects/h2.1.webp",
+                "/projects/h2.2.webp",
+                "/projects/h3.3.webp",
+                "/projects/h3.2.webp",
+                "/projects/H33.webp",
+                "/projects/H44.webp"
+            ],
+            "demo_link": "https://www.youtube.com/playlist?list=PLBip7ccT-Vcvj8sn_rWNx6dMwNR3TSOfP",
+            "repo_link": "",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
         },
         {
-          "title": "Documentation",
-          "desc": "Prepared drawings, schedules, estimates, and visualisations."
+            "timestamp": "",
+            "id": "xtasy-2k24",
+            "title": "XTASY 2K24 – Arts Fest Website",
+            "subtitle": "Official college arts fest website",
+            "type": "Web / Front-end",
+            "category": "web",
+            "year": 2024,
+            "role": "Designer & Front-end Developer",
+            "summary": "Responsive event website developed to showcase fest events, schedules, and updates.",
+            "tech": [
+                "HTML",
+                "CSS",
+                "JavaScript"
+            ],
+            "highlights": [
+                "Static site deployed on GitHub Pages.",
+                "UI aligned with fest branding.",
+                "Clear navigation for events."
+            ],
+            "images": [
+                "/projects/XTASY24.webp"
+            ],
+            "demo_link": "https://pradul-p.github.io/XTASY-2K24/",
+            "repo_link": "https://github.com/PRADUL-P/XTASY-2K24",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
         },
         {
-          "title": "Area Analysis",
-          "desc": "Total Built-up Area: ~24,000 sq.ft across G+2 floors."
+            "timestamp": "",
+            "id": "ignite-2k22",
+            "title": "IGNITE 2K22 – College Sports Fest Website",
+            "subtitle": "Official sports fest website",
+            "type": "Web / Front-end",
+            "category": "web",
+            "year": 2022,
+            "role": "Front-end Developer (V BLAZE Team)",
+            "summary": "Website created for college sports fest to display schedules, team information, and event details.",
+            "tech": [
+                "HTML",
+                "CSS",
+                "JavaScript"
+            ],
+            "highlights": [
+                "Centralised sports event information.",
+                "Responsive and user-friendly UI.",
+                "Hosted on official college website."
+            ],
+            "images": [
+                "/projects/ignite.webp",
+                "/projects/ignite2.webp"
+            ],
+            "demo_link": "https://www.stthomaskannur.ac.in/ignite2022/",
+            "repo_link": "",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
+        },
+        {
+            "timestamp": "",
+            "id": "iedc-website",
+            "title": "IEDC – Entrepreneurship Cell Website",
+            "subtitle": "College innovation & entrepreneurship portal",
+            "type": "Web / Front-end",
+            "category": "web",
+            "year": 2022,
+            "role": "Front-end Developer",
+            "summary": "Website developed for the college IEDC cell to publish initiatives, events, and updates.",
+            "tech": [
+                "HTML",
+                "CSS",
+                "JavaScript"
+            ],
+            "highlights": [],
+            "images": [
+                "/projects/IEDC.webp",
+                "/projects/IEDC2.webp"
+            ],
+            "demo_link": "https://www.stthomaskannur.ac.in/stm2/IEDC/",
+            "repo_link": "",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
+        },
+        {
+            "timestamp": "",
+            "id": "vblaze-website",
+            "title": "VBLAZE – Design Club Website",
+            "subtitle": "Official design club website",
+            "type": "Web / Front-end",
+            "category": "web",
+            "year": 2023,
+            "role": "Front-end Developer",
+            "summary": "Modern React-based website developed for the VBLAZE design club.",
+            "tech": [
+                "React",
+                "Tailwind CSS"
+            ],
+            "highlights": [
+                "Clean modern UI.",
+                "Showcased club activities and projects.",
+                "Improved visibility of student initiatives."
+            ],
+            "images": [
+                "/projects/vblaze.webp",
+                "/projects/vblaze2.webp"
+            ],
+            "demo_link": "https://vblaze.tech/",
+            "repo_link": "https://github.com/PRADUL-P/V-BLAZE",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
+        },
+        {
+            "timestamp": "",
+            "id": "project-dasp",
+            "title": "Project DASP",
+            "subtitle": "Final Year Project Website",
+            "type": "Web / Front-end",
+            "category": "web",
+            "year": 2024,
+            "role": "Front-end Developer",
+            "summary": "Official website created to present the B.Tech final year project with clear documentation and public access.",
+            "tech": [
+                "HTML",
+                "CSS",
+                "JavaScript",
+                "GitHub Pages"
+            ],
+            "highlights": [],
+            "images": [
+                "/projects/dasp.webp"
+            ],
+            "demo_link": "https://project-dasp.github.io/",
+            "repo_link": "https://github.com/PRADUL-P/dasp",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
+        },
+        {
+            "timestamp": "",
+            "id": "flip-book-magazine",
+            "title": "Digital Flip-Book Magazine",
+            "subtitle": "Interactive digital publication platform",
+            "type": "Web / Animation",
+            "category": "web",
+            "year": 2024,
+            "role": "Lead Front-end Developer",
+            "summary": "A sophisticated digital magazine platform that converts technical PDF publications into interactive 3D flip-books with realistic physics.",
+            "tech": [
+                "HTML",
+                "CSS",
+                "JavaScript",
+                "Turn.js"
+            ],
+            "highlights": [],
+            "images": [
+                "/projects/MAG.webp"
+            ],
+            "demo_link": "https://enginexus.github.io/EngiNexus-24/",
+            "repo_link": "https://github.com/PRADUL-P/PDF-to-Flipbook",
+            "visible": true,
+            "duration": "",
+            "location": "",
+            "scope": "",
+            "overview": "",
+            "objectives": "",
+            "approach": "",
+            "outcome": "",
+            "caption": ""
         }
-      ],
-      "tech": [
-        "Revit",
-        "ETABS",
-        "AutoCAD",
-        "Autodesk Green Building Studio",
-        "Twinmotion",
-        "Microsoft Excel"
-      ],
-      "highlights": [
-        "Coordinated BIM model as a single source of project data",
-        "Energy optimisation through simulation",
-        "Design compliant with NBC, KMBR, and IS codes",
-        "Construction-ready drawings and estimates"
-      ],
-      "outcome": "Demonstrated integrated BIM workflow combining sustainability, structural safety, and functional planning. Achieved significant energy savings potential.",
-      "caption": "Front perspective view of the proposed academic building showcasing shading devices and architectural form.",
-      "images": [
-        "/projects/p2.webp",
-        "/projects/p3.webp",
-        "/projects/p4.webp"
-      ],
-      "links": {
-        "demo": "https://www.youtube.com/playlist?list=PLBip7ccT-VcvewoYcRrg2QGc7Ix3mKT8O"
-      },
-      "homeFeatured": true
-    },
-    {
-      "id": "smart-city-bim",
-      "title": "Visionary Smart City Concept",
-      "subtitle": "Urban-scale planning using BIM",
-      "type": "Civil / BIM",
-      "category": "civil",
-      "year": "2023",
-      "role": "BIM Modeler",
-      "summary": "Conceptual smart city model demonstrating zoning strategies, infrastructure planning, and sustainable urban design using BIM tools.",
-      "tech": [
-        "Revit",
-        "AutoCAD"
-      ],
-      "highlights": [
-        "Urban-scale BIM modeling",
-        "Infrastructure layout planning",
-        "Large-scale visualization"
-      ],
-      "images": [
-        "/projects/S11.webp",
-        "/projects/S22.webp"
-      ],
-      "links": {
-        "demo": "https://youtu.be/WiaV3NmNlXg"
-      },
-      "homeFeatured": true
-    },
-    {
-      "id": "commercial-building-bim",
-      "title": "Commercial Building — BIM Design",
-      "subtitle": "Full BIM workflow for commercial facility",
-      "type": "Civil / BIM",
-      "category": "civil",
-      "year": "2023",
-      "role": "BIM Modeler",
-      "summary": "Commercial building design developed using BIM tools including modeling, documentation, and visualization.",
-      "tech": [
-        "Revit",
-        "AutoCAD",
-        "Enscape"
-      ],
-      "highlights": [
-        "Detailed BIM model development",
-        "Coordinated construction drawings",
-        "Photorealistic rendering"
-      ],
-      "images": [
-        "/projects/C11.webp",
-        "/projects/C12.webp",
-        "/projects/C13.webp",
-        "/projects/C14.webp"
-      ],
-      "links": {
-        "demo": "https://youtu.be/l7f6IUEXNOE"
-      },
-      "homeFeatured": true
-    },
-    {
-      "id": "residential-revit-series",
-      "title": "Residential Building Design Series",
-      "subtitle": "Multiple parametric house models",
-      "type": "Civil / BIM",
-      "category": "civil",
-      "year": "2022",
-      "role": "BIM Modeler",
-      "summary": "Collection of residential building designs demonstrating parametric modeling and visualization workflows.",
-      "tech": [
-        "Revit",
-        "AutoCAD",
-        "Enscape"
-      ],
-      "highlights": [
-        "Parametric residential models",
-        "Drawings and schedules",
-        "Walkthrough renders"
-      ],
-      "images": [
-        "/projects/h1.1.webp",
-        "/projects/h1.3.webp",
-        "/projects/h2.1.webp"
-      ],
-      "links": {
-        "demo": "https://www.youtube.com/playlist?list=PLBip7ccT-Vcvj8sn_rWNx6dMwNR3TSOfP"
-      },
-      "homeFeatured": true
-    },
-    {
-      "id": "xtasy-2k24",
-      "title": "XTASY 2K24 — Arts Fest Website",
-      "subtitle": "Official college arts festival platform",
-      "type": "Web / Front-end",
-      "category": "web",
-      "year": "2024",
-      "role": "Designer & Front-end Developer",
-      "summary": "Responsive website developed to showcase events and updates for the college arts festival.",
-      "tech": [
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ],
-      "highlights": [
-        "Responsive UI design",
-        "Festival branding integration",
-        "GitHub Pages deployment"
-      ],
-      "images": [
-        "/projects/XTASY24.webp"
-      ],
-      "links": {
-        "demo": "https://pradul-p.github.io/XTASY-2K24/",
-        "repo": "https://github.com/PRADUL-P/XTASY-2K24"
-      }
-    },
-    {
-      "id": "ignite-2k22",
-      "title": "IGNITE 2K22 — Sports Fest Website",
-      "subtitle": "Official sports event portal",
-      "type": "Web / Front-end",
-      "category": "web",
-      "year": "2022",
-      "role": "Front-end Developer",
-      "summary": "Website presenting schedules, teams, and event details for the college sports festival.",
-      "tech": [
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ],
-      "highlights": [
-        "Centralized event information",
-        "Responsive interface",
-        "Official deployment"
-      ],
-      "images": [
-        "/projects/ignite.webp"
-      ],
-      "links": {
-        "demo": "https://www.stthomaskannur.ac.in/ignite2022/"
-      }
-    },
-    {
-      "id": "iedc-website",
-      "title": "IEDC Entrepreneurship Cell Website",
-      "subtitle": "Innovation and startup portal",
-      "type": "Web / Front-end",
-      "category": "web",
-      "year": "2022",
-      "role": "Front-end Developer",
-      "summary": "Website developed to showcase entrepreneurship initiatives, programs, and opportunities.",
-      "tech": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Bootstrap"
-      ],
-      "highlights": [
-        "Centralized information platform",
-        "Improved accessibility",
-        "Team collaboration project"
-      ],
-      "images": [
-        "/projects/IEDC.webp"
-      ],
-      "links": {
-        "demo": "https://www.stthomaskannur.ac.in/stm2/IEDC/"
-      }
-    },
-    {
-      "id": "vblaze-website",
-      "title": "VBLAZE Design Club Website",
-      "subtitle": "React-based club platform",
-      "type": "Web / Front-end",
-      "category": "web",
-      "year": "2023",
-      "role": "Front-end Developer",
-      "summary": "Modern website showcasing design club activities, projects, and events.",
-      "tech": [
-        "React",
-        "Tailwind CSS",
-        "JavaScript"
-      ],
-      "highlights": [
-        "Modern frontend framework",
-        "Club portfolio showcase",
-        "Improved digital presence"
-      ],
-      "images": [
-        "/projects/vblaze.webp"
-      ],
-      "links": {
-        "demo": "https://vblaze.tech/",
-        "repo": "https://github.com/PRADUL-P/V-BLAZE"
-      }
-    },
-    {
-      "id": "project-dasp",
-      "title": "Project DASP — Final Year Project Website",
-      "subtitle": "Academic project documentation portal",
-      "type": "Web / Front-end",
-      "category": "web",
-      "year": "2024",
-      "role": "Front-end Developer",
-      "summary": "Website created to present final-year project documentation and outcomes for public viewing.",
-      "tech": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "GitHub Pages"
-      ],
-      "highlights": [
-        "Clear project presentation",
-        "Accessible documentation",
-        "Static hosting"
-      ],
-      "images": [
-        "/projects/dasp.webp"
-      ],
-      "links": {
-        "demo": "https://project-dasp.github.io/",
-        "repo": "https://github.com/PRADUL-P/dasp"
-      }
-    },
-    {
-      "id": "flip-book-magazine",
-      "title": "Interactive Flip-Book Magazine",
-      "subtitle": "3D digital publication platform",
-      "type": "Web / Animation",
-      "category": "web",
-      "year": "2024",
-      "role": "Lead Front-end Developer",
-      "summary": "Interactive web application converting technical publications into realistic digital flip-book experiences.",
-      "tech": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Turn.js"
-      ],
-      "highlights": [
-        "Realistic page-flip animation",
-        "Interactive reading experience",
-        "Applied to technical publications"
-      ],
-      "images": [
-        "/projects/MAG.webp"
-      ],
-      "links": {
-        "demo": "https://enginexus.github.io/EngiNexus-24/",
-        "repo": "https://github.com/PRADUL-P/PDF-to-Flipbook"
-      }
-    }
-  ]
+    ]
 }

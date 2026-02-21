@@ -9,38 +9,24 @@ const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
  * @param {string} sectionName - The sheet tab name (lowercase), e.g., 'blog', 'projects'
  * @returns {Array} List of items from the sheet (or empty array if error/loading/not found)
  */
-const useGoogleCMS = (sectionName, skipCache = false) => {
+const useGoogleCMS = (sectionName, skipCache = false, reloadTrigger = 0) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        let isMounted = true;
         if (!GOOGLE_CMS_URL) {
             setLoading(false);
             return;
         }
 
         const fetchData = async () => {
-            // Check cache first (unless skipping)
-            if (!skipCache) {
-                const cached = localStorage.getItem(`${CACHE_KEY_PREFIX}${sectionName}`);
-                if (cached) {
-                    const { timestamp, payload } = JSON.parse(cached);
-                    if (Date.now() - timestamp < CACHE_DURATION) {
-                        setData(payload);
-                        setLoading(false);
-                        // Background refresh
-                        fetchFreshData(false);
-                        return;
-                    }
-                }
-            }
-
-            await fetchFreshData(true);
+            // ... existing logic ...
         };
 
         const fetchFreshData = async (shouldSetLoading) => {
-            if (shouldSetLoading) setLoading(true);
+            if (shouldSetLoading && isMounted) setLoading(true);
             try {
                 // Add timestamp to prevent browser caching if skipping internal cache
                 const url = skipCache
@@ -52,29 +38,58 @@ const useGoogleCMS = (sectionName, skipCache = false) => {
 
                 const json = await response.json();
                 // The script returns { "blog": [...], "projects": [...] }
-                // If sectionName is "all", return the whole object, otherwise the specific array
-                const items = sectionName === "all" ? json : (json[sectionName] || []);
+                let items = sectionName === "all" ? json : (json[sectionName] || []);
 
-                if (items && (Array.isArray(items) ? items.length > 0 : Object.keys(items).length > 0)) {
-                    setData(items);
-                    // Only cache if we are not skipping cache
-                    if (!skipCache) {
-                        localStorage.setItem(`${CACHE_KEY_PREFIX}${sectionName}`, JSON.stringify({
-                            timestamp: Date.now(),
-                            payload: items
-                        }));
+                // REVERSE ORDER: Google Sheets appends new rows at the bottom (index last).
+                // To show the newest entries at the top of the website, we reverse the array.
+                if (Array.isArray(items)) {
+                    items = [...items].reverse();
+                }
+
+                if (isMounted) {
+                    if (items && (Array.isArray(items) ? items.length > 0 : Object.keys(items).length > 0)) {
+                        setData(items);
+                        // Only cache if we are not skipping cache
+                        if (!skipCache) {
+                            localStorage.setItem(`${CACHE_KEY_PREFIX}${sectionName}`, JSON.stringify({
+                                timestamp: Date.now(),
+                                payload: items
+                            }));
+                        }
                     }
                 }
             } catch (err) {
                 console.warn("CMS Fetch Error:", err);
-                setError(err);
+                if (isMounted) setError(err);
             } finally {
-                if (shouldSetLoading) setLoading(false);
+                if (shouldSetLoading && isMounted) setLoading(false);
             }
         };
 
-        fetchData();
-    }, [sectionName, skipCache]);
+        const initialize = async () => {
+            // Check cache first (unless skipping)
+            if (!skipCache) {
+                const cached = localStorage.getItem(`${CACHE_KEY_PREFIX}${sectionName}`);
+                if (cached) {
+                    const { timestamp, payload } = JSON.parse(cached);
+                    if (Date.now() - timestamp < CACHE_DURATION) {
+                        if (isMounted) {
+                            setData(payload);
+                            setLoading(false);
+                        }
+                        // Background refresh
+                        fetchFreshData(false);
+                        return;
+                    }
+                }
+            }
+            await fetchFreshData(true);
+        }
+
+        initialize();
+
+        return () => { isMounted = false; };
+    }, [sectionName, skipCache, reloadTrigger]);
 
     const refresh = () => {
         localStorage.removeItem(`${CACHE_KEY_PREFIX}${sectionName}`);

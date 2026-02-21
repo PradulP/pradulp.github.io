@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Lock, LayoutDashboard, FileText, Briefcase, Cpu, Database, Save, LogOut, CheckCircle, Table } from "lucide-react";
+import { Lock, LayoutDashboard, FileText, Briefcase, Cpu, Database, Save, LogOut, CheckCircle, Table, Book, Info, Mail } from "lucide-react";
 import { FORM_URLS } from "../data/config";
 import AdminDataView from "../components/AdminDataView";
+import AdminDocumentation from "../components/AdminDocumentation";
+import AdminDataGuide from "../components/AdminDataGuide";
+import AdminContactInbox from "../components/AdminContactInbox";
 
-// Local Storage Key for form URLs - Updated to v2 to ensure config defaults load
-const STORAGE_KEY = "admin_form_urls_v2";
+// Local Storage Key for form URLs - Updated to v3 to ensure config defaults load
+const STORAGE_KEY = "admin_form_urls_v3";
 // Load password from environment variable
 const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASSWORD || "admin123";
 
 const TABS = [
     { id: "blog", label: "New Blog Post", icon: FileText },
     { id: "project", label: "New Project", icon: Briefcase },
-    { id: "skill", label: "New Skill", icon: Cpu },
     { id: "innovation", label: "New Innovation", icon: Database },
+    { id: "skill", label: "New Skill", icon: Cpu },
+    { id: "experience", label: "Experience", icon: Briefcase },
+    { id: "education", label: "Education", icon: Book },
     { id: "data", label: "View Data", icon: Table },
+    { id: "inbox", label: "Contact Inbox", icon: Mail },
+    { id: "guide", label: "Form Guide", icon: Info },
+    { id: "docs", label: "Documentation", icon: Book },
 ];
 
 export default function AdminPage() {
@@ -193,6 +201,12 @@ export default function AdminPage() {
                 <div className="flex-1 bg-slate-950 relative overflow-hidden flex flex-col">
                     {activeTab === "data" ? (
                         <AdminDataView />
+                    ) : activeTab === "inbox" ? (
+                        <AdminContactInbox />
+                    ) : activeTab === "docs" ? (
+                        <AdminDocumentation />
+                    ) : activeTab === "guide" ? (
+                        <AdminDataGuide />
                     ) : (
                         formUrls[activeTab] ? (
                             <iframe
@@ -218,7 +232,7 @@ export default function AdminPage() {
                     )}
 
                     {/* Status Indicator (Only for forms) */}
-                    {activeTab !== "data" && (
+                    {(activeTab !== "data" && activeTab !== "guide" && activeTab !== "docs") && (
                         <div className="absolute bottom-4 right-6 bg-slate-900/80 backdrop-blur border border-slate-800 px-3 py-1 rounded-full text-[10px] font-mono text-slate-500 flex items-center gap-2 pointer-events-none">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                             SECURE_LINK_ESTABLISHED

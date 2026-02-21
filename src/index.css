@@ -26,6 +26,21 @@ body {
   background-color: var(--cad-bg);
   color: var(--cad-text);
   transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  max-width: 100%;
+  word-break: break-word;
 }
 
 /* CAD Crosshair Cursor Utilities */
@@ -269,6 +284,24 @@ html {
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
   height: 4px;
+}
+
+.custom-scrollbar-horizontal {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.2) transparent;
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.5);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {

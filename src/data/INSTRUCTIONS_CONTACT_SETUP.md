@@ -14,7 +14,7 @@ Your Sheet is named `Form Responses 1` and has different headers than expected.
    Works with "Form Responses 1" OR "Sheet1"
 */
 
-var EMAIL_TO = "pradul.p123@gmail.com"; 
+var EMAIL_TO = "pradul.public@gmail.com"; 
 
 function doPost(e) {
   var lock = LockService.getScriptLock();

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import content from "../data/index";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 import {
   Briefcase,
   GraduationCap,
@@ -16,7 +17,7 @@ import {
 
 function getEndYear(item) {
   // Check main period first
-  const text = item.period || item.years || "";
+  const text = String(item.period || item.years || "");
   if (text.toLowerCase().includes("present")) return 9999;
 
   // If no main period, check roles if available (e.g. for grouped companies)
@@ -25,7 +26,7 @@ function getEndYear(item) {
     return Math.max(...item.roles.map(r => getEndYear(r)));
   }
 
-  const match = text.match(/\d{4}/g);
+  const match = String(text).match(/\d{4}/g);
   return match ? Number(match[match.length - 1]) : 0;
 }
 
@@ -49,15 +50,75 @@ export default function Experience() {
   // Debugging
   // console.log("Content Experience:", content?.experience);
 
+  const { data: cmsExperience } = useGoogleCMS("experience");
+  const { data: cmsEducation } = useGoogleCMS("education");
+
+  const actualExperience = (cmsExperience && cmsExperience.length > 0) ? cmsExperience : experience;
+  const actualEducation = (cmsEducation && cmsEducation.length > 0) ? cmsEducation : education;
+
+  const groupedExperience = useMemo(() => {
+    if (!actualExperience || actualExperience.length === 0) return [];
+
+    // Check if it's already grouped (like the local experience.json)
+    if (actualExperience[0].roles) return actualExperience;
+
+    // Otherwise, it's flat data from Google CMS - Group by company
+    const map = {};
+    actualExperience.forEach(item => {
+      const comp = item.company ? String(item.company).trim() : "Unknown Company";
+
+      if (!map[comp]) {
+        map[comp] = {
+          company: comp,
+          location: String(item.location || ""),
+          backgroundText: String(item.backgroundText || comp).split(" ")[0].toUpperCase(),
+          subtitle: item.subtitle || "",
+          // Period will be dynamically calculated
+          period: String(item.period || ""),
+          isCurrent: String(item.period || "").toLowerCase().includes('present'),
+          roles: []
+        };
+      }
+
+      // Parse lists from comma/pipe delimited string
+      let points = [];
+      if (item.description) {
+        points = String(item.description).split(/(?:\|\||,)/).map(s => s.trim()).filter(Boolean);
+      }
+
+      let tools = [];
+      if (item.tech) {
+        tools = String(item.tech).split(/(?:\|\||,)/).map(s => s.trim()).filter(Boolean);
+      }
+
+      // Add as a sub-role
+      map[comp].roles.push({
+        title: item.title || item.role || "",
+        period: String(item.period || ""),
+        summary: points[0] || "",
+        points: points,
+        tools: tools,
+        isCurrent: String(item.period || "").toLowerCase().includes('present')
+      });
+
+      // Keep track of overall current status
+      if (String(item.period || "").toLowerCase().includes('present')) {
+        map[comp].isCurrent = true;
+      }
+    });
+
+    return Object.values(map);
+  }, [actualExperience]);
+
   const items =
     tab === "experience"
-      ? (Array.isArray(experience) ? experience : [])
+      ? (Array.isArray(groupedExperience) ? [...groupedExperience] : [])
         .map((e) => e ? { ...e, kind: "experience" } : null)
         .filter(Boolean)
         .sort((a, b) => getEndYear(b) - getEndYear(a))
-      : (Array.isArray(education) ? education : [])
-        .sort((a, b) => getEndYear(b) - getEndYear(a))
-        .map((e) => ({ ...e, kind: "education" }));
+      : (Array.isArray(actualEducation) ? [...actualEducation] : [])
+        .map((e) => ({ ...e, kind: "education" }))
+        .sort((a, b) => getEndYear(b) - getEndYear(a));
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
@@ -169,7 +230,7 @@ function DesktopTimeline({ items, tab, onSelect }) {
 
       {items.map((item, index) => {
         const isLeft = index % 2 === 0;
-        const isCurrent = item.isCurrent || (item.period && item.period.toLowerCase().includes("present"));
+        const isCurrent = item.isCurrent || (item.period && String(item.period).toLowerCase().includes("present"));
 
         return (
           <motion.div
@@ -177,7 +238,7 @@ function DesktopTimeline({ items, tab, onSelect }) {
             initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
             className={`relative flex items-center justify-between mb-16 ${isLeft ? "flex-row" : "flex-row-reverse"}`}
           >
             {/* Content Card */}
@@ -213,7 +274,7 @@ function MobileTimeline({ items, tab, onSelect }) {
   return (
     <div className="relative border-l-2 border-slate-800 pl-8 space-y-10">
       {items.map((item, index) => {
-        const isCurrent = item.isCurrent || (item.period && item.period.toLowerCase().includes("present"));
+        const isCurrent = item.isCurrent || (item.period && String(item.period).toLowerCase().includes("present"));
 
         return (
           <motion.div
@@ -221,7 +282,7 @@ function MobileTimeline({ items, tab, onSelect }) {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
             className="relative"
           >
             <div className="absolute -left-[37px] top-2">
@@ -271,13 +332,13 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
     // And maybe use the degree name for the background text if no shortName provided
     if (item.degree && !item.shortName) {
       // e.g. B.Tech -> BTECH, Higher Secondary -> HSE
-      const degreeShort = item.degree.split(" ")[0].replace(/[^a-zA-Z]/g, "").toUpperCase();
+      const degreeShort = String(item.degree).split(" ")[0].replace(/[^a-zA-Z]/g, "").toUpperCase();
       item.shortName = degreeShort.length > 2 ? degreeShort : "EDU";
     }
   }
 
-  const bgText = (item.backgroundText || item.shortName || companyName || period || "").toUpperCase().split(" ")[0] || "EXP";
-  const registryId = `${tab === "experience" ? "EXP" : "EDU"}-${period.split(" ")[0]?.substring(2) || "XX"}`;
+  const bgText = String(item.backgroundText || item.shortName || companyName || period || "").toUpperCase().split(" ")[0] || "EXP";
+  const registryId = `${tab === "experience" ? "EXP" : "EDU"}-${String(period).split(" ")[0]?.substring(2) || "XX"}`;
 
   // EDUCATION CARD LAYOUT
   if (tab === "education") {

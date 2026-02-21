@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import db from "../data/Projects.json";
+import useGoogleCMS from "../hooks/useGoogleCMS";
 import SEO from "../components/SEO";
 import ProjectImageCarousel from "../components/ProjectImageCarousel";
 import {
@@ -86,17 +87,19 @@ export default function ProjectDetail() {
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-  const projects = db.projects || [];
+  const { data: cmsProjects } = useGoogleCMS("projects");
+  const projects = (cmsProjects && cmsProjects.length > 0) ? cmsProjects : (db.projects || []);
+
   const index = useMemo(
     () => projects.findIndex(p => String(p.id) === String(id)),
     [projects, id]
   );
 
-  const project = projects[index];
+  const rawProject = projects[index];
   const prevProject = projects[index - 1];
   const nextProject = projects[index + 1];
 
-  if (!project) {
+  if (!rawProject) {
     return (
       <main className="min-h-screen pt-32 text-center bg-slate-950">
         <div className="inline-block p-8 border border-slate-800 rounded-3xl bg-slate-900/50">
@@ -108,6 +111,40 @@ export default function ProjectDetail() {
       </main>
     );
   }
+
+  const parseField = (val) => {
+    if (typeof val === 'string') {
+      if ((val.trim().startsWith('[') && val.trim().endsWith(']')) ||
+        (val.trim().startsWith('{') && val.trim().endsWith('}'))) {
+        try { return JSON.parse(val); } catch (e) { }
+      }
+
+      const processItem = (s) => {
+        const trimmed = s.trim();
+        if (trimmed.includes('::')) {
+          const [t, d] = trimmed.split('::').map(x => x.trim());
+          return { title: t, desc: d };
+        }
+        return trimmed;
+      };
+
+      if (val.includes('||')) return val.split('||').map(processItem).filter(Boolean);
+      if (val.includes('|')) return val.split('|').map(processItem).filter(Boolean);
+    }
+    return val;
+  };
+
+  const project = {
+    ...rawProject,
+    objectives: parseField(rawProject.objectives) || [],
+    approach: parseField(rawProject.approach) || [],
+    tech: parseField(rawProject.tech) || [],
+    highlights: parseField(rawProject.highlights) || [],
+    images: parseField(rawProject.images) || [],
+    deliverables: parseField(rawProject.deliverables) || [],
+    challenges: parseField(rawProject.challenges) || [],
+    links: (rawProject.links && typeof rawProject.links === 'string' && rawProject.links.trim() !== '') ? parseField(rawProject.links) : (rawProject.links && Object.keys(rawProject.links).length > 0 ? rawProject.links : { demo: rawProject.demo_link, repo: rawProject.repo_link })
+  };
 
   const {
     title,
@@ -130,6 +167,7 @@ export default function ProjectDetail() {
     deliverables,
     outcome, // or impact
     learnings,
+    caption,
     images = [],
     model,
     links
@@ -423,12 +461,12 @@ export default function ProjectDetail() {
                 </div>
               )}
               {activeMedia === "video" && links?.demo && (
-                <div className="aspect-video bg-black flex items-center justify-center">
+                <div className="absolute inset-0 bg-slate-900 flex flex-col pt-10 pb-4 px-4 h-full pointer-events-auto">
                   {youtubeEmbed ? (
                     <iframe
                       src={youtubeEmbed}
                       className="w-full h-full border-none"
-                      allow="autoplay; encrypted-media; picture-in-picture"
+                      allow="autoplay; encrypted-mbedia; picture-in-picture"
                       allowFullScreen
                       title="YouTube video presentation"
                     />
@@ -554,13 +592,13 @@ export default function ProjectDetail() {
         <section className="pt-12 border-t border-slate-800 flex flex-col items-center gap-8">
           <div className="flex flex-wrap gap-4 justify-center">
             {links?.demo && (
-              <a href={links.demo} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-8 py-4 bg-sky-500 hover:bg-sky-400 text-slate-950 font-black uppercase tracking-widest rounded-xl transition-all shadow-lg hover:shadow-sky-500/20">
-                <PlayCircle className="w-5 h-5" /> {links.label || "Project Walkthrough"}
+              <a href={links.demo} target="_blank" rel="noopener noreferrer" className="group px-6 py-3 border border-sky-500/30 bg-sky-500/10 text-sky-400 font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-sky-500 hover:text-slate-950 transition-all flex items-center gap-2">
+                <PlayCircle className="w-4 h-4" /> Live Demo{links.label || "Project Walkthrough"}
               </a>
             )}
             {links?.repo && (
-              <a href={links.repo} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 font-black uppercase tracking-widest rounded-xl transition-all border border-slate-700">
-                <Terminal className="w-4 h-4" /> Source Code
+              <a href={links.repo} target="_blank" rel="noopener noreferrer" className="group px-6 py-3 border border-slate-700 bg-slate-800 text-slate-300 font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-slate-700 transition-all flex items-center gap-2">
+                <ExternalLink className="w-4 h-4" /> Source Code
               </a>
             )}
           </div>
