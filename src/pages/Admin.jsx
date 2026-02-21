@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Lock, LayoutDashboard, FileText, Briefcase, Cpu, Database, Save, LogOut, CheckCircle, Table, Book, Info, Mail } from "lucide-react";
+import { Lock, LayoutDashboard, FileText, Briefcase, Cpu, Database, Save, LogOut, CheckCircle, Table, Book, Info, Mail, Zap } from "lucide-react";
 import { FORM_URLS } from "../data/config";
 import AdminDataView from "../components/AdminDataView";
 import AdminDocumentation from "../components/AdminDocumentation";
+import AdminShowcase from "../components/AdminShowcase";
 import AdminDataGuide from "../components/AdminDataGuide";
 import AdminContactInbox from "../components/AdminContactInbox";
 
@@ -23,6 +24,7 @@ const TABS = [
     { id: "inbox", label: "Contact Inbox", icon: Mail },
     { id: "guide", label: "Form Guide", icon: Info },
     { id: "docs", label: "Documentation", icon: Book },
+    { id: "showcase", label: "Project Showcase", icon: Zap },
 ];
 
 export default function AdminPage() {
@@ -205,6 +207,8 @@ export default function AdminPage() {
                         <AdminContactInbox />
                     ) : activeTab === "docs" ? (
                         <AdminDocumentation />
+                    ) : activeTab === "showcase" ? (
+                        <AdminShowcase />
                     ) : activeTab === "guide" ? (
                         <AdminDataGuide />
                     ) : (
