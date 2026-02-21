@@ -121,13 +121,6 @@
   </url>
 
   <url>
-    <loc>https://pradulp.github.io/projects/energy-efficient-college</loc>
-    <lastmod>2026-02-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
     <loc>https://pradulp.github.io/projects/smart-city-bim</loc>
     <lastmod>2026-02-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -185,6 +178,13 @@
 
   <url>
     <loc>https://pradulp.github.io/projects/flip-book-magazine</loc>
+    <lastmod>2026-02-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://pradulp.github.io/projects/energy-efficient-college</loc>
     <lastmod>2026-02-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
