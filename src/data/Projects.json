@@ -2,78 +2,6 @@
     "projects": [
         {
             "timestamp": "",
-            "id": "energy-efficient-college",
-            "title": "Energy Efficient College Building",
-            "subtitle": "Planning, analysis, design & energy optimisation",
-            "type": "Civil / BIM",
-            "category": "civil",
-            "year": 2024,
-            "role": "Final Year B.Tech Project",
-            "summary": "Designed an energy-efficient G+2 educational facility using an integrated BIM workflow, covering site analysis, architectural planning, structural design, energy optimisation, cost estimation, and visualization.",
-            "tech": [
-                "Revit ",
-                " ETABS ",
-                " AutoCAD ",
-                " Autodesk Green Building Studio ",
-                " Twinmotion ",
-                " Microsoft Excel"
-            ],
-            "highlights": [
-                "Coordinated BIM model as a single source of project data ",
-                " Energy optimisation through simulation ",
-                " Design compliant with NBC, KMBR, and IS codes ",
-                " Construction-ready drawings and estimates"
-            ],
-            "images": [
-                "/projects/p2.webp",
-                "/projects/p2.webp",
-                "/projects/p3.webp",
-                "/projects/p4.webp"
-            ],
-            "demo_link": "https://www.youtube.com/playlist?list=PLBip7ccT-VcvewoYcRrg2QGc7Ix3mKT8O",
-            "repo_link": "",
-            "visible": true,
-            "duration": "Oct 2023 — May 2024",
-            "location": "Kerala, India (Academic Project)",
-            "scope": "Planning  Structural Design  Energy Simulation  Estimation  G+2  ~24,000 sq.ft",
-            "overview": "Final-year project focused on developing a sustainable institutional building with reduced energy demand while maintaining structural safety and functional efficiency. The workflow progressed from site assessment to analysis, simulation, and documentation following NBC, KMBR, and relevant IS codes.",
-            "objectives": [
-                "Minimize operational energy demand using passive design strategies",
-                "Ensure structural safety and code compliance",
-                "Develop a coordinated BIM model (LOD 350)",
-                "Generate accurate quantity take-offs and cost estimation"
-            ],
-            "approach": [
-                {
-                    "title": "Site Analysis & Planning",
-                    "desc": "Studied orientation, solar exposure, and wind conditions to optimise building placement."
-                },
-                {
-                    "title": "Architectural BIM Modeling",
-                    "desc": "Developed architectural model with functional zoning and shading strategies."
-                },
-                {
-                    "title": "Structural Analysis",
-                    "desc": "Analyzed structural elements in ETABS for safety under design loads."
-                },
-                {
-                    "title": "Energy Simulation",
-                    "desc": "Evaluated thermal performance using Green Building Studio."
-                },
-                {
-                    "title": "Documentation",
-                    "desc": "Prepared drawings, schedules, estimates, and visualisations."
-                },
-                {
-                    "title": "Area Analysis",
-                    "desc": "Total Built-up Area: ~24,000 sq.ft across G+2 floors."
-                }
-            ],
-            "outcome": "Demonstrated integrated BIM workflow combining sustainability, structural safety, and functional planning. Achieved significant energy savings potential.",
-            "caption": "Front perspective view of the proposed academic building showcasing shading devices and architectural form."
-        },
-        {
-            "timestamp": "",
             "id": "smart-city-bim",
             "title": "A Visionary Smart City",
             "subtitle": "Urban-scale BIM concept design",
@@ -389,6 +317,78 @@
             "approach": "",
             "outcome": "",
             "caption": ""
+        },
+        {
+            "timestamp": "",
+            "id": "energy-efficient-college",
+            "title": "Energy Efficient College Building",
+            "subtitle": "Planning, analysis, design & energy optimisation",
+            "type": "Civil / BIM",
+            "category": "civil",
+            "year": 2024,
+            "role": "Final Year B.Tech Project",
+            "summary": "Designed an energy-efficient G+2 educational facility using an integrated BIM workflow, covering site analysis, architectural planning, structural design, energy optimisation, cost estimation, and visualization.",
+            "tech": [
+                "Revit ",
+                " ETABS ",
+                " AutoCAD ",
+                " Autodesk Green Building Studio ",
+                " Twinmotion ",
+                " Microsoft Excel"
+            ],
+            "highlights": [
+                "Coordinated BIM model as a single source of project data ",
+                " Energy optimisation through simulation ",
+                " Design compliant with NBC, KMBR, and IS codes ",
+                " Construction-ready drawings and estimates"
+            ],
+            "images": [
+                "/projects/p2.webp",
+                "/projects/p2.webp",
+                "/projects/p3.webp",
+                "/projects/p4.webp"
+            ],
+            "demo_link": "https://www.youtube.com/playlist?list=PLBip7ccT-VcvewoYcRrg2QGc7Ix3mKT8O",
+            "repo_link": "",
+            "visible": true,
+            "duration": "Oct 2023 — May 2024",
+            "location": "Kerala, India (Academic Project)",
+            "scope": "Planning  Structural Design  Energy Simulation  Estimation  G+2  ~24,000 sq.ft",
+            "overview": "Final-year project focused on developing a sustainable institutional building with reduced energy demand while maintaining structural safety and functional efficiency. The workflow progressed from site assessment to analysis, simulation, and documentation following NBC, KMBR, and relevant IS codes.",
+            "objectives": [
+                "Minimize operational energy demand using passive design strategies",
+                "Ensure structural safety and code compliance",
+                "Develop a coordinated BIM model (LOD 350)",
+                "Generate accurate quantity take-offs and cost estimation"
+            ],
+            "approach": [
+                {
+                    "title": "Site Analysis & Planning",
+                    "desc": "Studied orientation, solar exposure, and wind conditions to optimise building placement."
+                },
+                {
+                    "title": "Architectural BIM Modeling",
+                    "desc": "Developed architectural model with functional zoning and shading strategies."
+                },
+                {
+                    "title": "Structural Analysis",
+                    "desc": "Analyzed structural elements in ETABS for safety under design loads."
+                },
+                {
+                    "title": "Energy Simulation",
+                    "desc": "Evaluated thermal performance using Green Building Studio."
+                },
+                {
+                    "title": "Documentation",
+                    "desc": "Prepared drawings, schedules, estimates, and visualisations."
+                },
+                {
+                    "title": "Area Analysis",
+                    "desc": "Total Built-up Area: ~24,000 sq.ft across G+2 floors."
+                }
+            ],
+            "outcome": "Demonstrated integrated BIM workflow combining sustainability, structural safety, and functional planning. Achieved significant energy savings potential.",
+            "caption": "Front perspective view of the proposed academic building showcasing shading devices and architectural form."
         }
     ]
 }

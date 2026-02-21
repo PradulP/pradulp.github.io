@@ -159,7 +159,24 @@ export default function Projects() {
         if (typeof p.visible === 'string' && p.visible.toLowerCase() === 'false') return false;
         return true;
       })
-      .sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0))
+      .sort((a, b) => {
+        const yearA = parseInt(a.year) || 0;
+        const yearB = parseInt(b.year) || 0;
+
+        // 1. Primary: Year (newest first)
+        if (yearB !== yearA) {
+          return yearB - yearA;
+        }
+
+        // 2. Secondary: Category (Civil first within the same year)
+        const isACivil = String(a.category || "").toLowerCase().includes("civil");
+        const isBCivil = String(b.category || "").toLowerCase().includes("civil");
+
+        if (isACivil && !isBCivil) return -1;
+        if (!isACivil && isBCivil) return 1;
+
+        return 0;
+      })
       .map(p => ({
         ...p,
         // Normalize CMS flat fields to match JSON structure
