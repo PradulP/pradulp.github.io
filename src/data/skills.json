@@ -11,32 +11,137 @@
     "note": "Constantly improving – especially in Revit automation and modern web tooling.",
     "groups": [
         {
-            "title": "Civil Engineering & BIM",
+            "title": "Web & Front-End",
             "skills": [
                 {
-                    "name": "Revit (Architecture / Structure)",
-                    "level": "Advanced",
-                    "details": "High-level modeling and documentation for large-scale infrastructure and residential projects."
-                },
-                {
-                    "name": "BIM Modeling ",
+                    "name": "React.js",
                     "level": "Intermediate",
-                    "details": "Managing 3D models and coordinating between different engineering disciplines using Navisworks."
+                    "details": "Building scalable web applications using component-based architecture."
                 },
                 {
-                    "name": "AutoCAD 2D Drafting",
-                    "level": "Advanced",
-                    "details": "Creating precise construction drawings, site plans, and detailed engineering schematics."
-                },
-                {
-                    "name": "Navisworks (Clash Review)",
+                    "name": "Tailwind CSS",
                     "level": "Intermediate",
-                    "details": "Performing clash detection and resolution reports to ensure error-free construction phases."
+                    "details": "Styling modern responsive interfaces using utility-first CSS."
                 },
                 {
-                    "name": "Construction Drawings & Detailing",
+                    "name": "HTML, CSS, JavaScript",
+                    "level": "Intermediate",
+                    "details": "Core technologies for developing responsive web interfaces."
+                },
+                {
+                    "name": "Bootstrap",
+                    "level": "Intermediate",
+                    "details": "Developing responsive layouts using a CSS framework."
+                },
+                {
+                    "name": "Web Design",
+                    "level": "Intermediate",
+                    "details": "Designing user-friendly interfaces and layouts."
+                },
+                {
+                    "name": "Front-End Development",
+                    "level": "Intermediate",
+                    "details": "Developing interactive client-side web applications."
+                }
+            ]
+        },
+        {
+            "title": "Tools & Platforms",
+            "skills": [
+                {
+                    "name": "Git & GitHub",
+                    "level": "Intermediate",
+                    "details": "Version control and collaboration for software and documentation."
+                },
+                {
+                    "name": "VS Code",
                     "level": "Advanced",
-                    "details": "Transforming design concepts into accurate, builder-ready technical documentation."
+                    "details": "Primary development environment for coding and scripting."
+                },
+                {
+                    "name": "MS Excel & Google Sheets",
+                    "level": "Advanced",
+                    "details": "Data analysis, dashboards, and automated calculations."
+                },
+                {
+                    "name": "Notion / Task Management",
+                    "level": "Working",
+                    "details": "Managing projects, notes, and knowledge bases."
+                },
+                {
+                    "name": "Autodesk Construction Cloud (ACC)",
+                    "level": "Intermediate",
+                    "details": "Collaborating on cloud-hosted BIM models and documents."
+                }
+            ]
+        },
+        {
+            "title": "Structural Engineering",
+            "skills": [
+                {
+                    "name": "Structural Analysis & Design",
+                    "level": "Intermediate",
+                    "details": "Analyzing structural systems to ensure safety, stability, and performance."
+                },
+                {
+                    "name": "ETABS",
+                    "level": "Intermediate",
+                    "details": "Modeling and analyzing building structures for design validation."
+                },
+                {
+                    "name": "SAFE",
+                    "level": "Beginner",
+                    "details": "Performing slab and foundation analysis using SAFE software."
+                },
+                {
+                    "name": "STAAD.Pro",
+                    "level": "Beginner",
+                    "details": "Analyzing structural components using structural analysis software."
+                },
+                {
+                    "name": "RCDC",
+                    "level": "Beginner",
+                    "details": "Designing reinforced concrete members and detailing."
+                },
+                {
+                    "name": "Bar Bending Schedules (BBS)",
+                    "level": "Working",
+                    "details": "Preparing reinforcement schedules for construction planning."
+                }
+            ]
+        },
+        {
+            "title": "Soft Skills",
+            "skills": [
+                {
+                    "name": "Team Collaboration",
+                    "level": "Strong",
+                    "details": "Working seamlessly within multidisciplinary engineering teams to achieve project goals."
+                },
+                {
+                    "name": "Site Coordination",
+                    "level": "Working",
+                    "details": "Managing communication between design teams and site personnel for effective project execution."
+                },
+                {
+                    "name": "Problem Solving",
+                    "level": "Strong",
+                    "details": "Applying technical logic and analytical thinking to resolve engineering challenges."
+                },
+                {
+                    "name": "Client Communication",
+                    "level": "Working",
+                    "details": "Presenting technical concepts and BIM models clearly to stakeholders and clients."
+                },
+                {
+                    "name": "Leadership",
+                    "level": "Strong",
+                    "details": "Leading teams, coordinating tasks, and ensuring timely delivery of project objectives."
+                },
+                {
+                    "name": "Analytical Skills",
+                    "level": "Strong",
+                    "details": "Interpreting complex technical information to support decision-making and design solutions."
                 }
             ]
         },
@@ -46,97 +151,157 @@
                 {
                     "name": "pyRevit Scripts",
                     "level": "Intermediate",
-                    "details": "Developing custom Python tools to automate repetitive Revit tasks and UI enhancements."
-                },
-                {
-                    "name": "Dynamo (Visual Scripting)",
-                    "level": "Intermediate",
-                    "details": "Automating complex geometry and data management within BIM environments."
+                    "details": "Developing custom Python tools to automate repetitive Revit workflows and UI tasks."
                 },
                 {
                     "name": "Excel ↔ Revit Workflows",
-                    "level": "Intermediate",
-                    "details": "Bridging data between spreadsheets and BIM models for schedules and parameter management."
+                    "level": "Beginner",
+                    "details": "Integrating spreadsheet data with BIM models for schedules and parameter management."
+                },
+                {
+                    "name": "Dynamo (Visual Scripting)",
+                    "level": "Learning",
+                    "details": "Automating geometry creation and data processes using visual scripting in Revit."
                 },
                 {
                     "name": "Custom Revit Tools (Python)",
-                    "level": "Learning",
-                    "details": "Diving deeper into Revit API to build robust standalone add-ins and automation scripts."
+                    "level": "Beginner",
+                    "details": "Learning Revit API concepts to build add-ins and automation tools."
+                },
+                {
+                    "name": "AI for BIM Automation",
+                    "level": "Working",
+                    "details": "Applying AI tools to enhance BIM workflows and productivity."
                 }
             ]
         },
         {
-            "title": "Web & Front-End",
+            "title": "Estimation & Planning",
             "skills": [
                 {
-                    "name": "HTML, CSS, JavaScript",
-                    "level": "Intermediate",
-                    "details": "The foundation of my web tools, used to build interactive and responsive user interfaces."
+                    "name": "Quantity Estimation",
+                    "level": "Beginner",
+                    "details": "Preparing material takeoffs and cost estimates for projects."
                 },
                 {
-                    "name": "React.js",
-                    "level": "Intermediate",
-                    "details": "Building scalable web applications and my personal portfolio with modern component logic."
+                    "name": "Cost Estimation",
+                    "level": "Beginner",
+                    "details": "Evaluating project costs for budgeting and planning."
                 },
                 {
-                    "name": "Tailwind CSS",
-                    "level": "Intermediate",
-                    "details": "Rapidly styling modern web apps with utility-first CSS frameworks for clean design."
+                    "name": "Project Planning & Management",
+                    "level": "Beginner",
+                    "details": "Supporting scheduling, coordination, and resource planning."
                 },
                 {
-                    "name": "Git & GitHub",
-                    "level": "Working",
-                    "details": "Version control and collaborative development for personal projects and BIM automation tools."
+                    "name": "Microsoft Project",
+                    "level": "Beginner",
+                    "details": "Using project management software for planning and tracking tasks."
+                },
+                {
+                    "name": "Estimax Pro",
+                    "level": "Beginner",
+                    "details": "Performing detailed project estimation using specialized software."
+                },
+                {
+                    "name": "Aadspro",
+                    "level": "Beginner",
+                    "details": "Preparing Bar Bending Schedules using dedicated tools."
+                },
+                {
+                    "name": "Optimax",
+                    "level": "Beginner",
+                    "details": "Optimizing reinforcement usage to reduce material wastage."
                 }
             ]
         },
         {
-            "title": "Tools & Platforms",
+            "title": "Civil Engineering & BIM",
             "skills": [
                 {
-                    "name": "Autodesk Construction Cloud (ACC)",
+                    "name": "Revit (Architecture / Structure)",
+                    "level": "Intermediate",
+                    "details": "Creating detailed BIM models and construction documentation for building projects."
+                },
+                {
+                    "name": "Navisworks (Clash Detection)",
+                    "level": "Intermediate",
+                    "details": "Performing clash detection and coordination reviews for multidisciplinary models."
+                },
+                {
+                    "name": "BIM Modeling",
+                    "level": "Intermediate",
+                    "details": "Managing coordinated 3D models across disciplines for design and construction."
+                },
+                {
+                    "name": "Construction Drawings & Detailing",
+                    "level": "Intermediate",
+                    "details": "Producing accurate technical drawings ready for site execution."
+                },
+                {
+                    "name": "AutoCAD 2D Drafting",
+                    "level": "Intermediate",
+                    "details": "Creating precise engineering drawings, layouts, and schematics."
+                },
+                {
+                    "name": "BIM Coordination",
                     "level": "Working",
-                    "details": "Collaborating on cloud-hosted models and managing project documentation in CDE."
+                    "details": "Supporting coordination between architectural, structural, and MEP models."
                 },
                 {
-                    "name": "MS Excel & Google Sheets",
-                    "level": "Advanced",
-                    "details": "Advanced data analysis, automated calculations, and project tracking dashboards."
+                    "name": "Geotechnical Drawings",
+                    "level": "Intermediate",
+                    "details": "Preparing and interpreting soil profiles and foundation-related drawings."
                 },
                 {
-                    "name": "VS Code",
-                    "level": "Daily Driver",
-                    "details": "Primary environment for Python scripting, web development, and markdown documentation."
+                    "name": "Infrastructure Formwork Drawings",
+                    "level": "Intermediate",
+                    "details": "Developing detailed formwork drawings for infrastructure components."
                 },
                 {
-                    "name": "Notion / Task Management",
-                    "level": "Working",
-                    "details": "Organizing project timelines, personal knowledge bases, and professional documentation."
+                    "name": "Revit Infrastructure Drawings",
+                    "level": "Intermediate",
+                    "details": "Modeling and documenting infrastructure elements using Revit tools."
                 }
             ]
         },
         {
-            "title": "Soft Skills",
+            "title": "CAD & Visualization",
             "skills": [
                 {
-                    "name": "Site Coordination",
-                    "level": "Working",
-                    "details": "Managing communication between design teams and site personnel for real-world execution."
+                    "name": "SketchUp",
+                    "level": "Beginner",
+                    "details": "Creating 3D models for conceptual design and visualization."
                 },
                 {
-                    "name": "Client Communication",
-                    "level": "Working",
-                    "details": "Presenting technical designs and BIM models clearly to stakeholders and clients."
+                    "name": "Twinmotion",
+                    "level": "Intermediate",
+                    "details": "Producing real-time visualizations and walkthroughs."
                 },
                 {
-                    "name": "Team Collaboration",
-                    "level": "Strong",
-                    "details": "Working seamlessly within multi-disciplinary engineering teams to meet project goals."
+                    "name": "Enscape",
+                    "level": "Intermediate",
+                    "details": "Rendering BIM models for presentations and client communication."
                 },
                 {
-                    "name": "Problem Solving",
-                    "level": "Strong",
-                    "details": "Approaching engineering challenges with a mix of technical logic and innovative automation."
+                    "name": "3D Modeling",
+                    "level": "Intermediate",
+                    "details": "Creating digital models for design visualization and analysis."
+                },
+                {
+                    "name": "3D Visualization",
+                    "level": "Intermediate",
+                    "details": "Presenting projects using realistic renders and walkthroughs."
+                },
+                {
+                    "name": "Autodesk Forma",
+                    "level": "Beginner",
+                    "details": "Exploring early-stage design analysis and site evaluation tools."
+                },
+                {
+                    "name": "Green Building Studio",
+                    "level": "Beginner",
+                    "details": "Analyzing building energy performance and sustainability."
                 }
             ]
         }

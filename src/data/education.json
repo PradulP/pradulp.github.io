@@ -7,9 +7,12 @@
             "place": "St. Thomas College of Engineering & Technology, Sivapuram, Kannur",
             "years": "2020 — 2024",
             "location": "",
-            "description": "Completed undergraduate studies in Civil Engineering with emphasis on structural design, infrastructure systems, construction practices, and digital modeling workflows. Developed skills in engineering drawing, CAD drafting, technical documentation, and analytical problem-solving through academic projects and practical training.  Final year project involved the planning and design of an energy-efficient G+2 educational building using advanced BIM tools, including structural analysis, coordinated modeling, and performance optimization.",
+            "description": "Completed undergraduate studies in Civil Engineering covering core structural and construction subjects || Developed skills in engineering graphics, CAD drafting, and technical reporting || Applied analytical and problem-solving skills through coursework and training || Designed an energy-efficient G+2 educational building using BIM tools || Performed structural analysis, coordinated modeling, and performance optimization",
             "achievements": "Placement Cell — Coordinator || NSS Unit 512 — Volunteer || Tech Fest — Coordinator || VBlaze — Web Developer",
-            "visible": true
+            "visible": true,
+            "pdf": "",
+            "certificate": "",
+            "photos": ""
         },
         {
             "timestamp": "",
@@ -18,9 +21,12 @@
             "place": "Anjarakandy Higher Secondary School, Kannur",
             "years": "2018 — 2020",
             "location": "",
-            "description": "Focused on Physics, Chemistry, and Mathematics, building the foundation for engineering studies.",
+            "description": "Completed higher secondary education in Science with Physics, Chemistry, and Mathematics || Developed analytical and problem-solving skills || Built strong foundation for engineering studies",
             "achievements": "NSS Volunteer",
-            "visible": true
+            "visible": true,
+            "pdf": "",
+            "certificate": "",
+            "photos": ""
         }
     ]
 }

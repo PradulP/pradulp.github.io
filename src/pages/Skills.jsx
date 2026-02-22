@@ -12,26 +12,31 @@ import { Search, Info, ExternalLink, Terminal, Cpu, ChevronLeft, ChevronRight, L
  * Convert a text level label into a precise percentage based on professional guidance
  */
 function levelToPercent(level) {
-  if (!level) return 60;
+  if (!level) return 65;
   const l = level.toLowerCase();
 
-  // Expert / Daily use: 90–100%
-  if (l.includes("expert") || l.includes("daily") || l.includes("lead")) return 95;
-  if (l.includes("advanced")) return 90;
+  // Expert: Master-level proficiency
+  if (l.includes("expert") || l.includes("master")) return 95;
 
-  // Strong professional: 80–89%
-  if (l.includes("strong")) return 85;
+  // Strong: Very confident (often for soft skills)
+  if (l.includes("strong") || l.includes("confident")) return 90;
 
-  // Confident / Intermediate: 70–79%
-  if (l.includes("intermediate")) return 75;
+  // Advanced: Deep expertise
+  if (l.includes("advanced") || l.includes("deep")) return 85;
 
-  // Working knowledge: 60–69%
-  if (l.includes("working")) return 65;
+  // Intermediate: Strong practical ability
+  if (l.includes("intermediate") || l.includes("practical")) return 75;
 
-  // Learning: < 60%
-  if (l.includes("learning") || l.includes("basic")) return 50;
+  // Working: Can use in real work independently
+  if (l.includes("working") || l.includes("independent")) return 65;
 
-  return 70; // Default
+  // Learning: Currently studying / practicing
+  if (l.includes("learning") || l.includes("practicing") || l.includes("studying")) return 50;
+
+  // Beginner: Basic knowledge, learning stage
+  if (l.includes("beginner") || l.includes("basic")) return 40;
+
+  return 65; // Default working level
 }
 
 /**
@@ -322,6 +327,7 @@ export default function SkillsSection() {
 
   // Compute groups from CMS or Local
   const groups = useMemo(() => {
+    let finalGroups = [];
     if (cmsSkills && cmsSkills.length > 0) {
       const groupsMap = {};
       cmsSkills.forEach(skill => {
@@ -337,9 +343,26 @@ export default function SkillsSection() {
           details: skill.details
         });
       });
-      return Object.values(groupsMap);
+      finalGroups = Object.values(groupsMap);
+    } else {
+      finalGroups = localGroups || [];
     }
-    return localGroups || [];
+
+    // Sort categories: Civil -> Revit/BIM -> Web Tools -> Soft Skills
+    return finalGroups.sort((a, b) => {
+      const getPriority = (title) => {
+        const t = (title || "").toLowerCase();
+        if (t.includes("civil")) return 1;
+        if (t.includes("revit") || t.includes("bim") || t.includes("cad")) return 2;
+        if (t.includes("web") || t.includes("tool") || t.includes("software") || t.includes("tech")) return 3;
+        if (t.includes("soft") || t.includes("communication") || t.includes("management")) return 4;
+        return 5; // Default fallback
+      };
+      const pA = getPriority(a.title);
+      const pB = getPriority(b.title);
+      if (pA === pB) return a.title.localeCompare(b.title); // Alphabetical fallback
+      return pA - pB;
+    });
   }, [cmsSkills, localGroups]);
 
   const [activeIndex, setActiveIndex] = useState(0);

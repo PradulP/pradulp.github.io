@@ -12,8 +12,56 @@ import {
   Terminal,
   CheckCircle2,
   Award,
-  Building2
+  Building2,
+  MousePointerClick
 } from "lucide-react";
+
+function formatDisplayDate(str) {
+  if (!str) return "";
+  if (str.includes("T") && str.includes("Z")) {
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) {
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${months[d.getMonth()]} ${d.getFullYear()}`;
+    }
+  }
+  return str;
+}
+
+function parseDateToComparable(str) {
+  if (!str) return 0;
+  const s = str.toLowerCase();
+  if (s.includes("present") || s.includes("current")) return Number.MAX_SAFE_INTEGER;
+
+  if (s.includes("t") && s.includes("z")) {
+    const time = new Date(str).getTime();
+    return isNaN(time) ? 0 : time;
+  }
+
+  const match = str.match(/([a-zA-Z]+)?\s*(\d{4})/);
+  if (match) {
+    const year = parseInt(match[2], 10);
+    const monthStr = match[1] || "Jan";
+    const months = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+    const m = months[monthStr.toLowerCase().substring(0, 3)] ?? 0;
+    return new Date(year, m).getTime();
+  }
+  return 0;
+}
+
+function getStartAndEndStrings(periodStr) {
+  if (!periodStr) return { start: "", end: "" };
+  const parts = periodStr.split(/[—–-]/).map(s => s.trim());
+  return {
+    start: parts[0] || "",
+    end: parts.length > 1 ? parts[1] : parts[0] || ""
+  };
+}
+
+function getEndValue(periodStr) {
+  const { end } = getStartAndEndStrings(periodStr);
+  return parseDateToComparable(end);
+}
 
 function getEndYear(item) {
   // Check main period first
@@ -73,10 +121,9 @@ export default function Experience() {
           location: String(item.location || ""),
           backgroundText: String(item.backgroundText || comp).split(" ")[0].toUpperCase(),
           subtitle: item.subtitle || "",
-          // Period will be dynamically calculated
-          period: String(item.period || ""),
-          isCurrent: String(item.period || "").toLowerCase().includes('present'),
-          roles: []
+          period: "",
+          isCurrent: false,
+          _rolesRaw: []
         };
       }
 
@@ -91,23 +138,48 @@ export default function Experience() {
         tools = String(item.tech).split(/(?:\|\||,)/).map(s => s.trim()).filter(Boolean);
       }
 
+      const rolePeriod = formatDisplayDate(String(item.period || ""));
+      const isCur = rolePeriod.toLowerCase().includes('present');
+
       // Add as a sub-role
-      map[comp].roles.push({
+      map[comp]._rolesRaw.push({
         title: item.title || item.role || "",
-        period: String(item.period || ""),
-        summary: points[0] || "",
+        period: rolePeriod,
+        summary: item.summary || "", // Don't repeat the first point automatically
         points: points,
         tools: tools,
-        isCurrent: String(item.period || "").toLowerCase().includes('present')
+        isCurrent: isCur,
+        certificate: item.certificate || "",
+        pdf: item.pdf || "",
+        photos: item.photos ? String(item.photos).split(/(?:\|\||,)/).map(s => s.trim()).filter(Boolean) : []
       });
 
       // Keep track of overall current status
-      if (String(item.period || "").toLowerCase().includes('present')) {
+      if (isCur) {
         map[comp].isCurrent = true;
       }
     });
 
-    return Object.values(map);
+    return Object.values(map).map(comp => {
+      // Sort roles descending
+      comp.roles = comp._rolesRaw.sort((a, b) => getEndValue(b.period) - getEndValue(a.period));
+
+      if (comp.roles.length > 0) {
+        const latestRole = comp.roles[0];
+        const earliestRole = comp.roles[comp.roles.length - 1];
+
+        const latestEnd = getStartAndEndStrings(latestRole.period).end;
+        const earliestStart = getStartAndEndStrings(earliestRole.period).start;
+
+        if (comp.roles.length > 1 && earliestStart && latestEnd && earliestStart !== latestEnd) {
+          comp.period = `${earliestStart} — ${latestEnd}`;
+        } else {
+          comp.period = latestRole.period;
+        }
+      }
+      delete comp._rolesRaw;
+      return comp;
+    });
   }, [actualExperience]);
 
   const items =
@@ -305,15 +377,18 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
   if (!roles) {
     if (item.role) {
       // Flattened Experience Data
-      roles = [{ ...item, title: item.role, tools: item.highlights, summary: item.summary }];
+      roles = [{ ...item, title: item.role, tools: item.highlights, summary: item.summary, points: item.points || [] }];
     } else if (item.degree) {
       // Education Data Adapter
       roles = [{
         title: item.degree,
         period: item.years,
-        summary: item.description,
-        tools: item.highlights,
-        points: [] // Education specific points if any
+        summary: "",
+        tools: item.achievements ? String(item.achievements).split(/(?:\|\||,)/).map(s => s.trim()).filter(Boolean) : (item.highlights || []),
+        points: item.description ? String(item.description).split(/(?:\|\|)/).map(s => s.trim()).filter(Boolean) : [],
+        certificate: item.certificate || "",
+        pdf: item.pdf || "",
+        photos: item.photos ? String(item.photos).split(/(?:\|\||,)/).map(s => s.trim()).filter(Boolean) : []
       }];
     } else {
       roles = [];
@@ -356,8 +431,18 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
             </span>
           </div>
 
+          {/* Click prompt pop-up */}
+          <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20 pointer-events-none transition-all duration-300">
+            <div className="animate-bounce bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.3)] rounded-full p-2 flex items-center backdrop-blur-md transition-all duration-300 group-hover:bg-emerald-500/20 group-hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]">
+              <MousePointerClick className="w-5 h-5" />
+              <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] max-w-0 overflow-hidden opacity-0 group-hover:max-w-[120px] group-hover:opacity-100 group-hover:ml-2 transition-all duration-500 ease-in-out whitespace-nowrap">
+                Click to Open
+              </span>
+            </div>
+          </div>
+
           {/* Header Section */}
-          <div className="relative z-10">
+          <div className="relative z-10 w-[90%] md:w-full max-w-[85%] pr-10">
             <div className="flex items-center gap-3 mb-2">
               <GraduationCap className="w-4 h-4 text-emerald-400" />
               <span className="font-mono text-xs font-bold text-emerald-400 tracking-widest uppercase">
@@ -375,11 +460,23 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
             </div>
           </div>
 
-          {/* Description */}
-          <div className="relative z-10 mt-8 mb-8">
-            <p className="pl-4 border-l-2 border-slate-700 text-slate-400 italic text-sm md:text-base leading-relaxed whitespace-pre-line">
-              {roles[0]?.summary || item.description}
-            </p>
+          {/* Points / Description */}
+          <div className="relative z-10 mt-6 mb-6">
+            <ul className="space-y-3">
+              {roles[0]?.points?.map((pt, i) => (
+                <li key={i} className="flex gap-3 items-start group/point">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500/50 mt-1 flex-shrink-0 group-hover/point:text-emerald-400 transition-colors" />
+                  <span className="text-slate-300 text-sm md:text-base leading-relaxed group-hover/point:text-white transition-colors">
+                    {pt}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {roles[0]?.summary && (
+              <p className="mt-4 pl-4 border-l-2 border-slate-700 text-slate-400 italic text-sm md:text-base leading-relaxed whitespace-pre-line">
+                {roles[0].summary}
+              </p>
+            )}
           </div>
 
           {/* Achievements / Highlights */}
@@ -399,8 +496,17 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
             </div>
           )}
 
+          {/* Media Preview Indicator */}
+          {(roles[0]?.certificate || roles[0]?.pdf || (roles[0]?.photos && roles[0]?.photos.length > 0)) && (
+            <div className="relative z-10 mt-6 pt-4 border-t border-slate-800/30 flex items-center gap-2 text-violet-400">
+              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 rounded-md font-bold text-[10px] uppercase tracking-wider">
+                <Terminal className="w-3 h-3" /> Attachments Available (Click to View)
+              </span>
+            </div>
+          )}
+
           {/* Footer Registry */}
-          <div className="relative z-10 mt-8 pt-4 border-t border-slate-800 flex items-center justify-between text-[10px] font-mono font-bold text-slate-600 uppercase tracking-[0.2em]">
+          <div className="relative z-10 mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-[10px] font-mono font-bold text-slate-600 uppercase tracking-[0.2em]">
             <span>REGISTRY: {registryId}</span>
             <span className="text-emerald-500/50">VERIFIED</span>
           </div>
@@ -423,7 +529,17 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
             {bgText}
           </div>
 
-          <div className="relative z-10 space-y-2">
+          {/* Click prompt pop-up */}
+          <div className="absolute top-4 right-4 md:top-5 md:right-5 z-20 pointer-events-none transition-all duration-300">
+            <div className="animate-bounce bg-sky-500/10 border border-sky-500/40 text-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.3)] rounded-full p-2 flex items-center backdrop-blur-md transition-all duration-300 group-hover:bg-sky-500/20 group-hover:shadow-[0_0_25px_rgba(14,165,233,0.5)]">
+              <MousePointerClick className="w-5 h-5" />
+              <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] max-w-0 overflow-hidden opacity-0 group-hover:max-w-[120px] group-hover:opacity-100 group-hover:ml-2 transition-all duration-500 ease-in-out whitespace-nowrap">
+                Click to Open
+              </span>
+            </div>
+          </div>
+
+          <div className="relative z-10 space-y-2 max-w-[85%]">
             <div className="flex items-center gap-2 mb-1">
               <Briefcase className="w-4 h-4 text-sky-400" />
               <span className="text-[10px] font-mono font-black uppercase tracking-[0.2em] text-sky-400">
@@ -473,13 +589,13 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
                 )}
               </div>
 
-              {/* Role Points (Limited to 2 items) */}
+              {/* Role Points */}
               {Array.isArray(role.points) && role.points.length > 0 && (
-                <ul className="space-y-2 mb-4">
-                  {role.points.slice(0, 2).map((pt, i) => (
+                <ul className="space-y-3 mb-4">
+                  {role.points.map((pt, i) => (
                     <li key={i} className="flex gap-3 items-start">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500/50 flex-shrink-0 mt-1" />
-                      <span className="text-xs md:text-sm text-slate-300 leading-relaxed line-clamp-2">{pt}</span>
+                      <span className="text-xs md:text-sm text-slate-300 leading-relaxed max-w-xl">{pt}</span>
                     </li>
                   ))}
                 </ul>
@@ -487,13 +603,25 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
 
               {/* Tools (Preview) */}
               {Array.isArray(role.tools) && role.tools.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {role.tools.slice(0, 3).map((t, i) => (
-                    <span key={i} className="text-[9px] px-2 py-0.5 rounded bg-slate-800/50 text-slate-500">{t}</span>
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  {role.tools.slice(0, 4).map((t, i) => (
+                    <span key={i} className="text-[10px] sm:text-xs font-semibold px-2 py-1 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 shadow-sm hover:bg-sky-500/20 transition-colors">
+                      {t}
+                    </span>
                   ))}
-                  {role.tools.length > 3 && (
-                    <span className="text-[9px] px-2 py-0.5 rounded bg-slate-800/30 text-slate-600">+{role.tools.length - 3}</span>
+                  {role.tools.length > 4 && (
+                    <span className="text-[10px] sm:text-xs font-semibold px-2 py-1 rounded bg-slate-800/50 text-slate-400 border border-slate-700/50">
+                      +{role.tools.length - 4} more
+                    </span>
                   )}
+                </div>
+              )}
+              {/* Media Preview Tags */}
+              {(role.certificate || role.pdf || (role.photos && role.photos.length > 0)) && (
+                <div className="flex flex-wrap gap-2 mt-4 pt-3 border-t border-slate-800/30">
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 bg-violet-500/10 text-violet-400 border border-violet-500/20 rounded-md font-bold text-[10px] uppercase tracking-wider">
+                    <Terminal className="w-3 h-3" /> Attachments Available (Click to View)
+                  </span>
                 </div>
               )}
             </div>
@@ -524,6 +652,8 @@ function TimelineCard({ item, align, tab, isCurrent, onSelect }) {
 
 /* ================= EXPERIENCE MODAL ================= */
 function ExperienceModal({ item, onClose }) {
+  const [activeMedia, setActiveMedia] = useState(null); // { title: string, url: string, type: string }
+
   useEffect(() => {
     // Lock body scroll when modal is open
     document.body.style.overflow = "hidden";
@@ -534,18 +664,43 @@ function ExperienceModal({ item, onClose }) {
 
   if (!item) return null;
 
+  const getEmbedUrl = (url) => {
+    if (!url) return url;
+    if (url.includes('drive.google.com') && url.includes('/view')) {
+      return url.replace('/view', '/preview'); // Google drive embed
+    }
+    return url;
+  };
+
+  const getImageUrl = (url) => {
+    if (!url) return url;
+    // Map Google Drive preview URLs to direct image source URLs
+    if (url.includes('drive.google.com')) {
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      }
+    }
+    return url;
+  };
+
+  const isDriveEmbed = activeMedia && activeMedia.url && activeMedia.url.includes('drive.google.com');
+
   // Adapter for data structure (replicated logic)
   let roles = item.roles;
   if (!roles) {
     if (item.role) {
-      roles = [{ ...item, title: item.role, tools: item.highlights, summary: item.summary }];
+      roles = [{ ...item, title: item.role, tools: item.highlights, summary: item.summary, points: item.points || [] }];
     } else if (item.degree) {
       roles = [{
         title: item.degree,
         period: item.years,
-        summary: item.description,
-        tools: item.highlights,
-        points: []
+        summary: "",
+        tools: item.achievements ? String(item.achievements).split(/(?:\|\||,)/).map(s => s.trim()).filter(Boolean) : (item.highlights || []),
+        points: item.description ? String(item.description).split(/(?:\|\|)/).map(s => s.trim()).filter(Boolean) : [],
+        certificate: item.certificate || "",
+        pdf: item.pdf || "",
+        photos: item.photos ? String(item.photos).split(/(?:\|\||,)/).map(s => s.trim()).filter(Boolean) : []
       }];
     } else {
       roles = [];
@@ -624,7 +779,7 @@ function ExperienceModal({ item, onClose }) {
             <div className="flex flex-wrap items-center gap-4 mt-2 text-xs md:text-sm text-slate-500 font-mono">
               <span className="flex items-center gap-1.5 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700">
                 <Calendar className="w-3.5 h-3.5 text-sky-400" />
-                {item.period}
+                {item.period || item.years}
               </span>
               {!isEducation && (
                 <span className="flex items-center gap-1.5 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700">
@@ -713,9 +868,86 @@ function ExperienceModal({ item, onClose }) {
                   </div>
                 </div>
               )}
+
+              {/* Media Section: Certificates, PDFs, Photos */}
+              {(role.certificate || role.pdf || (role.photos && role.photos.length > 0)) && (
+                <div className="mt-6 flex flex-wrap items-center gap-3 pt-6 border-t border-slate-800/50">
+                  {role.certificate && (
+                    <button onClick={() => setActiveMedia({ title: 'Certificate View', url: role.certificate, type: 'certificate' })} className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-lg hover:bg-emerald-500/20 transition-all font-bold text-xs uppercase tracking-wider">
+                      <Award className="w-4 h-4" /> View Certificate
+                    </button>
+                  )}
+                  {role.pdf && (
+                    <button onClick={() => setActiveMedia({ title: 'PDF Flipbook Reader', url: role.pdf, type: 'pdf' })} className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/20 transition-all font-bold text-xs uppercase tracking-wider cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /><path d="M10 13v6" /><path d="M9 13h2" /><path d="M16 13h-2v6h2" /></svg>
+                      Read PDF
+                    </button>
+                  )}
+                  {role.photos && role.photos.length > 0 && (
+                    <button onClick={() => setActiveMedia({ title: 'Photo Gallery', url: role.photos[0], type: 'photo' })} className="flex items-center gap-2 px-4 py-2 bg-sky-500/10 text-sky-400 border border-sky-500/30 rounded-lg hover:bg-sky-500/20 transition-all font-bold text-xs uppercase tracking-wider cursor-pointer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg>
+                      View Photos
+                    </button>
+                  )}
+                </div>
+              )}
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Media Viewer Overlay (In-App iframe for Drive/PDF links) */}
+        <AnimatePresence>
+          {activeMedia && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0 z-50 bg-slate-950 flex flex-col rounded-2xl overflow-hidden"
+            >
+              <div className="flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900 shadow-xl">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${activeMedia.type === 'pdf' ? 'bg-red-500/10' : 'bg-emerald-500/10'}`}>
+                    {activeMedia.type === 'pdf' ? <Terminal className="w-5 h-5 text-red-500" /> : <Award className="w-5 h-5 text-emerald-500" />}
+                  </div>
+                  <div>
+                    <h3 className="text-white font-black italic uppercase tracking-widest">{activeMedia.title}</h3>
+                    <p className="text-[10px] text-slate-500 font-mono tracking-widest">SECURE_EMBED_VIEWER</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveMedia(null)}
+                  className="px-4 py-2 bg-slate-800 hover:bg-red-500/10 border border-slate-700 hover:border-red-500/30 text-slate-300 hover:text-red-400 rounded-lg transition-all font-bold text-xs uppercase tracking-widest flex items-center gap-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                  Close Viewer
+                </button>
+              </div>
+              <div className="flex-grow relative bg-slate-900 overflow-hidden outline-none flex items-center justify-center">
+                {isDriveEmbed ? (
+                  <div className="absolute inset-0 bg-slate-900">
+                    <iframe
+                      src={getEmbedUrl(activeMedia.url)}
+                      className="absolute w-full border-none outline-none bg-slate-900"
+                      style={{ top: "-56px", height: "calc(100% + 56px)" }}
+                      title={activeMedia.title}
+                      allow="autoplay"
+                    />
+                  </div>
+                ) : activeMedia.type === 'photo' ? (
+                  <img src={activeMedia.url} alt="Media View" className="max-w-full max-h-full object-contain p-4 rounded-xl shadow-2xl" />
+                ) : (
+                  <iframe
+                    src={getEmbedUrl(activeMedia.url)}
+                    className="w-full h-full border-none outline-none zoom-150 bg-slate-900"
+                    title={activeMedia.title}
+                    allow="autoplay"
+                  />
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </motion.div>,
     document.body

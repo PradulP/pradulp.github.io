@@ -6,26 +6,47 @@ import { Cpu, Info, ChevronRight, CheckCircle2 } from "lucide-react";
  * Convert a text level label into a precise percentage based on professional guidance
  */
 function levelToPercent(level) {
-    if (!level) return 60;
+    if (!level) return 65;
     const l = level.toLowerCase();
 
-    // Expert / Daily use: 90–100%
-    if (l.includes("expert") || l.includes("daily") || l.includes("lead")) return 95;
-    if (l.includes("advanced")) return 90;
+    // Expert: Master-level proficiency
+    if (l.includes("expert") || l.includes("master")) return 95;
 
-    // Strong professional: 80–89%
-    if (l.includes("strong")) return 85;
+    // Strong: Very confident (often for soft skills)
+    if (l.includes("strong") || l.includes("confident")) return 90;
 
-    // Confident / Intermediate: 70–79%
-    if (l.includes("intermediate")) return 75;
+    // Advanced: Deep expertise
+    if (l.includes("advanced") || l.includes("deep")) return 85;
 
-    // Working knowledge: 60–69%
-    if (l.includes("working")) return 65;
+    // Intermediate: Strong practical ability
+    if (l.includes("intermediate") || l.includes("practical")) return 75;
 
-    // Learning: < 60%
-    if (l.includes("learning") || l.includes("basic")) return 50;
+    // Working: Can use in real work independently
+    if (l.includes("working") || l.includes("independent")) return 65;
 
-    return 70; // Default
+    // Learning: Currently studying / practicing
+    if (l.includes("learning") || l.includes("practicing") || l.includes("studying")) return 50;
+
+    // Beginner: Basic knowledge, learning stage
+    if (l.includes("beginner") || l.includes("basic")) return 40;
+
+    return 65; // Default working level
+}
+
+/**
+ * Returns the plain English meaning of exactly what the level means based on user guidelines
+ */
+function getLevelMeaning(level) {
+    if (!level) return "Can use in real work independently.";
+    const l = level.toLowerCase();
+    if (l.includes("expert") || l.includes("master")) return "Master-level proficiency.";
+    if (l.includes("strong") || l.includes("confident")) return "Very confident professional ability.";
+    if (l.includes("advanced") || l.includes("deep")) return "Deep expertise.";
+    if (l.includes("intermediate") || l.includes("practical")) return "Strong practical ability.";
+    if (l.includes("working") || l.includes("independent")) return "Can use in real work independently.";
+    if (l.includes("learning") || l.includes("practicing") || l.includes("studying")) return "Currently studying / practicing.";
+    if (l.includes("beginner") || l.includes("basic")) return "Basic knowledge, learning stage.";
+    return "Component functionality verified.";
 }
 
 /**
@@ -179,7 +200,7 @@ export default function SkillCard({ skill, categoryTitle, onClick, index, getExp
                         <div className="flex-1 min-h-0 bg-[#050914] border border-slate-800 p-3 overflow-y-auto custom-scrollbar">
                             <p className="text-[10px] text-slate-300 leading-relaxed mb-4">
                                 <span className="text-cyan-600 mr-2">&gt;</span>
-                                {skill.details || "Component functionality verified."}
+                                {skill.details || getLevelMeaning(skill.level)}
                             </p>
 
                             {/* Experience Context Indicators */}

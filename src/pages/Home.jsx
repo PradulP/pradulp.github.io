@@ -19,7 +19,8 @@ import {
     Briefcase,
     GraduationCap,
     MessageCircle,
-    Mail
+    Mail,
+    MousePointerClick
 } from "lucide-react";
 import { generateSlug } from "../pages/Blog";
 import useGoogleCMS from "../hooks/useGoogleCMS";
@@ -84,11 +85,13 @@ export default function Home() {
     const { data: cmsBlog } = useGoogleCMS("blog");
     const { data: cmsInnovation } = useGoogleCMS("innovation");
     const { data: cmsExperience } = useGoogleCMS("experience");
+    const { data: cmsEducation } = useGoogleCMS("education");
 
     // Use CMS data if available, otherwise fallback to local JSON
     const displayProjects = cmsProjects?.length ? cmsProjects : (projects || []);
     const displayInnovation = cmsInnovation?.length ? cmsInnovation : (innovation || []);
     const displayExperience = cmsExperience?.length ? cmsExperience : (experience || []);
+    const displayEducation = cmsEducation?.length ? cmsEducation : (education || []);
 
     // Logic to calculate dynamic stats
     const calculateYears = () => {
@@ -410,62 +413,89 @@ export default function Home() {
                         variants={containerVariants}
                         className="grid gap-6 md:grid-cols-2"
                     >
-                        {experience[0] && (
-                            <motion.article
-                                variants={itemVariants}
-                                className="relative group rounded-2xl border border-slate-800 bg-slate-900/60 p-8 hover:border-emerald-500/50 transition-all duration-300"
-                            >
-                                <div className="absolute top-6 right-6 text-emerald-500/20 group-hover:text-emerald-500/40 transition-colors">
-                                    <Briefcase className="w-8 h-8" />
-                                </div>
-                                <div className="space-y-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full w-fit border border-emerald-500/20">
-                                        Latest Role
-                                    </span>
-                                    <div>
-                                        <h3 className="font-bold text-xl text-slate-100">
-                                            {experience[0].roles?.[0]?.title || experience[0].role}
-                                        </h3>
-                                        <p className="text-sky-400 text-sm font-medium mt-1">{experience[0].company}</p>
+                        {displayExperience[0] && (
+                            <Link to="/experience" className="block h-full group">
+                                <motion.article
+                                    variants={itemVariants}
+                                    className="relative rounded-2xl border border-slate-800 bg-slate-900/60 p-8 hover:border-emerald-500/50 transition-all duration-300 h-full"
+                                >
+                                    {/* Click prompt pop-up */}
+                                    <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20 pointer-events-none transition-all duration-300">
+                                        <div className="animate-bounce bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.3)] rounded-full p-2 flex items-center backdrop-blur-md transition-all duration-300 group-hover:bg-emerald-500/20 group-hover:shadow-[0_0_25px_rgba(16,185,129,0.5)]">
+                                            <MousePointerClick className="w-5 h-5" />
+                                            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] max-w-0 overflow-hidden opacity-0 group-hover:max-w-[120px] group-hover:opacity-100 group-hover:ml-2 transition-all duration-500 ease-in-out whitespace-nowrap">
+                                                Click to Open
+                                            </span>
+                                        </div>
                                     </div>
-                                    <ul className="list-disc list-inside space-y-2 text-sm text-slate-400 pt-2">
-                                        {(experience[0].roles?.[0]?.points || experience[0].points)?.slice(0, 2).map((pt, i) => <li key={i}>{pt}</li>)}
-                                    </ul>
-                                    <div className="pt-6 mt-2 border-t border-slate-800/50">
-                                        <Link to="/experience" className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-emerald-400 transition-colors flex items-center gap-2">
-                                            View Full History <ArrowRight className="w-3 h-3" />
-                                        </Link>
+
+                                    <div className="absolute top-6 right-6 text-emerald-500/10 group-hover:text-emerald-500/20 transition-colors">
+                                        <Briefcase className="w-8 h-8" />
                                     </div>
-                                </div>
-                            </motion.article>
+                                    <div className="space-y-4">
+                                        <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full w-fit border border-emerald-500/20">
+                                            Latest Role
+                                        </span>
+                                        <div>
+                                            <h3 className="font-bold text-xl text-slate-100">
+                                                {displayExperience[0].roles?.[0]?.title || displayExperience[0].role || displayExperience[0].title || "Professional Role"}
+                                            </h3>
+                                            <p className="text-sky-400 text-sm font-medium mt-1">{displayExperience[0].company || displayExperience[0].place}</p>
+                                        </div>
+                                        <ul className="list-disc list-inside space-y-2 text-sm text-slate-400 pt-2">
+                                            {(displayExperience[0].roles?.[0]?.points ||
+                                                (displayExperience[0].description ? String(displayExperience[0].description).split(/(?:\|\|)/) : []) ||
+                                                displayExperience[0].points || [])
+                                                .slice(0, 2).map((pt, i) => <li key={i}>{typeof pt === 'string' ? pt.trim() : pt}</li>)}
+                                        </ul>
+                                        <div className="pt-6 mt-2 border-t border-slate-800/50">
+                                            <div className="text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-emerald-400 transition-colors flex items-center gap-2">
+                                                View Full History <ArrowRight className="w-3 h-3" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.article>
+                            </Link>
                         )}
 
-                        {education[0] && (
-                            <motion.article
-                                variants={itemVariants}
-                                className="relative group rounded-2xl border border-slate-800 bg-slate-900/60 p-8 hover:border-sky-500/50 transition-all duration-300"
-                            >
-                                <div className="absolute top-6 right-6 text-sky-500/20 group-hover:text-sky-500/40 transition-colors">
-                                    <GraduationCap className="w-8 h-8" />
-                                </div>
-                                <div className="space-y-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-sky-400 bg-sky-500/10 px-3 py-1 rounded-full w-fit border border-sky-500/20">
-                                        Education
-                                    </span>
-                                    <div>
-                                        <h3 className="font-bold text-xl text-slate-100">{education[0].degree}</h3>
-                                        <p className="text-slate-300 text-sm font-medium mt-1">{education[0].institution || education[0].place}</p>
+                        {displayEducation[0] && (
+                            <Link to="/experience?tab=education" className="block h-full group">
+                                <motion.article
+                                    variants={itemVariants}
+                                    className="relative rounded-2xl border border-slate-800 bg-slate-900/60 p-8 hover:border-sky-500/50 transition-all duration-300 h-full"
+                                >
+                                    {/* Click prompt pop-up */}
+                                    <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20 pointer-events-none transition-all duration-300">
+                                        <div className="animate-bounce bg-sky-500/10 border border-sky-500/40 text-sky-400 shadow-[0_0_15px_rgba(14,165,233,0.3)] rounded-full p-2 flex items-center backdrop-blur-md transition-all duration-300 group-hover:bg-sky-500/20 group-hover:shadow-[0_0_25px_rgba(14,165,233,0.5)]">
+                                            <MousePointerClick className="w-5 h-5" />
+                                            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] max-w-0 overflow-hidden opacity-0 group-hover:max-w-[120px] group-hover:opacity-100 group-hover:ml-2 transition-all duration-500 ease-in-out whitespace-nowrap">
+                                                Click to Open
+                                            </span>
+                                        </div>
                                     </div>
-                                    <p className="text-slate-400 text-sm leading-relaxed pt-2 line-clamp-2">
-                                        {education[0].description}
-                                    </p>
-                                    <div className="pt-6 mt-2 border-t border-slate-800/50">
-                                        <Link to="/experience?tab=education" className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-sky-400 transition-colors flex items-center gap-2">
-                                            View Academic Record <ArrowRight className="w-3 h-3" />
-                                        </Link>
+
+                                    <div className="absolute top-6 right-6 text-sky-500/10 group-hover:text-sky-500/20 transition-colors">
+                                        <GraduationCap className="w-8 h-8" />
                                     </div>
-                                </div>
-                            </motion.article>
+                                    <div className="space-y-4">
+                                        <span className="text-[10px] font-bold uppercase tracking-widest text-sky-400 bg-sky-500/10 px-3 py-1 rounded-full w-fit border border-sky-500/20">
+                                            Education
+                                        </span>
+                                        <div>
+                                            <h3 className="font-bold text-xl text-slate-100">{displayEducation[0].degree || displayEducation[0].title}</h3>
+                                            <p className="text-slate-300 text-sm font-medium mt-1">{displayEducation[0].institution || displayEducation[0].place}</p>
+                                        </div>
+                                        <p className="text-slate-400 text-sm leading-relaxed pt-2 line-clamp-2">
+                                            {displayEducation[0].description || displayEducation[0].summary}
+                                        </p>
+                                        <div className="pt-6 mt-2 border-t border-slate-800/50">
+                                            <div className="text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-sky-400 transition-colors flex items-center gap-2">
+                                                View Academic Record <ArrowRight className="w-3 h-3" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.article>
+                            </Link>
                         )}
                     </motion.div>
                 </section>

@@ -2,20 +2,133 @@
     "experience": [
         {
             "timestamp": "",
-            "id": 1,
-            "title": "Junior Engineer",
-            "company": "Paradigm IT Private Limited",
-            "period": "Dec 2024 — Present",
-            "location": "Infopark, Kochi, India",
-            "description": "Preparing construction-ready AutoCAD and Revit drawings for infrastructure works || Contributing to BIM-based modeling and detailing processes || Supporting geotechnical and soil-related documentation using site data || Coordinating with design and rebar teams to align drawings with project requirements",
+            "id": 8,
+            "title": "Intern — Traffic Survey Project",
+            "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC)",
+            "period": "2022-08-31T18:30:00.000Z",
+            "location": "Muzhappilangad, Kerala, India",
+            "description": "Conducted traffic surveys on selected road corridors for road development planning || Collected and compiled data on vehicle volume, classification, and peak-hour traffic patterns || Documented traffic flow characteristics to support infrastructure planning || Assisted in data compilation and reporting for transportation studies || Developed practical knowledge of traffic engineering and field survey methods",
             "tech": [
-                "AutoCAD ",
-                " Revit ",
-                " BIM Modelling ",
-                " BIM 360 ",
-                " Autodesk Construction Cloud (ACC)"
+                "Traffic Survey & Data Collection ",
+                " Traffic Volume & Flow Analysis ",
+                " Vehicle Classification ",
+                " Peak Hour Analysis ",
+                " Road Corridor Surveys ",
+                " Field Observation ",
+                " Data Compilation"
             ],
-            "visible": true
+            "visible": true,
+            "certificate": "https://drive.google.com/file/d/1Qs1BGjL9YKRKpgB0OvkdTwHXxh3RIvPl/view?usp=drive_link",
+            "photos": "",
+            "pdf": ""
+        },
+        {
+            "timestamp": "",
+            "id": 7,
+            "title": "Intern — Construction of Regulator-cum-Bridge across Ummenchira River",
+            "company": "Kerala Irrigation Infrastructure Development Corporation Ltd. (KIIDC)",
+            "period": "2023-04-30T18:30:00.000Z",
+            "location": "Thalassery, Kerala, India",
+            "description": "Observed regulator-cum-bridge construction processes and site operations || Gained understanding of construction techniques and workflows || Learned quality control procedures and site coordination || Followed safety protocols and industry standards || Collaborated with engineers and site personnel",
+            "tech": [
+                "Construction Site Exposure ",
+                " Bridge Construction Fundamentals ",
+                " Quality Control ",
+                " Site Coordination ",
+                " Safety Protocols ",
+                " Teamwork ",
+                " Communication ",
+                " Problem Solving"
+            ],
+            "visible": true,
+            "certificate": "https://drive.google.com/file/d/14uVauT2n7S9Ud2LFeceXIhzjpb53jVPL/view?usp=drive_link",
+            "photos": "",
+            "pdf": "https://drive.google.com/file/d/1RSETqtD20_ARi05YUAgk9Sbz4tKVHo_E/view?usp=drive_link"
+        },
+        {
+            "timestamp": "",
+            "id": 6,
+            "title": "Trainee — Structural Design & Project Management Program",
+            "company": "S&R Consultants",
+            "period": "Oct 2022 — Nov 2023",
+            "location": "Remote",
+            "description": "Modeled and analyzed structural systems using ETABS || Prepared beam–column layouts and structural drawings || Developed Bar Bending Schedules (BBS) || Performed project estimation and cost analysis || Applied rebar optimization techniques || Used Estimax Pro for estimation || Prepared BBS using Aadspro || Applied Optimax for rebar optimization",
+            "tech": [
+                "Structural Design ",
+                " ETABS ",
+                " Beam–Column Layouts ",
+                " Bar Bending Schedule ",
+                " Quantity Estimation ",
+                " Cost Analysis ",
+                " Rebar Optimization ",
+                " Project Management ",
+                " AutoCAD"
+            ],
+            "visible": true,
+            "certificate": "",
+            "photos": "",
+            "pdf": ""
+        },
+        {
+            "timestamp": "",
+            "id": 5,
+            "title": "Intern — Parking Policy Development Project",
+            "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC)",
+            "period": "2024-01-31T18:30:00.000Z",
+            "location": "Thalassery, Kerala, India",
+            "description": "Conducted field surveys for the state-level parking policy project || Designed and administered user opinion surveys to gather feedback from residents and commuters || Collected and analyzed land-use data to identify potential parking infrastructure sites || Performed parking in–out surveys to assess entry/exit patterns, duration, and utilization || Generated data-driven insights for transportation planning and policy development",
+            "tech": [
+                "Parking Studies & Utilization Analysis ",
+                " Entry–Exit Survey Analysis ",
+                " User Opinion Surveys ",
+                "Land Use Survey ",
+                " Site Assessment "
+            ],
+            "visible": true,
+            "certificate": "",
+            "photos": "",
+            "pdf": ""
+        },
+        {
+            "timestamp": "",
+            "id": 4,
+            "title": "Frontend Developer",
+            "company": "VBlaze",
+            "period": "Jun 2022 — Jun 2024",
+            "location": "Hybrid/ On-site",
+            "description": "Designed responsive web interfaces || Developed reusable components using modern frameworks || Collaborated with team members || Delivered functional web solutions",
+            "tech": [
+                "Front-End Development ",
+                " HTML ",
+                " CSS ",
+                " JavaScript ",
+                " React.js ",
+                " Tailwind CSS ",
+                " Bootstrap ",
+                " Responsive Web Design"
+            ],
+            "visible": true,
+            "certificate": "",
+            "photos": "",
+            "pdf": ""
+        },
+        {
+            "timestamp": "",
+            "id": 3,
+            "title": "Project Head (Part-Time)",
+            "company": "VBlaze",
+            "period": "Jan 2023 — Jun 2024",
+            "location": "Hybrid/ On-site",
+            "description": "Led web-based project development using modern frontend technologies || Managed small teams and task allocation || Ensured timely delivery || Resolved technical and design challenges || Maintained quality standards || Developed leadership and coordination skills",
+            "tech": [
+                "React ",
+                " Tailwind CSS ",
+                " JavaScript"
+            ],
+            "visible": true,
+            "certificate": "",
+            "photos": "",
+            "pdf": ""
         },
         {
             "timestamp": "",
@@ -31,90 +144,30 @@
                 " Infrastructure Formwork Drawings ",
                 " Navisworks"
             ],
-            "visible": true
+            "visible": true,
+            "certificate": "",
+            "photos": "",
+            "pdf": ""
         },
         {
             "timestamp": "",
-            "id": 3,
-            "title": "Project Head (Part-Time)",
-            "company": "VBlaze",
-            "period": "Jan 2023 — Jun 2024",
-            "location": "Remote / On-site",
-            "description": "Led development of web-based projects using modern frontend technologies || Managed small teams, assigned tasks, and ensured timely delivery || Resolved technical and design challenges while maintaining quality standards || Strengthened leadership, problem-solving, and coordination skills",
+            "id": 1,
+            "title": "Junior Engineer",
+            "company": "Paradigm IT Private Limited",
+            "period": "Dec 2024 — Present",
+            "location": "Infopark, Kochi, India",
+            "description": "Preparing construction-ready AutoCAD and Revit drawings for infrastructure works || Contributing to BIM-based modeling and detailing processes || Supporting geotechnical and soil-related documentation using site data || Coordinating with design and rebar teams to align drawings with project requirements",
             "tech": [
-                "React ",
-                " Tailwind CSS ",
-                " JavaScript"
+                "AutoCAD ",
+                " Revit ",
+                " BIM Modelling ",
+                " BIM 360 ",
+                " Autodesk Construction Cloud (ACC)"
             ],
-            "visible": true
-        },
-        {
-            "timestamp": "",
-            "id": 4,
-            "title": "Frontend Developer",
-            "company": "VBlaze",
-            "period": "Jun 2022 — Jun 2024",
-            "location": "Remote / On-site",
-            "description": "Designed and developed responsive web interfaces || Implemented reusable components using modern frameworks || Collaborated with team members to deliver functional web solutions",
-            "tech": [
-                "HTML ",
-                " CSS ",
-                " JavaScript ",
-                " React ",
-                " Bootstrap ",
-                " Tailwind CSS"
-            ],
-            "visible": true
-        },
-        {
-            "timestamp": "",
-            "id": 5,
-            "title": "Intern — Parking Policy Development Project",
-            "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC)",
-            "period": "2024-01-31T18:30:00.000Z",
-            "location": "Thalassery, Kerala, India",
-            "description": "Conducted user opinion surveys and collected feedback from residents and commuters || Gathered land-use data to evaluate potential parking infrastructure sites || Observed parking behavior, entry/exit patterns, and utilization rates || Contributed data insights for regional planning and policy development",
-            "tech": [],
-            "visible": true
-        },
-        {
-            "timestamp": "",
-            "id": 6,
-            "title": "Trainee — Structural Design Program",
-            "company": "S&R Consultants",
-            "period": "Oct 2022 — Nov 2023",
-            "location": "Remote / On-site",
-            "description": "Modeled and analyzed structural systems using ETABS || Prepared beam-column layouts and bar bending schedules || Performed project estimation and cost analysis || Learned rebar optimization techniques for efficient construction",
-            "tech": [
-                "ETABS ",
-                " Estimation Software ",
-                " AutoCAD ",
-                " Bar Bending Schedules ",
-                " Structural Design"
-            ],
-            "visible": true
-        },
-        {
-            "timestamp": "",
-            "id": 7,
-            "title": "Intern — Bridge Construction Exposure",
-            "company": "Kerala Irrigation Infrastructure Development Corporation Ltd.",
-            "period": "2023-04-30T18:30:00.000Z",
-            "location": "Thalassery, Kerala, India",
-            "description": "Observed bridge construction processes and engineering practices || Gained understanding of quality control procedures and site coordination || Learned safety protocols and real-world construction workflows",
-            "tech": [],
-            "visible": true
-        },
-        {
-            "timestamp": "",
-            "id": 8,
-            "title": "Intern — Traffic Survey Project",
-            "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC)",
-            "period": "2022-08-31T18:30:00.000Z",
-            "location": "Muzhappilangad, Kerala, India",
-            "description": "Conducted traffic surveys on selected road corridors || Collected data on vehicle volume, types, and peak-hour usage || Supported transportation planning and development studies",
-            "tech": [],
-            "visible": true
+            "visible": true,
+            "certificate": "",
+            "photos": "",
+            "pdf": ""
         }
     ]
 }

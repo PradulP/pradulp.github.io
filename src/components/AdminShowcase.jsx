@@ -14,7 +14,6 @@ import {
     Search,
     Edit3,
     Mail,
-    Tool,
     CheckCircle2,
     Pocket
 } from 'lucide-react';
