@@ -3,6 +3,7 @@ import { cadSounds } from '../utils/cadSounds';
 
 export default function CadUIController() {
     const [theme, setTheme] = useState('dark'); // 'dark', 'blueprint', 'paper'
+    const [isMuted, setIsMuted] = useState(() => cadSounds.isMuted());
     const cursorRef = useRef(null);
     const [isHoveringProject, setIsHoveringProject] = useState(false);
     const [isMouseDown, setIsMouseDown] = useState(false);
@@ -50,16 +51,20 @@ export default function CadUIController() {
             cadSounds.playBlip();
         };
 
+        const handleMuteChange = (e) => setIsMuted(e.detail);
+
         window.addEventListener('themeChange', handleThemeChange);
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mousedown', handleMouseDown);
         window.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('cadMuteChange', handleMuteChange);
 
         return () => {
             window.removeEventListener('themeChange', handleThemeChange);
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mousedown', handleMouseDown);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('cadMuteChange', handleMuteChange);
         };
     }, []); // Empty dependency array is fine here as we use functional updates or refs where needed
 
@@ -103,9 +108,24 @@ export default function CadUIController() {
                 </div>
             </div>
 
-            {/* 2. Drafting Mode Toggle Button - DESKTOP ONLY */}
+            {/* 2. Drafting Mode Toggle + Mute Button - DESKTOP ONLY */}
             <div className="hidden md:flex fixed bottom-8 right-8 z-[100] flex-col items-end gap-2">
                 <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700/50 p-1 rounded-full shadow-2xl flex items-center gap-1 group transition-all duration-500 hover:pr-4">
+                    {/* Mute Toggle */}
+                    <button
+                        onClick={() => { cadSounds.toggleMute(); }}
+                        title={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+                        className="px-2 py-2 rounded-full flex items-center justify-center"
+                    >
+                        <span className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 transition-colors text-xs font-bold ${
+                            isMuted
+                                ? 'bg-red-500/10 border-red-500/50 text-red-400'
+                                : 'bg-sky-500/10 border-sky-500/50 text-sky-400'
+                        }`}>
+                            {isMuted ? '🔇' : '🔊'}
+                        </span>
+                    </button>
+
                     <button
                         onClick={toggleTheme}
                         className="px-2 py-2 rounded-full flex items-center gap-0 overflow-hidden transition-all duration-500 group-hover:gap-2 group-active:gap-2"

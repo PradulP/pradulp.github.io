@@ -6,6 +6,7 @@
 class CadSoundSystem {
     constructor() {
         this.ctx = null;
+        this.muted = typeof localStorage !== 'undefined' && localStorage.getItem('cad_muted') === 'true';
     }
 
     init() {
@@ -14,8 +15,25 @@ class CadSoundSystem {
         }
     }
 
+    toggleMute() {
+        this.muted = !this.muted;
+        localStorage.setItem('cad_muted', this.muted);
+        // Dispatch event so any listener (Navbar, CadUIController) can update UI
+        window.dispatchEvent(new CustomEvent('cadMuteChange', { detail: this.muted }));
+        if (!this.muted) {
+            // Play a confirmation blip when unmuting
+            this.playBlip();
+        }
+        return this.muted;
+    }
+
+    isMuted() {
+        return this.muted;
+    }
+
     // A subtle mechanical click
     playClick() {
+        if (this.muted) return;
         this.init();
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
@@ -36,6 +54,7 @@ class CadSoundSystem {
 
     // A digital high-tech blip
     playBlip() {
+        if (this.muted) return;
         this.init();
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
@@ -56,6 +75,7 @@ class CadSoundSystem {
 
     // A blueprint paper shuffle sound (noise based)
     playSwoosh() {
+        if (this.muted) return;
         this.init();
         const bufferSize = this.ctx.sampleRate * 0.1;
         const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);

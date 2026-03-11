@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import content from "../data/index";
+import { cadSounds } from "../utils/cadSounds";
 import {
     HiOutlineHome,
     HiOutlineUser,
@@ -22,6 +23,7 @@ const Navbar = () => {
         if (typeof window === "undefined") return "dark";
         return localStorage.getItem("theme") || "dark";
     });
+    const [isMuted, setIsMuted] = useState(() => cadSounds.isMuted());
 
     const moreMenuRef = useRef(null);
     const mobileNavRef = useRef(null);
@@ -63,12 +65,16 @@ const Navbar = () => {
             }
         };
 
+        const handleMuteChange = (e) => setIsMuted(e.detail);
+        window.addEventListener('cadMuteChange', handleMuteChange);
+
         document.addEventListener("mousedown", handleClickOutside);
         document.addEventListener("touchstart", handleClickOutside);
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
             document.removeEventListener("touchstart", handleClickOutside);
+            window.removeEventListener('cadMuteChange', handleMuteChange);
         };
     }, [showMore]);
 
@@ -292,6 +298,22 @@ const Navbar = () => {
                                 >
                                     {getThemeIcon()}
                                     <span className="text-[10px] font-mono font-bold uppercase">{getThemeLabel()}</span>
+                                </button>
+                            </div>
+
+                            {/* MUTE TOGGLE FOR MOBILE */}
+                            <div className="flex items-center justify-between px-2 py-1.5 mb-2 border-b border-slate-800">
+                                <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Sounds</span>
+                                <button
+                                    onClick={() => { cadSounds.toggleMute(); }}
+                                    className={`flex items-center gap-2 px-2 py-1 rounded-lg border transition-all ${
+                                        isMuted
+                                            ? 'bg-red-900/20 border-red-500/40 text-red-400 hover:bg-red-800/30'
+                                            : 'bg-slate-900 border-slate-800 text-sky-400 hover:bg-slate-800 hover:border-sky-500'
+                                    }`}
+                                >
+                                    <span className="text-sm">{isMuted ? '🔇' : '🔊'}</span>
+                                    <span className="text-[10px] font-mono font-bold uppercase">{isMuted ? 'Muted' : 'On'}</span>
                                 </button>
                             </div>
 
