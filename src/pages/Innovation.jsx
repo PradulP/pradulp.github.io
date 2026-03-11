@@ -19,12 +19,12 @@ export const typeImages = {
 
 export const getDefaultImage = (type) => {
   if (!type) return "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop";
-  return typeImages[type.trim()] || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop";
+  return typeImages[String(type).trim()] || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop";
 };
 
 export const generateSlug = (title) => {
   if (!title) return "";
-  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+  return String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 };
 
 // --- INNOVATION CARD COMPONENT ---
@@ -32,7 +32,7 @@ const InnovationCard = ({ item, index }) => {
   const navigate = useNavigate();
   const statusColor = (status) => {
     if (!status) return "border-slate-700 text-slate-400";
-    const s = status.toLowerCase();
+    const s = String(status).toLowerCase();
     if (s.includes("live")) return "border-emerald-500/50 text-emerald-400 bg-emerald-500/5 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
     if (s.includes("progress")) return "border-sky-500/50 text-sky-400 bg-sky-500/5";
     return "border-slate-700 text-slate-400 bg-slate-900/50";
@@ -142,10 +142,21 @@ export default function Innovation() {
 
         return true;
       })
-      .map(item => ({
-        ...item,
-        tech: Array.isArray(item.tech) ? item.tech : (typeof item.tech === 'string' ? item.tech.split('|') : [])
-      }))
+      .map(item => {
+        const parseArray = (val) => {
+          if (Array.isArray(val)) {
+            return val.flatMap(v => typeof v === 'string' ? v.split(/(?:\|\||\||,)/).map(s => s.trim()).filter(Boolean) : v);
+          }
+          if (typeof val === 'string' && val.trim()) {
+            return val.split(/(?:\|\||\||,)/).map(s => s.trim()).filter(Boolean);
+          }
+          return [];
+        };
+        return {
+          ...item,
+          tech: parseArray(item.tech)
+        };
+      })
       .sort((a, b) => Number(a.id) - Number(b.id)); // Maintain order 1,2,3,4,5
   }, [cmsInnovationItems, innovation]);
 

@@ -4,32 +4,29 @@
             "timestamp": "",
             "id": 1,
             "title": "AutoCAD Productivity Suite",
-            "type": " LISP",
-            "status": "Production Use",
-            "description": "Custom .NET plugins and advanced LISP routines developed to automate repetitive civil drafting and site level coordination tasks.",
-            "details": "Focused on increasing drafting efficiency by 40% through automated layer management, coordinate extraction, and batch printing utilities specifically for site layouts. Proven on multiple real-world residential and commercial site plans.",
+            "type": "Automation Tool",
+            "status": "In Use",
+            "description": "A collection of custom AutoLISP routines created to automate repetitive drafting tasks and improve efficiency in civil engineering drawing workflows.",
+            "details": "Developed several focused AutoLISP utilities to simplify repetitive drafting operations in AutoCAD. These scripts help automate tasks such as layer adjustments, coordinate extraction, drawing cleanup, and repetitive drafting commands commonly used in civil engineering drawings and site layout preparation. The goal of these tools is to reduce manual operations, improve drafting consistency, and speed up production workflows.",
             "tech": [
-                "C#",
-                ".NET",
-                "AutoCAD API",
-                "LISP"
+                "AutoLISP, AutoCAD"
             ],
             "repo_link": "https://github.com/PRADUL-P/Tools-for-AutoCAD",
             "demo_link": "",
             "visible": true,
-            "image": "",
-            "use_cases": "",
-            "features": "",
-            "impact": ""
+            "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800",
+            "use_cases": "Civil drafting workflows, site layout drawings, repetitive command automation, drawing cleanup",
+            "features": "Custom AutoLISP commands, drafting workflow automation, repetitive task reduction",
+            "impact": "Reduces repetitive drafting effort and improves drawing preparation speed during civil engineering drafting tasks"
         },
         {
             "timestamp": "",
             "id": 2,
             "title": "Revit BIM Automation",
-            "type": "pyRevit / IronPython",
-            "status": "Live Execution",
-            "description": "A comprehensive library of pyRevit scripts designed for advanced BIM modelling, automated parameter syncing, and data-driven QA/QC.",
-            "details": "Includes tools for automated Room Data Sheet generation, parameter auditing, and bulk sheet naming. Currently used to maintain model health in complex B.Tech final year college projects and site coordination.",
+            "type": "BIM Automation",
+            "status": "Experimental / Development",
+            "description": "A set of custom pyRevit scripts developed to automate repetitive BIM modelling and data tasks inside Autodesk Revit.",
+            "details": "Developed several focused automation scripts using Python and pyRevit to simplify repetitive tasks within Revit models. These tools include utilities such as a Filter Override Tool for automatically applying graphical overrides and an Elevation Calculator to extract and verify elevation data from model elements. The scripts are designed to improve modelling efficiency, reduce manual work, and support better model coordination.",
             "tech": [
                 "Python",
                 "pyRevit",
@@ -40,18 +37,18 @@
             "demo_link": "",
             "visible": true,
             "image": "",
-            "use_cases": "",
-            "features": "",
-            "impact": ""
+            "use_cases": "BIM modelling automation, model visualization control, elevation data verification, workflow optimization",
+            "features": "Filter Override Tool, Elevation Calculator, parameter-based automation, model workflow utilities",
+            "impact": "Reduces repetitive manual operations in BIM modelling and improves consistency when working with Revit models"
         },
         {
             "timestamp": "",
             "id": 3,
             "title": "Digital PDF Flip-Book Engine",
-            "type": "Web Utility / Animation",
-            "status": "Live Project",
-            "description": "An interactive digital publication engine developed to convert traditional PDF documents into immersive 3D flip-books with real-time physics.",
-            "details": "Engineered a custom flip-book interface using HTML/CSS/JS that simulates physical page physics and lighting. Designed to showcase technical articles and magazines in a modern, engaging digital format.",
+            "type": "Web Application",
+            "status": "Active",
+            "description": "An interactive web-based engine that converts traditional PDF documents into immersive digital flip-books with realistic page-turn animations.",
+            "details": "Developed a browser-based flip-book viewer that transforms static PDF documents into an interactive reading experience. The system uses JavaScript libraries and custom front-end design to simulate page turning with smooth animations, giving the feel of a physical magazine or book. It is designed for publishing technical articles, portfolios, and documentation in a more engaging format on the web.",
             "tech": [
                 "HTML",
                 "CSS",
@@ -62,31 +59,28 @@
             "demo_link": "https://enginexus.github.io/EngiNexus-24/",
             "visible": true,
             "image": "",
-            "use_cases": "",
-            "features": "",
-            "impact": ""
+            "use_cases": "Digital magazines, technical documentation, portfolio presentation, interactive articles",
+            "features": "Realistic page-turn animation, responsive design, browser-based viewer, interactive navigation",
+            "impact": "Improves the readability and presentation of digital publications by converting static PDFs into interactive web-based flip books"
         },
         {
             "timestamp": "",
             "id": 4,
             "title": "Personal Finance Tracker",
             "type": "Web Application",
-            "status": "Live Tool",
-            "description": "A lightweight, secure money tracking web app designed for managing personal expenses and visualizing monthly financial trends.",
-            "details": "Developed as a utility tool for students and individuals to track spending. Features include expense logging, categorical visualization, and historical data persistence via local storage/backend integration.",
+            "status": "Active",
+            "description": "A lightweight web application designed to help users track income and expenses while visualizing monthly financial trends.",
+            "details": "Developed a simple money tracking web application that allows users to log income and expense entries through a web interface. The system organizes financial data into categories and visualizes spending trends using charts. Data persistence is handled through browser storage or backend integration such as Google Sheets, making the tool lightweight and accessible from any device with a browser.",
             "tech": [
-                "HTML",
-                "CSS",
-                "JavaScript",
-                "Chart.js"
+                "HTML, CSS, JavaScript, Chart.js, Google Apps Script, Google Sheets"
             ],
             "repo_link": "",
             "demo_link": "https://pradul-p.github.io/Money-Tracker/index.html",
             "visible": true,
             "image": "",
-            "use_cases": "",
-            "features": "",
-            "impact": ""
+            "use_cases": "Personal expense tracking, budgeting for students, financial habit monitoring",
+            "features": "Income and expense logging, category-based tracking, financial trend charts, lightweight browser-based interface",
+            "impact": "Helps users understand spending patterns, organize personal finances, and maintain simple financial records"
         },
         {
             "timestamp": "",

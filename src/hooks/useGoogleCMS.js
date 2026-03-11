@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { GOOGLE_CMS_URL } from "../data/config";
 
-const CACHE_KEY_PREFIX = "portfolio_cms_";
-const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
+const CACHE_KEY_PREFIX = "portfolio_cms_v2_";
+const CACHE_DURATION = 1000 * 60 * 5; // 5 minutes
 
 /**
  * Hook to fetch content from Google Sheet CMS

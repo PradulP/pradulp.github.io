@@ -4,7 +4,7 @@ import content from "../data/index";
 import { heroVariants, fadeInUp } from "../utils/animations";
 
 export default function Hero({ hero, location }) {
-  const currentRole = content.experience.find((e) => e.isCurrent);
+  const currentRole = content.experience.find((e) => e.isCurrent || (e.period && String(e.period).toLowerCase().includes('present'))) || content.experience[0];
 
   return (
     <section className="mb-12 md:mb-16">

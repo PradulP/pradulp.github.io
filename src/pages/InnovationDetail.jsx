@@ -140,12 +140,64 @@ export default function InnovationDetail() {
 
     const { data: cmsInnovation } = useGoogleCMS("innovation");
     const items = useMemo(() => {
-        if (cmsInnovation && cmsInnovation.length > 0) return cmsInnovation;
-        return (db.items && db.items.length > 0) ? db.items : (content.innovation || []);
+        // 1. Get Local Items (Single Source of Truth for ID 5 & Slugs)
+        const localItems = (db.items && db.items.length > 0) ? db.items : (content.innovation || []);
+
+        // 2. Initialize Map with Local Items
+        const itemMap = new Map();
+        localItems.forEach(item => {
+            itemMap.set(String(item.id), { ...item, source: 'local' });
+        });
+
+        // 3. Merge CMS Items
+        if (cmsInnovation && Array.isArray(cmsInnovation)) {
+            cmsInnovation.forEach(cmsItem => {
+                const idKey = String(cmsItem.id);
+                const existing = itemMap.get(idKey);
+                if (existing) {
+                    itemMap.set(idKey, {
+                        ...existing,
+                        ...cmsItem,
+                        slug: cmsItem.slug || existing.slug,
+                        glimpse: cmsItem.glimpse || existing.glimpse,
+                        source: 'merged'
+                    });
+                } else {
+                    itemMap.set(idKey, { ...cmsItem, source: 'cms' });
+                }
+            });
+        }
+
+        let merged = Array.from(itemMap.values());
+
+        // Ensure ID 5 is present
+        if (!merged.some(i => String(i.id) === "5")) {
+            const engineItem = localItems.find(i => String(i.id) === "5");
+            if (engineItem) merged.push(engineItem);
+        }
+
+        // Apply normalizations so map doesn't crash, and handle commas as valid separators
+        const parseArray = (val) => {
+            if (Array.isArray(val)) {
+                return val.flatMap(v => typeof v === 'string' ? v.split(/(?:\|\||\||,)/).map(s => s.trim()).filter(Boolean) : v);
+            }
+            if (typeof val === 'string' && val.trim()) {
+                return val.split(/(?:\|\||\||,)/).map(s => s.trim()).filter(Boolean);
+            }
+            return [];
+        };
+
+        return merged.map(item => ({
+            ...item,
+            tech: parseArray(item.tech),
+            features: parseArray(item.features),
+            use_cases: parseArray(item.use_cases)
+        })).sort((a, b) => Number(a.id) - Number(b.id));
+
     }, [cmsInnovation]);
 
     // Find by Slug or ID
-    const index = useMemo(() => items.findIndex(item => (item.slug === id) || (String(item.id) === String(id)) || (generateSlug(item.title) === id)), [items, id]);
+    const index = useMemo(() => items.findIndex(i => (i.slug === id) || (String(i.id) === String(id)) || (generateSlug(i.title) === id)), [items, id]);
     const item = items[index];
     const prevItem = items[index - 1];
     const nextItem = items[index + 1];
@@ -190,21 +242,21 @@ export default function InnovationDetail() {
                 {/* Header */}
                 <header className="mb-12 border-b border-slate-800 pb-12 space-y-6">
                     <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
-                        <span className="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-slate-300 uppercase font-black tracking-widest">{item.type}</span>
-                        <span className={`px-3 py-1 rounded-full border uppercase font-black tracking-widest ${item.status.includes('Live') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-sky-500/10 text-sky-400 border-sky-500/20'}`}>{item.status}</span>
+                        <span className="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-slate-300 uppercase font-black tracking-widest">{item.type || "SYSTEM"}</span>
+                        <span className={`px-3 py-1 rounded-full border uppercase font-black tracking-widest ${item.status && item.status.toLowerCase().includes('live') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-sky-500/10 text-sky-400 border-sky-500/20'}`}>{item.status || "IN REVIEW"}</span>
                     </div>
                     <h1 className="text-4xl md:text-6xl font-black italic text-slate-100 uppercase tracking-tighter leading-none">{item.title}</h1>
                     <p className="text-lg md:text-xl text-slate-400 leading-relaxed max-w-3xl font-medium border-l-4 border-purple-500 pl-6 italic">{item.description}</p>
 
                     <div className="flex gap-4 pt-4 flex-wrap">
                         {/* Main Action Buttons */}
-                        {item.links?.repo && (
-                            <a href={item.links.repo} target="_blank" className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-slate-900 border border-slate-800 text-sky-400 hover:text-white hover:border-sky-500 transition-all">
+                        {item.repo_link && (
+                            <a href={item.repo_link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-slate-900 border border-slate-800 text-sky-400 hover:text-white hover:border-sky-500 transition-all">
                                 <Code2 className="w-4 h-4" /> Source Code
                             </a>
                         )}
-                        {item.links?.demo && (
-                            <a href={item.links.demo} target="_blank" className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-emerald-900/20 border border-emerald-500/30 text-emerald-400 hover:text-emerald-300 hover:border-emerald-400 transition-all">
+                        {item.demo_link && (
+                            <a href={item.demo_link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-emerald-900/20 border border-emerald-500/30 text-emerald-400 hover:text-emerald-300 hover:border-emerald-400 transition-all">
                                 <ExternalLink className="w-4 h-4" /> Live Demo
                             </a>
                         )}

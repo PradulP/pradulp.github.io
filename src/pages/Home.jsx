@@ -95,21 +95,14 @@ export default function Home() {
 
     // Logic to calculate dynamic stats
     const calculateYears = () => {
-        if (!displayExperience.length) return 5;
-        const years = displayExperience.map(e => {
-            const dateStr = String(e.period || "").split(/[—-]/)[0];
-            const match = dateStr.match(/\d{4}/);
-            return match ? parseInt(match[0]) : null;
-        }).filter(Boolean);
-        if (!years.length) return 5;
-        return new Date().getFullYear() - Math.min(...years);
+        return 2;
     };
 
     const stats = {
         years: calculateYears(),
         projects: displayProjects.length,
         tools: displayInnovation.length,
-        designs: 50 // Keeping this as a summary of all site works
+        skillsCount: skills.groups ? skills.groups.reduce((acc, g) => acc + g.skills.length, 0) : 30
     };
 
     // For blog, we sort by date descending and take the latest visible post
@@ -135,7 +128,14 @@ export default function Home() {
         return () => clearInterval(interval);
     }, []);
 
-    const currentRole = displayExperience.find(e => e.isCurrent) || displayExperience[0];
+    const currentRole = displayExperience.find(e => e.isCurrent || (e.period && String(e.period).toLowerCase().includes('present'))) || displayExperience[0];
+    const primaryEducation = [...displayEducation].sort((a, b) => {
+        const getYear = (str) => {
+            const match = String(str || "").match(/\d{4}/g);
+            return match ? Math.max(...match.map(Number)) : 0;
+        };
+        return getYear(b.years || b.period) - getYear(a.years || a.period);
+    })[0];
     const primaryEmail = contact.email || "pradul.public@gmail.com";
     const whatsappNumber = (contact.whatsapp || "918078376902").replace(/[^0-9]/g, "");
 
@@ -309,9 +309,8 @@ export default function Home() {
 
                                 <div className="space-y-6">
                                     <div className="space-y-2">
-                                        <div className="text-[10px] text-slate-500 uppercase tracking-widest flex justify-between">
+                                        <div className="text-[10px] text-slate-500 uppercase tracking-widest">
                                             <span>Current Role</span>
-                                            <span className="text-sky-500/50">ID: #001</span>
                                         </div>
                                         <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-md bg-sky-900/20 flex items-center justify-center border border-sky-500/20 text-sky-400">
@@ -319,7 +318,7 @@ export default function Home() {
                                             </div>
                                             <div>
                                                 <p className="text-sm font-bold text-slate-200">
-                                                    {currentRole ? (currentRole.roles?.[0]?.title || currentRole.role) : "Building Items"}
+                                                    {currentRole ? (currentRole.roles?.[0]?.title || currentRole.title || currentRole.role || "Professional Role") : "Building Items"}
                                                 </p>
                                                 <p className="text-xs text-sky-400 font-medium">@ {currentRole ? currentRole.company : "Stealth Mode"}</p>
                                             </div>
@@ -458,7 +457,7 @@ export default function Home() {
                             </Link>
                         )}
 
-                        {displayEducation[0] && (
+                        {primaryEducation && (
                             <Link to="/experience?tab=education" className="block h-full group">
                                 <motion.article
                                     variants={itemVariants}
@@ -482,12 +481,14 @@ export default function Home() {
                                             Education
                                         </span>
                                         <div>
-                                            <h3 className="font-bold text-xl text-slate-100">{displayEducation[0].degree || displayEducation[0].title}</h3>
-                                            <p className="text-slate-300 text-sm font-medium mt-1">{displayEducation[0].institution || displayEducation[0].place}</p>
+                                            <h3 className="font-bold text-xl text-slate-100">{primaryEducation.degree || primaryEducation.title}</h3>
+                                            <p className="text-slate-300 text-sm font-medium mt-1">{primaryEducation.institution || primaryEducation.place}</p>
                                         </div>
-                                        <p className="text-slate-400 text-sm leading-relaxed pt-2 line-clamp-2">
-                                            {displayEducation[0].description || displayEducation[0].summary}
-                                        </p>
+                                        <ul className="list-disc list-inside space-y-2 text-sm text-slate-400 pt-2">
+                                            {((primaryEducation.description ? String(primaryEducation.description).split(/(?:\|\|)/) : []) ||
+                                                (primaryEducation.summary ? String(primaryEducation.summary).split(/(?:\|\|)/) : []) || [])
+                                                .slice(0, 2).map((pt, i) => <li key={i} className="line-clamp-2 list-item">{typeof pt === 'string' ? pt.trim() : pt}</li>)}
+                                        </ul>
                                         <div className="pt-6 mt-2 border-t border-slate-800/50">
                                             <div className="text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-sky-400 transition-colors flex items-center gap-2">
                                                 View Academic Record <ArrowRight className="w-3 h-3" />
@@ -518,7 +519,7 @@ export default function Home() {
                         <StatsCounter from={0} to={stats.years} duration={1} suffix="+" label="YEARS EXPERIENCE" />
                         <StatsCounter from={0} to={stats.projects} duration={1.5} suffix="+" label="PROJECTS DELIVERED" />
                         <StatsCounter from={0} to={stats.tools} duration={1.2} suffix="+" label="ENGINEERING TOOLS" />
-                        <StatsCounter from={0} to={stats.designs} duration={2} suffix="+" label="SITE WORKS" />
+                        <StatsCounter from={0} to={stats.skillsCount} duration={2} suffix="+" label="CORE SKILLS" />
                     </div>
                 </section>
 
@@ -541,18 +542,17 @@ export default function Home() {
                 >
                     <SectionTitle>Skills Snapshot</SectionTitle>
                     <div className="bg-slate-900/40 border border-slate-800/50 p-6 rounded-2xl flex flex-wrap gap-3">
-                        {/* Flatten skills for preview */}
-                        {((skills.civilBim || []).concat(skills.web || [])).slice(0, 15).map((s, i) => (
+                        {/* Preview Skills - Prioritizing Civil Engineering */}
+                        {(() => {
+                            if (!skills.groups) return [];
+                            const civil = skills.groups.find(g => g.title.includes("Civil"))?.skills || [];
+                            const structural = skills.groups.find(g => g.title.includes("Structural"))?.skills || [];
+                            const tools = skills.groups.find(g => g.title.includes("Revit"))?.skills || [];
+                            const web = skills.groups.find(g => g.title.includes("Web"))?.skills || [];
+                            return [...civil, ...structural, ...tools, ...web].slice(0, 15);
+                        })().map((s, i) => (
                             <span
-                                key={typeof s === 'string' ? s : s.name + i}
-                                className="px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-300 text-xs font-medium hover:border-emerald-500/50 hover:text-emerald-400 transition-all cursor-default"
-                            >
-                                {typeof s === 'string' ? s : s.name}
-                            </span>
-                        ))}
-                        {skills.groups && skills.groups[0]?.skills.slice(0, 5).map((s, i) => (
-                            <span
-                                key={i}
+                                key={`skill-pv-${i}`}
                                 className="px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-300 text-xs font-medium hover:border-emerald-500/50 hover:text-emerald-400 transition-all cursor-default"
                             >
                                 {s.name}

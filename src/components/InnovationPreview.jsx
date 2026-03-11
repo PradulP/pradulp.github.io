@@ -23,9 +23,24 @@ export default function InnovationPreview({ limit = 3, pick = null, onOpen = () 
   const { data: cmsInnovation } = useGoogleCMS("innovation");
 
   const items = useMemo(() => {
-    return (cmsInnovation && cmsInnovation.length > 0)
+    let rawItems = (cmsInnovation && cmsInnovation.length > 0)
       ? cmsInnovation
       : (Array.isArray(localData) ? localData : (Array.isArray(localData?.items) ? localData.items : []));
+
+    const parseArray = (val) => {
+      if (Array.isArray(val)) {
+        return val.flatMap(v => typeof v === 'string' ? v.split(/(?:\|\||\||,)/).map(s => s.trim()).filter(Boolean) : v);
+      }
+      if (typeof val === 'string' && val.trim()) {
+        return val.split(/(?:\|\||\||,)/).map(s => s.trim()).filter(Boolean);
+      }
+      return [];
+    };
+
+    return rawItems.map(item => ({
+      ...item,
+      tech: parseArray(item.tech)
+    }));
   }, [cmsInnovation]);
 
   const contentPick = Array.isArray(content?.homeInnovation) ? content.homeInnovation : null;
@@ -73,11 +88,11 @@ export default function InnovationPreview({ limit = 3, pick = null, onOpen = () 
             </div>
             {item.status && (
               <span className={"ml-3 inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] " + (
-                (item.status || "").toLowerCase().includes("live") ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/40" :
-                  (item.status || "").toLowerCase().includes("progress") ? "bg-sky-500/10 text-sky-300 border-sky-500/40" :
-                    (item.status || "").toLowerCase().includes("future") ? "bg-violet-500/10 text-violet-300 border-violet-500/40" :
+                String(item.status || "").toLowerCase().includes("live") ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/40" :
+                  String(item.status || "").toLowerCase().includes("progress") ? "bg-sky-500/10 text-sky-300 border-sky-500/40" :
+                    String(item.status || "").toLowerCase().includes("future") ? "bg-violet-500/10 text-violet-300 border-violet-500/40" :
                       "bg-slate-600/10 text-slate-300 border-slate-600/40"
-              )}>{item.status}</span>
+              )}>{String(item.status)}</span>
             )}
           </div>
 
