@@ -23,7 +23,7 @@ const Contact = () => {
   const primaryEmail = contact?.email || "pradul.public@gmail.com";
   const location = contact?.location || "Kochi, Kerala, India";
   const whatsappNumber = contact?.whatsapp || "+918078376902";
-  const linkedinUrl = socials?.linkedin || "https://www.linkedin.com/in/pradul/";
+  const linkedinUrl = socials?.linkedin || "https://in.linkedin.com/in/pradul";
   const githubUrl = socials?.github || "https://github.com/PRADUL-P";
 
   const [form, setForm] = useState({

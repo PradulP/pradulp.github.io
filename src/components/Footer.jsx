@@ -7,7 +7,7 @@ const Footer = () => {
 
   const name = hero?.name || "Your Name";
   const email = contact?.email || "pradul.p123@gmail.com";
-  const linkedin = socials?.linkedin || "https://www.linkedin.com/in/pradul/";
+  const linkedin = socials?.linkedin || "https://in.linkedin.com/in/pradul";
   const github = socials?.github || "https://github.com/PRADUL-P";
 
   return (

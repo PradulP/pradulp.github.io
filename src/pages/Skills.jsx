@@ -698,7 +698,7 @@ export default function SkillsSection() {
                       Ref: DC-S01-P{selectedSkill.percent}
                     </div>
                     <a
-                      href="https://www.linkedin.com/in/pradul-p-4b7188235/"
+                      href="https://in.linkedin.com/in/pradul"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full md:w-auto px-6 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest bg-sky-500 text-slate-950 hover:bg-[#0A66C2] hover:shadow-[0_0_30px_rgba(14,165,233,0.5)] transition-all flex items-center justify-center gap-2"

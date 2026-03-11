@@ -14,7 +14,7 @@ const SocialIcons = ({ size = 22, spacing = "space-x-4" }) => {
   const links = {
     facebook: socials?.facebook || "https://www.facebook.com/pradul.prashandan",
     instagram: socials?.instagram || "https://www.instagram.com/pradul_prashandan/",
-    linkedin: socials?.linkedin || "https://www.linkedin.com/in/pradul/",
+    linkedin: socials?.linkedin || "https://in.linkedin.com/in/pradul",
     youtube: socials?.youtube || "https://www.youtube.com/channel/UC13ZcNIVcB1-3F0xV8y1F0w",
     github: socials?.github || "https://github.com/PRADUL-P",
     whatsapp: contact?.whatsapp
