@@ -253,7 +253,7 @@ const Contact = () => {
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Name *</label>
                     <input
                       name="name" value={form.Name} onChange={handleChange}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-base md:text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
                       placeholder="Your Name"
                     />
                   </div>
@@ -261,7 +261,7 @@ const Contact = () => {
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Email *</label>
                     <input
                       name="email" type="email" value={form.Email} onChange={handleChange}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-base md:text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
                       placeholder="Your Email"
                     />
                   </div>
@@ -272,7 +272,7 @@ const Contact = () => {
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Phone (Optional)</label>
                     <input
                       name="whatsapp" value={form.Phone} onChange={handleChange}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-base md:text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700"
                       placeholder="+91..."
                     />
                   </div>
@@ -280,7 +280,7 @@ const Contact = () => {
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Topic</label>
                     <select
                       name="topic" value={form.Topic} onChange={handleChange}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors appearance-none cursor-pointer"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-base md:text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors appearance-none cursor-pointer"
                     >
                       <option value="">Select a topic...</option>
                       <option value="bim">BIM / Revit Modelling</option>
@@ -296,7 +296,7 @@ const Contact = () => {
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Message *</label>
                   <textarea
                     name="message" rows={5} value={form.Message} onChange={handleChange}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700 resize-none leading-relaxed"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-4 text-base md:text-sm text-slate-200 outline-none focus:border-sky-500 transition-colors placeholder:text-slate-700 resize-none leading-relaxed"
                     placeholder="Hello, I'd like to discuss..."
                   />
                 </div>

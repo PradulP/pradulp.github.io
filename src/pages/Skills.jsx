@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "../components/Typewriter";
 import useGoogleCMS from "../hooks/useGoogleCMS";
@@ -393,10 +394,20 @@ export default function SkillsSection() {
     })).filter(group => group.skills.length > 0);
   }, [searchQuery, groups]);
 
-  // Reset active index when search changes to avoid showing empty states if previous index is out of bounds
   useEffect(() => {
     setActiveIndex(0);
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (selectedSkill) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedSkill]);
 
   const activeGroup = filteredGroups[activeIndex] || filteredGroups[0] || { title: "", skills: [] };
 
@@ -556,19 +567,16 @@ export default function SkillsSection() {
       </div>
 
       <AnimatePresence>
-        {selectedSkill && (
-          <div className="fixed inset-0 z-[5000] overflow-y-auto bg-slate-950/80 backdrop-blur-sm"
+        {selectedSkill && createPortal(
+          <div className="fixed inset-0 z-[5000] flex items-center justify-center p-4 md:p-6 bg-slate-950/80 backdrop-blur-md"
             onClick={closeModal}
           >
-            {/* Scrollable Container Wrapper */}
-            <div className="min-h-full flex items-center justify-center p-4 md:p-6">
-
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative z-50 w-full max-w-lg rounded-2xl border border-sky-500/30 bg-[#0B1121]/95 shadow-[0_0_50px_rgba(14,165,233,0.3)] overflow-hidden flex flex-col"
+                className="relative z-50 w-full max-w-lg max-h-[85vh] overflow-y-auto overflow-x-hidden custom-scrollbar rounded-2xl border border-sky-500/30 bg-[#0B1121]/95 shadow-[0_0_50px_rgba(14,165,233,0.3)] flex flex-col"
               >
                 {/* Background blueprint effect */}
                 <div className="absolute inset-0 bg-blueprint opacity-[0.03] pointer-events-none" />
@@ -709,9 +717,8 @@ export default function SkillsSection() {
                   </div>
                 </div>
               </motion.div>
-            </div>
           </div>
-        )}
+          , document.body)}
       </AnimatePresence>
     </div>
   );
