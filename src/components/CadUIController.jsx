@@ -115,6 +115,7 @@ export default function CadUIController() {
                     <button
                         onClick={() => { cadSounds.toggleMute(); }}
                         title={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+                        aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
                         className="px-2 py-2 rounded-full flex items-center justify-center"
                     >
                         <span className={`w-8 h-8 rounded-full border flex items-center justify-center shrink-0 transition-colors text-xs font-bold ${
@@ -128,6 +129,7 @@ export default function CadUIController() {
 
                     <button
                         onClick={toggleTheme}
+                        aria-label="Toggle Drafting Theme"
                         className="px-2 py-2 rounded-full flex items-center gap-0 overflow-hidden transition-all duration-500 group-hover:gap-2 group-active:gap-2"
                     >
                         <span className="w-8 h-8 rounded-full bg-sky-500/10 border border-sky-500/50 flex items-center justify-center shrink-0 group-hover:bg-sky-500 group-hover:text-slate-950 transition-colors">

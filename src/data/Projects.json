@@ -325,6 +325,7 @@
             "subtitle": "Planning, analysis, design & energy optimisation",
             "type": "Civil / BIM",
             "category": "civil",
+            "homeFeatured": true,
             "year": 2024,
             "role": "Final Year B.Tech Project",
             "summary": "Designed an energy-efficient G+2 educational facility using an integrated BIM workflow, covering site analysis, architectural planning, structural design, energy optimisation, cost estimation, and visualization.",

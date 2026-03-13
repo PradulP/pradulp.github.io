@@ -162,7 +162,7 @@ export default function AdminPage() {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+            <section className="flex-1 flex flex-col h-screen overflow-hidden relative">
                 {/* Top Bar for editing URLs */}
                 <AnimatePresence>
                     {isEditingUrl && (
@@ -243,7 +243,7 @@ export default function AdminPage() {
                         </div>
                     )}
                 </div>
-            </main>
+            </section>
         </div>
     );
 }

@@ -193,7 +193,7 @@ export default function Experience() {
         .sort((a, b) => getEndYear(b) - getEndYear(a));
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
+    <section className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
       {/* Background technical elements */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-sky-500/5 blur-[120px] rounded-full" />
@@ -278,7 +278,7 @@ export default function Experience() {
           <ExperienceModal item={selectedItem} onClose={() => setSelectedItem(null)} />
         )}
       </AnimatePresence>
-    </main>
+    </section>
   );
 }
 

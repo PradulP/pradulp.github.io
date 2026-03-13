@@ -94,7 +94,7 @@ export default function About() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
+    <section className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
       {/* Background technical elements */}
       <div className="pointer-events-none absolute inset-0">
         <motion.div
@@ -398,6 +398,6 @@ export default function About() {
       {/* Resume Modal */}
       < ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)
       } src={resumePath} />
-    </main >
+    </section>
   );
 }

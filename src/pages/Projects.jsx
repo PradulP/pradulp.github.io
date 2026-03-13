@@ -28,6 +28,8 @@ function ProjectCard({ proj, index }) {
         <img
           src={proj.images ? proj.images[0] : "/placeholder-project.webp"}
           alt={proj.title}
+          width="400"
+          height="192"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-90"
         />
 
@@ -212,7 +214,7 @@ export default function Projects() {
   }, [activeCategory, searchQuery, allProjects]);
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 px-4 py-20 md:px-10 lg:px-24 relative overflow-hidden">
+    <section className="min-h-screen bg-slate-950 text-slate-50 px-4 py-20 md:px-10 lg:px-24 relative overflow-hidden">
       <SEO title="Projects" description="Explore my portfolio of Civil Engineering and Web Development projects." keywords="BIM, Revit, React, Civil Engineering, Web Dev, Portfolio" />
       {/* Background neon elements */}
       <div className="pointer-events-none absolute inset-0">
@@ -311,6 +313,6 @@ export default function Projects() {
           <div>© 2024 PRADUL P · CAD_CORE_DS_V2</div>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

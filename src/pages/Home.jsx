@@ -156,7 +156,7 @@ export default function Home() {
     };
 
     return (
-        <main className="min-h-screen
+        <section className="min-h-screen
       relative overflow-hidden pb-20
       bg-slate-950/65
       backdrop-blur-xl
@@ -629,6 +629,6 @@ export default function Home() {
                 </section>
 
             </div>
-        </main>
+        </section>
     );
 }

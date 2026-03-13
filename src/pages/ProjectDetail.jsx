@@ -101,14 +101,14 @@ export default function ProjectDetail() {
 
   if (!rawProject) {
     return (
-      <main className="min-h-screen pt-32 text-center bg-slate-950">
+      <section className="min-h-screen pt-32 text-center bg-slate-950">
         <div className="inline-block p-8 border border-slate-800 rounded-3xl bg-slate-900/50">
           <Terminal className="w-12 h-12 text-slate-700 mx-auto mb-4" />
           <h2 className="text-xl font-black italic text-slate-100 uppercase tracking-tighter">Project Not Found</h2>
           <p className="text-slate-500 text-sm mt-2">The requested ID does not exist in the database.</p>
           <Link to="/projects" className="mt-6 inline-block px-6 py-2 bg-sky-500 text-slate-950 rounded-lg font-bold text-xs uppercase tracking-widest">Return to Database</Link>
         </div>
-      </main>
+      </section>
     );
   }
 
@@ -184,7 +184,7 @@ export default function ProjectDetail() {
   const registryId = `PRJ-${category?.substring(0, 3).toUpperCase() || "UNK"}-${(index + 1).toString().padStart(2, '0')}`;
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
+    <section className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden pb-20">
       <SEO title={`${title} | Project Details`} description={summary} />
 
       {/* 1) Reading Progress Bar */}
@@ -682,6 +682,6 @@ export default function ProjectDetail() {
           </button>
         </motion.div>
       </div>
-    </main>
+    </section>
   );
 }

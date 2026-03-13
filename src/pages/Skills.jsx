@@ -636,7 +636,7 @@ function SkillModal({ skill, onClose }) {
                 <span className="text-[11px] font-mono text-slate-400 uppercase">{skill.categoryTitle}</span>
               </div>
             </div>
-            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full border border-slate-800 text-slate-400 hover:border-sky-500 hover:text-sky-400 transition-all bg-slate-900/50">✕</button>
+            <button onClick={onClose} aria-label="Close modal" className="w-8 h-8 flex items-center justify-center rounded-full border border-slate-800 text-slate-400 hover:border-sky-500 hover:text-sky-400 transition-all bg-slate-900/50">✕</button>
           </div>
 
           {/* Stats Grid */}

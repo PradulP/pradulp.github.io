@@ -30,6 +30,8 @@ export default function ProjectImageCarousel({ images = [] }) {
       <img
         src={images[index]}
         alt={`Project visual ${index + 1}`}
+        width="800"
+        height="420"
         className="w-full h-[420px] object-cover"
       />
 
@@ -39,6 +41,7 @@ export default function ProjectImageCarousel({ images = [] }) {
           onClick={() =>
             setIndex((index - 1 + images.length) % images.length)
           }
+          aria-label="Previous image"
           className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 px-3 py-1 rounded-full text-white"
         >
           ‹
@@ -51,6 +54,7 @@ export default function ProjectImageCarousel({ images = [] }) {
           onClick={() =>
             setIndex((index + 1) % images.length)
           }
+          aria-label="Next image"
           className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 px-3 py-1 rounded-full text-white"
         >
           ›
@@ -64,6 +68,7 @@ export default function ProjectImageCarousel({ images = [] }) {
             <button
               key={i}
               onClick={() => setIndex(i)}
+              aria-label={`Go to slide ${i + 1}`}
               className={`w-2.5 h-2.5 rounded-full transition ${
                 i === index ? "bg-sky-400" : "bg-white/40"
               }`}

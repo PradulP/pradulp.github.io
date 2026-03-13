@@ -146,7 +146,7 @@ const Contact = () => {
   };
 
   return (
-    <main className="min-h-screen w-full max-w-[100vw] overflow-x-hidden relative font-sans selection:bg-sky-500/30 bg-slate-950 pb-40">
+    <section className="min-h-screen w-full max-w-[100vw] overflow-x-hidden relative font-sans selection:bg-sky-500/30 bg-slate-950 pb-40">
       <SEO title="Contact" description="Get in touch for collaborations, projects, or inquiries." />
 
       {/* Background Ambience - Wrapped to prevent overflow */}
@@ -350,7 +350,7 @@ const Contact = () => {
         )}
       </AnimatePresence>
 
-    </main>
+    </section>
   );
 };
 

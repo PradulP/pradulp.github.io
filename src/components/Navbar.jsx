@@ -179,6 +179,8 @@ const Navbar = () => {
                             <img
                                 src={hero.logo || hero.avatar}
                                 alt={hero.name || "Profile"}
+                                width="32"
+                                height="32"
                                 className="h-8 w-8 rounded-full border border-slate-700 object-cover"
                             />
                         ) : (
@@ -294,7 +296,8 @@ const Navbar = () => {
                                 <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Theme</span>
                                 <button
                                     onClick={toggleTheme}
-                                    className="flex items-center gap-2 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-sky-400 hover:bg-slate-800 hover:border-sky-500 transition-all"
+                                    aria-label="Toggle Theme"
+                                    className="flex items-center gap-2 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-sky-400 transition-all"
                                 >
                                     {getThemeIcon()}
                                     <span className="text-[10px] font-mono font-bold uppercase">{getThemeLabel()}</span>
@@ -306,6 +309,7 @@ const Navbar = () => {
                                 <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Sounds</span>
                                 <button
                                     onClick={() => { cadSounds.toggleMute(); }}
+                                    aria-label="Toggle Sound"
                                     className={`flex items-center gap-2 px-2 py-1 rounded-lg border transition-all ${
                                         isMuted
                                             ? 'bg-red-900/20 border-red-500/40 text-red-400 hover:bg-red-800/30'
@@ -322,6 +326,7 @@ const Navbar = () => {
                                 <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Terminal</span>
                                 <button
                                     onClick={openTerminal}
+                                    aria-label="Open Terminal"
                                     className="flex items-center gap-2 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-emerald-400 hover:bg-slate-800 hover:border-emerald-500 transition-all"
                                 >
                                     <HiOutlineCommandLine size={14} />
@@ -387,6 +392,7 @@ const Navbar = () => {
                             playFeedback();
                             setShowMore((prev) => !prev);
                         }}
+                        aria-label="More navigation options"
                         className="flex flex-col items-center justify-center gap-0.5 text-[10px] px-2"
                     >
                         <HiOutlineSquares2X2
