@@ -567,159 +567,179 @@ export default function SkillsSection() {
       </div>
 
       <AnimatePresence>
-        {selectedSkill && createPortal(
-          <div className="fixed inset-0 z-[5000] flex items-center justify-center p-4 md:p-6 bg-slate-950/80 backdrop-blur-md"
-            onClick={closeModal}
-          >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                onClick={(e) => e.stopPropagation()}
-                className="relative z-50 w-full max-w-lg max-h-[85vh] overflow-y-auto overflow-x-hidden custom-scrollbar rounded-2xl border border-sky-500/30 bg-[#0B1121]/95 shadow-[0_0_50px_rgba(14,165,233,0.3)] flex flex-col"
-              >
-                {/* Background blueprint effect */}
-                <div className="absolute inset-0 bg-blueprint opacity-[0.03] pointer-events-none" />
-
-                {/* CAD Corner Marks */}
-                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-sky-500/40" />
-                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-sky-500/40" />
-                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sky-500/40" />
-                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sky-500/40" />
-
-                {/* Scan-line */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-5">
-                  <motion.div
-                    className="w-full h-1/2 bg-gradient-to-b from-transparent via-sky-500 to-transparent"
-                    animate={{ y: ["-100%", "200%"] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  />
-                </div>
-
-                <div className="p-6 md:p-8 relative z-10 flex flex-col gap-6">
-                  {/* Header */}
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <Terminal className="w-3 h-3 text-sky-400" />
-                        <p className="text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold">Technical Datasheet</p>
-                      </div>
-                      <h3 className="text-3xl font-black italic text-slate-100 uppercase tracking-tighter leading-none">{selectedSkill.name}</h3>
-                      <div className="flex items-center gap-3 mt-2">
-                        <span className="text-[11px] font-mono text-emerald-400 font-bold flex items-center gap-1.5">
-                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                          VERIFIED STACK
-                        </span>
-                        <span className="text-slate-600 font-mono text-[10px]">|</span>
-                        <span className="text-[11px] font-mono text-slate-400 uppercase">{selectedSkill.categoryTitle}</span>
-                      </div>
-                    </div>
-                    <button onClick={closeModal} className="w-8 h-8 flex items-center justify-center rounded-full border border-slate-800 text-slate-400 hover:border-sky-500 hover:text-sky-400 transition-all bg-slate-900/50">✕</button>
-                  </div>
-
-                  {/* Stats Grid */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl">
-                      <p className="text-[9px] uppercase tracking-widest text-slate-500 mb-1">Comfort Level</p>
-                      <div className="flex items-end gap-2">
-                        <span className="text-2xl font-black text-sky-400 leading-none">{selectedSkill.percent}%</span>
-                        <div className="h-1.5 flex-1 bg-slate-800 rounded-full mb-1 overflow-hidden">
-                          <motion.div
-                            className="h-full bg-sky-500"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${selectedSkill.percent}%` }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl">
-                      <p className="text-[9px] uppercase tracking-widest text-slate-500 mb-1">Efficiency Rank</p>
-                      <div className="flex items-end h-full pb-1">
-                        <span className="text-sm font-bold text-slate-200 uppercase tracking-tight">{selectedSkill.level}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Content Body */}
-                  <div className="space-y-6 text-sm text-slate-300">
-                    {/* Experience Context - Elite Addition */}
-                    {selectedSkill.context && (
-                      <div>
-                        <h4 className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
-                          <span className="w-1 h-3 bg-emerald-500/50" />
-                          Validated Experience
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {selectedSkill.context.map((ctx, idx) => {
-                            const Icon = ctx.icon;
-                            return (
-                              <div key={idx} className="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg hover:border-emerald-500/30 transition-colors">
-                                <Icon className="w-3.5 h-3.5 text-emerald-500" />
-                                <span className="text-[11px] text-slate-300 font-bold">{ctx.label}</span>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    )}
-                    <div>
-                      <h4 className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
-                        <span className="w-1 h-3 bg-sky-500/50" />
-                        Implementation Details
-                      </h4>
-                      <ul className="space-y-2.5">
-                        {selectedSkill.usage.map((u, idx) => (
-                          <li key={idx} className="flex gap-3 text-[12px] leading-relaxed group">
-                            <span className="text-sky-500 pt-1">▹</span>
-                            <span className="text-slate-300 group-hover:text-slate-100 transition-colors">{u}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {selectedSkill.relatedProjects && selectedSkill.relatedProjects.length > 0 && (
-                      <div>
-                        <h4 className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
-                          <span className="w-1 h-3 bg-emerald-500/50" />
-                          Project Validation
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                          {selectedSkill.relatedProjects.map(p => (
-                            <button
-                              key={p.id}
-                              onClick={() => window.location.hash = `#/projects/${p.id}`} // Using hash routing if applicable, or Link
-                              className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-500/5 border border-sky-500/20 rounded-lg hover:border-sky-500/80 hover:bg-sky-500/10 transition-all group cursor-pointer"
-                            >
-                              <span className="text-[11px] text-slate-400 group-hover:text-sky-300 font-mono">{p.title}</span>
-                              <ExternalLink className="w-3 h-3 text-slate-600 group-hover:text-sky-400" />
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Footer */}
-                  <div className="pt-6 border-t border-slate-800/80 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div className="text-[9px] font-mono text-slate-600 uppercase tracking-widest">
-                      Ref: DC-S01-P{selectedSkill.percent}
-                    </div>
-                    <a
-                      href="https://in.linkedin.com/in/pradul"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full md:w-auto px-6 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest bg-sky-500 text-slate-950 hover:bg-[#0A66C2] hover:shadow-[0_0_30px_rgba(14,165,233,0.5)] transition-all flex items-center justify-center gap-2"
-                    >
-                      <Linkedin className="w-3.5 h-3.5" />
-                      Connect for Collaboration
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-          </div>
-          , document.body)}
+        {selectedSkill && (
+          <SkillModal
+            skill={selectedSkill}
+            onClose={closeModal}
+          />
+        )}
       </AnimatePresence>
     </div>
+  );
+}
+
+function SkillModal({ skill, onClose }) {
+  // Prevent hydration errors by not rendering portal during SSR
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[6000] flex items-center justify-center p-4 md:p-6 bg-slate-950/80 backdrop-blur-md"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.95, y: 20 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative z-[6010] w-full max-w-lg max-h-[85vh] overflow-y-auto overflow-x-hidden custom-scrollbar rounded-2xl border border-sky-500/30 bg-[#0B1121]/95 shadow-[0_0_50px_rgba(14,165,233,0.3)] flex flex-col"
+      >
+        {/* Background blueprint effect */}
+        <div className="absolute inset-0 bg-blueprint opacity-[0.03] pointer-events-none" />
+
+        {/* CAD Corner Marks */}
+        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-sky-500/40" />
+        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-sky-500/40" />
+        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sky-500/40" />
+        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sky-500/40" />
+
+        {/* Scan-line */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-5">
+          <motion.div
+            className="w-full h-1/2 bg-gradient-to-b from-transparent via-sky-500 to-transparent"
+            animate={{ y: ["-100%", "200%"] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          />
+        </div>
+
+        <div className="p-6 md:p-8 relative z-10 flex flex-col gap-6">
+          {/* Header */}
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <Terminal className="w-3 h-3 text-sky-400" />
+                <p className="text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold">Technical Datasheet</p>
+              </div>
+              <h3 className="text-3xl font-black italic text-slate-100 uppercase tracking-tighter leading-none">{skill.name}</h3>
+              <div className="flex items-center gap-3 mt-2">
+                <span className="text-[11px] font-mono text-emerald-400 font-bold flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                  VERIFIED STACK
+                </span>
+                <span className="text-slate-600 font-mono text-[10px]">|</span>
+                <span className="text-[11px] font-mono text-slate-400 uppercase">{skill.categoryTitle}</span>
+              </div>
+            </div>
+            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full border border-slate-800 text-slate-400 hover:border-sky-500 hover:text-sky-400 transition-all bg-slate-900/50">✕</button>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl">
+              <p className="text-[9px] uppercase tracking-widest text-slate-500 mb-1">Comfort Level</p>
+              <div className="flex items-end gap-2">
+                <span className="text-2xl font-black text-sky-400 leading-none">{skill.percent}%</span>
+                <div className="h-1.5 flex-1 bg-slate-800 rounded-full mb-1 overflow-hidden">
+                  <motion.div
+                    className="h-full bg-sky-500"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${skill.percent}%` }}
+                    transition={{ duration: 1, delay: 0.2 }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="bg-slate-900/50 border border-slate-800 p-3 rounded-xl">
+              <p className="text-[9px] uppercase tracking-widest text-slate-500 mb-1">Efficiency Rank</p>
+              <div className="flex items-end h-full pb-1">
+                <span className="text-sm font-bold text-slate-200 uppercase tracking-tight">{skill.level}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Content Body */}
+          <div className="space-y-6 text-sm text-slate-300">
+            {/* Experience Context - Elite Addition */}
+            {skill.context && (
+              <div>
+                <h4 className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
+                  <span className="w-1 h-3 bg-emerald-500/50" />
+                  Validated Experience
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {skill.context.map((ctx, idx) => {
+                    const Icon = ctx.icon;
+                    return (
+                      <div key={idx} className="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg hover:border-emerald-500/30 transition-colors">
+                        <Icon className="w-3.5 h-3.5 text-emerald-500" />
+                        <span className="text-[11px] text-slate-300 font-bold">{ctx.label}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+            <div>
+              <h4 className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
+                <span className="w-1 h-3 bg-sky-500/50" />
+                Implementation Details
+              </h4>
+              <ul className="space-y-2.5">
+                {skill.usage.map((u, idx) => (
+                  <li key={idx} className="flex gap-3 text-[12px] leading-relaxed group">
+                    <span className="text-sky-500 pt-1">▹</span>
+                    <span className="text-slate-300 group-hover:text-slate-100 transition-colors">{u}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {skill.relatedProjects && skill.relatedProjects.length > 0 && (
+              <div>
+                <h4 className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-3 flex items-center gap-2">
+                  <span className="w-1 h-3 bg-emerald-500/50" />
+                  Project Validation
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {skill.relatedProjects.map(p => (
+                    <button
+                      key={p.id}
+                      onClick={() => window.location.hash = `#/projects/${p.id}`} // Using hash routing if applicable, or Link
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-500/5 border border-sky-500/20 rounded-lg hover:border-sky-500/80 hover:bg-sky-500/10 transition-all group cursor-pointer"
+                    >
+                      <span className="text-[11px] text-slate-400 group-hover:text-sky-300 font-mono">{p.title}</span>
+                      <ExternalLink className="w-3 h-3 text-slate-600 group-hover:text-sky-400" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="pt-6 border-t border-slate-800/80 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-[9px] font-mono text-slate-600 uppercase tracking-widest">
+              Ref: DC-S01-P{skill.percent}
+            </div>
+            <a
+              href="https://in.linkedin.com/in/pradul"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full md:w-auto px-6 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest bg-sky-500 text-slate-950 hover:bg-[#0A66C2] hover:shadow-[0_0_30px_rgba(14,165,233,0.5)] transition-all flex items-center justify-center gap-2"
+            >
+              <Linkedin className="w-3.5 h-3.5" />
+              Connect for Collaboration
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>,
+    document.body
   );
 }
