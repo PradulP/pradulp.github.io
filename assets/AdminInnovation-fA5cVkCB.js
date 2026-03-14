@@ -1,1 +1,0 @@
-import{j as t}from"./react-core-BDXUBcVm.js";import"./vendor-Hta9p-ZG.js";function o(){return t.jsx("div",{className:"p-6 text-slate-300",children:"Admin not available in production."})}export{o as default};
