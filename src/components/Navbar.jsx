@@ -19,6 +19,8 @@ const Navbar = () => {
     const { hero = {} } = content;
 
     const [showMore, setShowMore] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [imageError, setImageError] = useState(false);
     const [theme, setTheme] = useState(() => {
         if (typeof window === "undefined") return "dark";
         return localStorage.getItem("theme") || "dark";
@@ -173,21 +175,35 @@ const Navbar = () => {
                     <Link
                         to="/"
                         onClick={handleNavClick}
+                        aria-label="Home"
                         className="flex items-center gap-2 text-sm md:text-base font-semibold text-slate-100"
                     >
-                        {hero.logo || hero.avatar ? (
-                            <img
-                                src={hero.logo || hero.avatar}
-                                alt={hero.name || "Profile"}
-                                width="32"
-                                height="32"
-                                className="h-8 w-8 rounded-full border border-slate-700 object-cover"
-                            />
-                        ) : (
-                            <div className="h-8 w-8 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center text-xs font-semibold text-sky-300">
-                                {getInitials()}
-                            </div>
-                        )}
+                        <div className="relative h-8 w-8 flex-shrink-0">
+                            {(hero.logo || hero.avatar) && !imageError ? (
+                                <>
+                                    {!imageLoaded && (
+                                        <div className="absolute inset-0 h-8 w-8 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center text-[10px] font-bold text-sky-300 animate-pulse">
+                                            {getInitials()}
+                                        </div>
+                                    )}
+                                    <img
+                                        src={hero.logo || hero.avatar}
+                                        alt={hero.name || "Profile"}
+                                        width="32"
+                                        height="32"
+                                        loading="eager"
+                                        decoding="async"
+                                        onLoad={() => setImageLoaded(true)}
+                                        onError={() => setImageError(true)}
+                                        className={`h-8 w-8 rounded-full border border-slate-700 object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                                    />
+                                </>
+                            ) : (
+                                <div className="h-8 w-8 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center text-xs font-semibold text-sky-300">
+                                    {getInitials()}
+                                </div>
+                            )}
+                        </div>
                         <span>{hero.name || "PRADUL P"}</span>
                     </Link>
 
@@ -293,7 +309,7 @@ const Navbar = () => {
                         <div className="rounded-2xl border border-slate-700 bg-slate-950/95 backdrop-blur-xl shadow-lg p-3 text-xs text-slate-200">
                             {/* THEME TOGGLE FOR MOBILE */}
                             <div className="flex items-center justify-between px-2 py-1.5 mb-2 border-b border-slate-800">
-                                <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Theme</span>
+                                <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Theme</span>
                                 <button
                                     onClick={toggleTheme}
                                     aria-label="Toggle Theme"
@@ -306,7 +322,7 @@ const Navbar = () => {
 
                             {/* MUTE TOGGLE FOR MOBILE */}
                             <div className="flex items-center justify-between px-2 py-1.5 mb-2 border-b border-slate-800">
-                                <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Sounds</span>
+                                <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Sounds</span>
                                 <button
                                     onClick={() => { cadSounds.toggleMute(); }}
                                     aria-label="Toggle Sound"
@@ -323,7 +339,7 @@ const Navbar = () => {
 
                             {/* TERMINAL TOGGLE FOR MOBILE */}
                             <div className="flex items-center justify-between px-2 py-1.5 mb-2 border-b border-slate-800">
-                                <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Terminal</span>
+                                <span className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Terminal</span>
                                 <button
                                     onClick={openTerminal}
                                     aria-label="Open Terminal"

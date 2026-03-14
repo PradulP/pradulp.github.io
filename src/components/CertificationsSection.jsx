@@ -34,7 +34,7 @@ export default function CertificationsSection({ certifications = [] }) {
                                 <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
                                     {cert.type === "Achievement" ? <Briefcase className="w-5 h-5" /> : <FileCheck className="w-5 h-5" />}
                                 </div>
-                                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 flex items-center gap-2 border border-slate-800 rounded-full px-3 py-1">
+                                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2 border border-slate-800 rounded-full px-3 py-1">
                                     <Calendar className="w-3 h-3" /> {cert.year}
                                 </span>
                             </div>
@@ -58,7 +58,7 @@ export default function CertificationsSection({ certifications = [] }) {
                                     {(cert.tags || []).map((tag, i) => (
                                         <span
                                             key={i}
-                                            className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-slate-950 border border-slate-800 text-slate-500"
+                                            className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-slate-950 border border-slate-800 text-slate-400"
                                         >
                                             {tag}
                                         </span>

@@ -35,7 +35,7 @@ export default function StatsCounter({ from = 0, to = 100, duration = 1.2, suffi
         {displayValue}
         <span className="text-transparent bg-clip-text bg-gradient-to-tr from-sky-400 to-emerald-400 ml-1">{suffix}</span>
       </div>
-      {label && <div className="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">{label}</div>}
+      {label && <div className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mt-2">{label}</div>}
     </div>
   );
 }

@@ -80,6 +80,12 @@ h6 {
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    font-display: swap;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }

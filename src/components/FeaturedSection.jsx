@@ -84,7 +84,7 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
 
           {/* ================= LEFT LIST ================= */}
           <aside className="md:col-span-4 flex flex-col h-full">
-            <p className="text-xs uppercase tracking-widest text-slate-500 mb-4 font-semibold">Featured Projects</p>
+            <p className="text-xs uppercase tracking-widest text-slate-400 mb-4 font-semibold">Featured Projects</p>
 
             <div
               ref={containerRef}
@@ -127,7 +127,7 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
 
           {/* ================= PREVIEW ================= */}
           <div className="md:col-span-8 flex flex-col">
-            <div className="relative rounded-2xl bg-slate-950 overflow-hidden border border-slate-800/50 shadow-inner min-h-[300px] flex-1">
+            <div className="relative rounded-2xl bg-slate-950 overflow-hidden border border-slate-800/50 shadow-inner min-h-[360px] md:min-h-[400px] flex-1">
 
               <AnimatePresence mode="wait">
                 <motion.div
@@ -144,6 +144,8 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
                       src={modelSrc}
                       camera-controls
                       auto-rotate
+                      poster={selected.image || (selected.images?.length > 0 ? selected.images[0] : "")}
+                      fetchpriority="high"
                       style={{ width: "100%", height: "100%", minHeight: "360px" }}
                     />
                   ) : selected?.images?.length > 0 ? (
@@ -152,6 +154,10 @@ export default function FeaturedSection({ projects = [], maxItems = 6 }) {
                     <img
                       src={selected.image}
                       alt={selected.title}
+                      width="800"
+                      height="360"
+                      fetchpriority="high"
+                      decoding="async"
                       className="w-full h-full object-cover min-h-[360px]"
                     />
                   ) : (

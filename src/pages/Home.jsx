@@ -179,7 +179,7 @@ export default function Home() {
             <div className="max-w-7xl mx-auto px-4 pt-24 md:pt-32 relative space-y-20">
 
                 {/* ================= HERO SECTION ================= */}
-                <section className="grid lg:grid-cols-12 gap-12 items-center">
+                <section className="grid lg:grid-cols-12 gap-12 items-center min-h-[80vh] md:min-h-0">
                     <div className="lg:col-span-7 space-y-8 relative z-10">
                         {/* Decorative Top Line */}
                         <div className="flex items-center gap-4 text-xs font-mono text-emerald-500/80 tracking-widest uppercase">
@@ -188,12 +188,7 @@ export default function Home() {
                             <span className="animate-pulse">_</span>
                         </div>
 
-                        <motion.div
-                            initial={{ opacity: 1, y: 0 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0 }}
-                            className="space-y-6"
-                        >
+                        <div className="space-y-6">
                             <div className="flex items-center gap-3 mb-4">
                                 <span className="px-4 py-2 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-[10px] font-bold uppercase tracking-widest shadow-[0_0_10px_rgba(56,189,248,0.1)]">
                                     DIGITAL INFRASTRUCTURE ENGINEERING
@@ -203,64 +198,56 @@ export default function Home() {
                             </div>
 
                             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400 uppercase tracking-tighter leading-[0.9] min-h-[1.5em] md:min-h-[1.2em] drop-shadow-[0_0_15px_rgba(56,189,248,0.2)]">
-                                <Typewriter
-                                    text="PRADUL P"
-                                    delay={0}
-                                    speed={80}
-                                    // Start the next line when this is ~50% done (simulated by a separate timer in useEffect below, 
-                                    // but for simplicity here we just start the next one with a shorter delay instead of waiting for onComplete)
-                                    onComplete={() => { }}
-                                />
+                                <span className="md:hidden">PRADUL P</span>
+                                <span className="hidden md:inline">
+                                    <Typewriter
+                                        text="PRADUL P"
+                                        delay={0}
+                                        speed={80}
+                                        onComplete={() => { }}
+                                    />
+                                </span>
                             </h1>
 
                             <div className="min-h-[3em] md:min-h-[2em]">
                                 <p className="text-xl md:text-3xl text-slate-200 font-bold max-w-4xl leading-tight">
-                                    {/* Started with a delay that allows it to begin while "PRADUL P" is still typing */}
-                                    <Typewriter
-                                        text="Licensed Civil Engineer | "
-                                        delay={500}
-                                        speed={40}
-                                        className="text-slate-100"
-                                        onComplete={() => setShowTagline(true)}
-                                    />
-                                    {/* The colored parts are appended after the base text types, or we can type them all together. 
-                                        To keep the color, we render them conditionally or animate them. 
-                                        Simplest approach for mixed color typing is to show them after a delay or type them as blocks.
-                                        Given the constraint, let's fade them in as a block after the prefix types to ensure color precision. */}
-                                    {showTagline && (
-                                        <motion.span
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            transition={{ duration: 0.5 }}
-                                        >
-                                            <span className="text-emerald-400">Infrastructure Systems</span>
-                                            <span className="text-slate-500 mx-2">&</span>
-                                            <span className="text-sky-400">Digital Engineering</span>
-                                        </motion.span>
-                                    )}
+                                    <span className="md:hidden">Licensed Civil Engineer | Infrastructure Systems & Digital Engineering</span>
+                                    <span className="hidden md:inline">
+                                        <Typewriter
+                                            text="Licensed Civil Engineer | "
+                                            delay={500}
+                                            speed={40}
+                                            className="text-slate-100"
+                                            onComplete={() => setShowTagline(true)}
+                                        />
+                                        {showTagline && (
+                                            <motion.span
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ duration: 0.5 }}
+                                            >
+                                                <span className="text-emerald-400">Infrastructure Systems</span>
+                                                <span className="text-slate-500 mx-2">&</span>
+                                                <span className="text-sky-400">Digital Engineering</span>
+                                            </motion.span>
+                                        )}
+                                    </span>
                                 </p>
                             </div>
 
                             <div className="mt-6 pl-4 border-l-4 border-sky-500/50">
-                                {showTagline && (
-                                    <motion.p
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ delay: 0.8, duration: 0.5 }}
-                                        className="text-slate-400 max-w-2xl leading-relaxed text-sm md:text-base font-medium"
-                                    >
-                                        I work on real-world infrastructure projects while delivering engineering solutions through structural detailing, BIM modeling, and precision-driven documentation. Alongside core civil engineering practice, I develop digital tools and web-based systems that improve workflow efficiency, automation, and project coordination — integrating physical construction expertise with modern digital engineering.
-                                    </motion.p>
-                                )}
+                                <p className="text-slate-400 max-w-2xl leading-relaxed text-sm md:text-base font-medium">
+                                    I work on real-world infrastructure projects while delivering engineering solutions through structural detailing, BIM modeling, and precision-driven documentation. Alongside core civil engineering practice, I develop digital tools and web-based systems that improve workflow efficiency, automation, and project coordination — integrating physical construction expertise with modern digital engineering.
+                                </p>
                             </div>
-                        </motion.div>
+                        </div>
 
                         {/* Quick Access Buttons - Modernized */}
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6 }}
-                            className="flex flex-wrap gap-5 pt-4"
+                            transition={{ delay: 0.4 }}
+                            className="flex flex-wrap gap-5 pt-4 min-h-[80px] md:min-h-0"
                         >
                             <Link to="/projects" className="relative group px-8 py-4 bg-sky-600 text-slate-950 font-bold uppercase tracking-widest text-xs rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(56,189,248,0.4)]">
                                 <div className="absolute inset-0 bg-gradient-to-r from-sky-400 via-sky-300 to-sky-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -299,9 +286,9 @@ export default function Home() {
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent h-[200%] w-full animate-scan pointer-events-none" />
 
                                 <div className="flex justify-between items-start mb-6">
-                                    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-sky-500/80 flex items-center gap-2">
+                                    <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-sky-500/80 flex items-center gap-2">
                                         <Activity className="w-4 h-4" /> System Status
-                                    </h3>
+                                    </h2>
                                     <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-pulse">
                                         ONLINE
                                     </span>
@@ -309,7 +296,7 @@ export default function Home() {
 
                                 <div className="space-y-6">
                                     <div className="space-y-2">
-                                        <div className="text-[10px] text-slate-500 uppercase tracking-widest">
+                                        <div className="text-[10px] text-slate-400 uppercase tracking-widest">
                                             <span>Current Role</span>
                                         </div>
                                         <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 flex items-center gap-3">
@@ -327,13 +314,13 @@ export default function Home() {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-1">
-                                            <span className="text-[10px] text-slate-500 uppercase tracking-wider">Location</span>
+                                            <span className="text-[10px] text-slate-400 uppercase tracking-wider">Location</span>
                                             <div className="p-2 bg-slate-950 rounded border border-slate-800 text-xs text-slate-300 font-mono">
                                                 {contact.location || "Earth"}
                                             </div>
                                         </div>
                                         <div className="space-y-1">
-                                            <span className="text-[10px] text-slate-500 uppercase tracking-wider">Availability</span>
+                                            <span className="text-[10px] text-slate-400 uppercase tracking-wider">Availability</span>
                                             <div className="p-2 bg-slate-950 rounded border border-slate-800 text-xs text-emerald-400 font-mono flex items-center gap-2">
                                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Open
                                             </div>
@@ -353,7 +340,7 @@ export default function Home() {
                 </section>
 
                 {/* ================= PROFILE SUMMARY (2) ================= */}
-                <section className="relative mt-20">
+                <section className="relative mt-20 min-h-[400px]">
                     <div className="absolute inset-0 bg-slate-900/40 skew-y-1 transform rounded-3xl -z-10" />
 
                     <div className="bg-slate-900/60 border border-sky-900/30 p-8 md:p-12 rounded-3xl backdrop-blur-md relative overflow-hidden">
@@ -382,7 +369,7 @@ export default function Home() {
                                             <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
                                                 <Briefcase className="w-5 h-5" />
                                             </div>
-                                            <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Core Discipline</div>
+                                            <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Core Discipline</div>
                                         </div>
                                         <div className="text-xl font-bold text-slate-100 pl-2 border-l-2 border-emerald-500">Civil Engineering</div>
                                     </div>
@@ -392,7 +379,7 @@ export default function Home() {
                                             <div className="p-2 bg-sky-500/10 rounded-lg text-sky-400">
                                                 <Database className="w-5 h-5" />
                                             </div>
-                                            <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Specialization</div>
+                                            <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Specialization</div>
                                         </div>
                                         <div className="text-xl font-bold text-slate-100 pl-2 border-l-2 border-sky-500">BIM & Digital Engineering</div>
                                     </div>
@@ -403,7 +390,7 @@ export default function Home() {
                 </section>
 
                 {/* ================= EXPERIENCE & EDUCATION (3) ================= */}
-                <section>
+                <section className="min-h-[600px]">
                     <SectionTitle>Experience & Education</SectionTitle>
                     <motion.div
                         initial="hidden"
@@ -502,7 +489,7 @@ export default function Home() {
                 </section>
 
                 {/* ================= FEATURED PROJECTS (4) ================= */}
-                <section>
+                <section className="min-h-[600px]">
                     <div className="flex items-center justify-between mb-8">
                         <SectionTitle>Featured Projects</SectionTitle>
                         <Link to="/projects" className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-sky-400 transition-colors">
@@ -535,6 +522,7 @@ export default function Home() {
 
                 {/* ================= SKILLS SNAPSHOT (7) ================= */}
                 <motion.section
+                    className="min-h-[250px]"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
@@ -566,7 +554,7 @@ export default function Home() {
 
                 {/* ================= INNOVATION & TOOLS (8) ================= */}
                 {((Array.isArray(innovation) ? innovation : (innovation?.items ?? []))).length > 0 && (
-                    <section>
+                    <section className="min-h-[300px]">
                         <SectionTitle>Innovation & Tools</SectionTitle>
                         <InnovationPreview
                             limit={2}
@@ -577,7 +565,7 @@ export default function Home() {
 
                 {/* ================= LATEST NOTE (9) ================= */}
                 {latestBlog?.[0] && (
-                    <section>
+                    <section className="min-h-[300px]">
                         <SectionTitle>Latest Note</SectionTitle>
                         <Link to={`/blog/${latestBlog[0].slug || generateSlug(latestBlog[0].title)}`} className="group block relative rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden hover:border-sky-500/50 transition-all duration-500 p-8">
                             <div className="flex flex-col md:flex-row gap-8 items-start">

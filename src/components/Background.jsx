@@ -28,13 +28,13 @@ export default function Background() {
             <div className="absolute inset-0 bg-blueprint opacity-[var(--cad-grid-opacity,0.5)]"
                 style={{ '--cad-grid-opacity': currentTheme === 'paper' ? '0.1' : '0.5' }} />
 
-            {/* 2. House Structure (Scroll-Reactive Assembly) */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-40 z-[-2]">
+            {/* 2. House Structure (Scroll-Reactive Assembly) - Desktop Only */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-40 z-[-2] hidden md:block">
                 <HouseAssembly progress={scrollProgress} />
             </div>
 
-            {/* 3. Futuristic Neon Light Beams (Diagonal Scans) */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+            {/* 3. Futuristic Neon Light Beams (Diagonal Scans) - Desktop Only */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40 hidden md:block">
                 <div className="bg-neon-beam" style={{ left: '20%', animationDelay: '0s' }} />
                 <div className="bg-neon-beam" style={{ left: '50%', animationDelay: '2s' }} />
                 <div className="bg-neon-beam" style={{ left: '80%', animationDelay: '4s' }} />
@@ -46,18 +46,20 @@ export default function Background() {
             <div className="absolute bottom-[10%] right-[10%] w-[50vw] h-[50vw] bg-amber-500/20 rounded-full blur-[140px] animate-float" style={{ animationDelay: "4s" }} />
             <div className="absolute bottom-[-10%] left-[10%] w-[55vw] h-[55vw] bg-indigo-500/20 rounded-full blur-[140px] animate-float" style={{ animationDelay: "6s" }} />
 
-            {/* 5. Floating BIM Wireframes (Spectrum themed) */}
-            <FloatingBIMObject className="top-[15%] left-[10%] opacity-30" size={60} duration={20} color="border-sky-500/50" />
-            <FloatingBIMObject className="top-[45%] right-[20%] opacity-30" size={85} duration={25} delay={-5} color="border-amber-500/50" />
-            <FloatingBIMObject className="bottom-[30%] left-[15%] opacity-25" size={50} duration={18} delay={-10} color="border-emerald-500/50" />
+            {/* 5. Floating BIM Wireframes (Spectrum themed) - Desktop Only */}
+            <div className="hidden md:block">
+                <FloatingBIMObject className="top-[15%] left-[10%] opacity-30" size={60} duration={20} color="border-sky-500/50" />
+                <FloatingBIMObject className="top-[45%] right-[20%] opacity-30" size={85} duration={25} delay={-5} color="border-amber-500/50" />
+                <FloatingBIMObject className="bottom-[30%] left-[15%] opacity-25" size={50} duration={18} delay={-10} color="border-emerald-500/50" />
+            </div>
 
-            {/* 6. Building Frameworks (Rising Construction) */}
-            <div className="absolute inset-x-0 bottom-0 h-[40vh] overflow-hidden pointer-events-none opacity-20 z-[-1]">
+            {/* 6. Building Frameworks (Rising Construction) - Desktop Only */}
+            <div className="absolute inset-x-0 bottom-0 h-[40vh] overflow-hidden pointer-events-none opacity-20 z-[-1] hidden md:block">
                 <BuildingFrameworks />
             </div>
 
-            {/* 6. Floating Digital Tools (Civil & Web) */}
-            <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+            {/* 6. Floating Digital Tools (Civil & Web) - Desktop Only */}
+            <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden hidden md:block">
                 <FloatingToolLabel text="REVIT" top="10%" left="80%" delay="0s" color="text-sky-400" />
                 <FloatingToolLabel text="AUTOCAD" top="25%" left="15%" delay="2s" color="text-slate-400" />
                 <FloatingToolLabel text="REACT" top="60%" left="85%" delay="4s" color="text-sky-400" />
@@ -68,8 +70,10 @@ export default function Background() {
                 <FloatingToolLabel text="NODE.JS" top="50%" left="75%" delay="7s" color="text-emerald-500" />
             </div>
 
-            {/* 7. Interactive Structural Grid (Canvas) */}
-            <StructuralCanvas />
+            {/* 7. Interactive Structural Grid (Canvas) - Desktop Only */}
+            <div className="hidden md:block">
+                <StructuralCanvas />
+            </div>
 
             {/* 8. Vignette Overlay (Focus Center) */}
             <div className="absolute inset-0 bg-radial-vignette opacity-70"

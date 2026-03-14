@@ -147,7 +147,7 @@ export default function SkillCard({ skill, categoryTitle, onClick, index, getExp
                             </div>
 
                             <div className="flex-1 space-y-2">
-                                <div className="flex justify-between items-center text-[9px] font-mono text-slate-500 uppercase tracking-widest">
+                                <div className="flex justify-between items-center text-[9px] font-mono text-slate-400 uppercase tracking-widest">
                                     <span>Capacity</span>
                                 </div>
                                 {/* Segmented Progress Bar */}
@@ -205,7 +205,7 @@ export default function SkillCard({ skill, categoryTitle, onClick, index, getExp
 
                             {/* Experience Context Indicators */}
                             <div className="space-y-1.5">
-                                <p className="text-[8px] uppercase tracking-widest text-slate-500 font-bold mb-1 border-b border-slate-800 pb-1">Validation Sources:</p>
+                                <p className="text-[8px] uppercase tracking-widest text-slate-400 font-bold mb-1 border-b border-slate-800 pb-1">Validation Sources:</p>
                                 {getExperienceContext(skill.name, categoryTitle).map((ctx, i) => (
                                     <div key={i} className="flex items-center gap-2 text-[9px] text-slate-400">
                                         <CheckCircle2 className="w-3 h-3 text-cyan-500" />

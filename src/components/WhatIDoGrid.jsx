@@ -10,7 +10,7 @@ import { containerVariants, itemVariants } from "../utils/animations";
  */
 export default function WhatIDoGrid({ items = [] }) {
   return (
-    <section className="mb-10">
+    <section className="mb-10 min-h-[400px]">
       <motion.div
         initial="hidden"
         whileInView="visible"

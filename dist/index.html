@@ -4,12 +4,28 @@
 <head>
   <meta charset="UTF-8" />
 
-  <!-- model-viewer -->
+  <!-- model-viewer: type="module" is deferred by default — does NOT block render -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-  <title>Pradul P</title>
+  <title>Pradul P | Civil Engineer & BIM Specialist</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfolio of Pradul P" />
+  <meta name="description" content="Portfolio of Pradul P — Civil Engineer, BIM Modeler & Digital Engineering specialist." />
+
+  <!-- Critical Inline CSS: ensures above-the-fold content paints immediately -->
+  <style>
+    *,::before,::after{box-sizing:border-box}
+    html{overflow-x:hidden;scroll-behavior:smooth}
+    body{margin:0;background-color:#020617;color:#f1f5f9;font-family:ui-sans-serif,system-ui,sans-serif;overflow-x:hidden}
+    #root{min-height:100vh}
+    /* Hero text pre-paint: prevents flash of invisible text */
+    h1,p{max-width:100%;word-break:break-word}
+  </style>
+
+  <!-- Performance Optimization -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
 
   <!-- Google Search Console Verification (Replace content with your code) -->
   <meta name="google-site-verification" content="Yq8K8n-2QpIIdtg4vEqr-HA07bclbe_fVAwUWv2iPig" />
@@ -36,7 +52,7 @@
   </script>
 
   <!-- favicon -->
-  <link rel="icon" type="image/jpeg" href="./pradul-avatar.jpg" />
+  <link rel="icon" type="image/webp" href="./pradul-avatar.webp" />
   <!-- Start Single Page Apps for GitHub Pages -->
   <script type="text/javascript">
     // Single Page Apps for GitHub Pages
@@ -67,8 +83,10 @@
     }(window.location))
   </script>
   <!-- End Single Page Apps for GitHub Pages -->
-  <script type="module" crossorigin src="/assets/index-el7lTrSH.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-tMdfSOFw.css">
+  <script type="module" crossorigin src="/assets/index-BsHLGbgy.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/vendor-CSVIhTdg.js">
+  <link rel="modulepreload" crossorigin href="/assets/framer-motion-CuIg7K6e.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-Cr3FpNSN.css">
 </head>
 
 <body>

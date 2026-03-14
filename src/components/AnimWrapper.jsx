@@ -1,30 +1,25 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
+const pageTransition = {
+  duration: 0.4,              // faster, snappier
+  ease: [0.25, 0.1, 0.25, 1], // standard ease-out
+};
+
+// Simplified variants for better performance
 const pageVariants = {
   initial: {
-    opacity: 0,
-    filter: "blur(14px)",
-    scale: 0.97,
-    y: 10,
+    opacity: 1, // Start visible to zero-out LCP delay
+    y: 0,
   },
   in: {
     opacity: 1,
-    filter: "blur(0px)",
-    scale: 1,
     y: 0,
   },
   out: {
     opacity: 0,
-    filter: "blur(10px)",
-    scale: 1.02,
-    y: -10,
+    y: -5,
   },
-};
-
-const pageTransition = {
-  duration: 0.75,         // cinematic slow
-  ease: [0.22, 0.61, 0.36, 1], // smooth easeOut curve
 };
 
 export default function AnimWrapper({ children }) {

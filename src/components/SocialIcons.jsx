@@ -28,6 +28,7 @@ const SocialIcons = ({ size = 22, spacing = "space-x-4" }) => {
         href={links.facebook}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Visit Facebook profile"
         className="text-blue-500 hover:text-blue-700 hover:scale-110 transition"
       >
         <FaFacebookF size={size} />
@@ -37,6 +38,7 @@ const SocialIcons = ({ size = 22, spacing = "space-x-4" }) => {
         href={links.instagram}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Visit Instagram profile"
         className="text-pink-500 hover:text-pink-700 hover:scale-110 transition"
       >
         <FaInstagram size={size} />
@@ -46,6 +48,7 @@ const SocialIcons = ({ size = 22, spacing = "space-x-4" }) => {
         href={links.linkedin}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Visit LinkedIn profile"
         className="text-sky-500 hover:text-sky-700 hover:scale-110 transition"
       >
         <FaLinkedinIn size={size} />
@@ -55,6 +58,7 @@ const SocialIcons = ({ size = 22, spacing = "space-x-4" }) => {
         href={links.youtube}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Visit YouTube channel"
         className="text-red-500 hover:text-red-700 hover:scale-110 transition"
       >
         <FaYoutube size={size} />
@@ -64,6 +68,7 @@ const SocialIcons = ({ size = 22, spacing = "space-x-4" }) => {
         href={links.github}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Visit GitHub profile"
         className="text-gray-400 hover:text-gray-200 hover:scale-110 transition"
       >
         <FaGithub size={size} />
@@ -73,6 +78,7 @@ const SocialIcons = ({ size = 22, spacing = "space-x-4" }) => {
         href={links.whatsapp}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Contact on WhatsApp"
         className="text-green-500 hover:text-green-700 hover:scale-110 transition"
       >
         <FaWhatsapp size={size} />
