@@ -4,15 +4,8 @@
 <head>
   <meta charset="UTF-8" />
 
-  <!-- model-viewer: loaded after page is interactive to avoid blocking render -->
-  <script>
-    window.addEventListener('load', function () {
-      var s = document.createElement('script');
-      s.type = 'module';
-      s.src = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
-      document.head.appendChild(s);
-    });
-  </script>
+  <!-- model-viewer: type="module" is deferred by default — does NOT block render -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <title>Pradul P | Civil Engineer & BIM Specialist</title>
 
@@ -59,7 +52,7 @@
   </script>
 
   <!-- favicon -->
-  <link rel="icon" type="image/jpeg" href="./pradul-avatar.jpg" />
+  <link rel="icon" type="image/webp" href="./pradul-avatar.webp" />
   <!-- Start Single Page Apps for GitHub Pages -->
   <script type="text/javascript">
     // Single Page Apps for GitHub Pages
@@ -90,7 +83,7 @@
     }(window.location))
   </script>
   <!-- End Single Page Apps for GitHub Pages -->
-  <script type="module" crossorigin src="/assets/index-Dj9beerx.js"></script>
+  <script type="module" crossorigin src="/assets/index-BCrdcBD4.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/vendor-CSVIhTdg.js">
   <link rel="modulepreload" crossorigin href="/assets/framer-motion-CuIg7K6e.js">
   <link rel="stylesheet" crossorigin href="/assets/index-Cr3FpNSN.css">
