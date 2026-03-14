@@ -4,7 +4,15 @@
 <head>
   <meta charset="UTF-8" />
 
-  <!-- model-viewer -->
+  <!-- model-viewer: loaded after page is interactive to avoid blocking render -->
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.src = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
+      document.head.appendChild(s);
+    });
+  </script>
 
   <title>Pradul P</title>
 
@@ -72,7 +80,13 @@
     }(window.location))
   </script>
   <!-- End Single Page Apps for GitHub Pages -->
-  <script type="module" crossorigin src="/assets/index-Cg7XzSvi.js"></script>
+  <script type="module" crossorigin src="/assets/index-DLgEQFQq.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/vendor-Hta9p-ZG.js">
+  <link rel="modulepreload" crossorigin href="/assets/react-core-BDXUBcVm.js">
+  <link rel="modulepreload" crossorigin href="/assets/router-D9B-dtkg.js">
+  <link rel="modulepreload" crossorigin href="/assets/framer-motion-DkMxxAgV.js">
+  <link rel="modulepreload" crossorigin href="/assets/react-icons-1vF7dAVc.js">
+  <link rel="modulepreload" crossorigin href="/assets/lucide-BXWy7YEh.js">
   <link rel="stylesheet" crossorigin href="/assets/index-C0TdoKXA.css">
 </head>
 
