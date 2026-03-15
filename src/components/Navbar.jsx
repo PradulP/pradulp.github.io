@@ -33,12 +33,7 @@ const Navbar = () => {
 
     // prepare audio on mount
     useEffect(() => {
-        try {
-            audioRef.current = new Audio("/click.mp3"); // put click.mp3 in public/
-            audioRef.current.volume = 0.3;
-        } catch {
-            audioRef.current = null;
-        }
+        // Audio feedback removed as per request
     }, []);
 
     // theme handling
@@ -117,20 +112,7 @@ const Navbar = () => {
                 navigator.vibrate(20);
             }
         }
-        // Use CAD sound if available
-        try {
-            import("../utils/cadSounds").then(({ cadSounds }) => cadSounds.playClick());
-        } catch (e) { }
-
-        // click sound
-        if (audioRef.current) {
-            try {
-                audioRef.current.currentTime = 0;
-                audioRef.current.play();
-            } catch {
-                // ignore autoplay block
-            }
-        }
+        // Audio feedback removed as per request
     };
 
     const isActive = (path) =>

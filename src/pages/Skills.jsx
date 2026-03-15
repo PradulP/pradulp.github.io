@@ -431,7 +431,7 @@ export default function SkillsSection() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-sky-500/30 pb-20 overflow-x-hidden">
+    <section className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-sky-500/30 px-4 md:px-10 lg:px-24 pt-24 md:pt-32 pb-20 overflow-hidden relative">
       <SEO title="Skills" description="My technical expertise in Civil Engineering software and Full Stack Web Development." />
 
       {/* Global Background Elements */}
@@ -441,7 +441,7 @@ export default function SkillsSection() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] opacity-20" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10 space-y-12 pt-12 md:pt-20 px-4 md:px-8">
+      <div className="max-w-7xl mx-auto relative z-10 space-y-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             {eyebrow && <p className="text-xs font-bold uppercase tracking-[0.25em] text-sky-500 mb-2 px-1">{eyebrow}</p>}
@@ -501,7 +501,7 @@ export default function SkillsSection() {
 
             <div
               ref={scrollRef}
-              className="flex gap-4 overflow-x-auto px-1 pb-4 pt-1 custom-scrollbar scroll-smooth w-full mask-linear-gradient"
+              className="flex gap-4 overflow-x-auto px-1 pb-4 pt-1 custom-scrollbar scroll-smooth w-full"
             >
               {filteredGroups.map((group, index) => (
                 <button
@@ -539,7 +539,7 @@ export default function SkillsSection() {
           initial="hidden"
           animate="visible"
           variants={variants}
-          className="grid gap-6 md:gap-8 md:grid-cols-2 xl:grid-cols-3 pb-20"
+          className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {activeGroup.skills.length > 0 ? (
             activeGroup.skills.map((skill, index) => {
@@ -574,7 +574,7 @@ export default function SkillsSection() {
           />
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 }
 
