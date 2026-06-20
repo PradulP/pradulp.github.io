@@ -160,7 +160,7 @@ export default function About() {
 
                   <div className="grid grid-cols-[140px_1fr] items-baseline border-b border-slate-800/50 pb-2">
                     <span className="text-slate-500 font-mono text-xs uppercase tracking-wide">Current Role</span>
-                    <span className="text-slate-200">Junior Engineer — Infrastructure Projects</span>
+                    <span className="text-slate-200">Senior Engineer — Infrastructure Projects</span>
                   </div>
 
                   <div className="grid grid-cols-[140px_1fr] items-baseline border-b border-slate-800/50 pb-2">
