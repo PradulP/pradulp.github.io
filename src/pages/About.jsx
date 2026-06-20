@@ -26,7 +26,7 @@ export default function About() {
   const milestones = [
     {
       year: "2024 — Present",
-      title: "Junior Engineer",
+      title: "Senior Engineer",
       body: "Contributing to real-world infrastructure projects through structural documentation, BIM workflows, and technical coordination. This phase represents the convergence of academic learning, digital tools, and site execution.",
       status: "active"
     },
