@@ -399,7 +399,7 @@ export default function Home() {
                         variants={containerVariants}
                         className="grid gap-6 md:grid-cols-2"
                     >
-                        {displayExperience[0] && (
+                        {currentRole && (
                             <Link to="/experience" className="block h-full group">
                                 <motion.article
                                     variants={itemVariants}
@@ -424,14 +424,14 @@ export default function Home() {
                                         </span>
                                         <div>
                                             <h3 className="font-bold text-xl text-slate-100">
-                                                {displayExperience[0].roles?.[0]?.title || displayExperience[0].role || displayExperience[0].title || "Professional Role"}
+                                                {currentRole.roles?.[0]?.title || currentRole.role || currentRole.title || "Professional Role"}
                                             </h3>
-                                            <p className="text-sky-400 text-sm font-medium mt-1">{displayExperience[0].company || displayExperience[0].place}</p>
+                                            <p className="text-sky-400 text-sm font-medium mt-1">{currentRole.company || currentRole.place}</p>
                                         </div>
                                         <ul className="list-disc list-inside space-y-2 text-sm text-slate-400 pt-2">
-                                            {(displayExperience[0].roles?.[0]?.points ||
-                                                (displayExperience[0].description ? String(displayExperience[0].description).split(/(?:\|\|)/) : []) ||
-                                                displayExperience[0].points || [])
+                                            {(currentRole.roles?.[0]?.points ||
+                                                (currentRole.description ? String(currentRole.description).split(/(?:\|\|)/) : []) ||
+                                                currentRole.points || [])
                                                 .slice(0, 2).map((pt, i) => <li key={i}>{typeof pt === 'string' ? pt.trim() : pt}</li>)}
                                         </ul>
                                         <div className="pt-6 mt-2 border-t border-slate-800/50">

@@ -2,6 +2,25 @@
     "experience": [
         {
             "timestamp": "",
+            "id": 9,
+            "title": "Trainee Engineer",
+            "company": "Paradigm IT Private Limited",
+            "period": "Jul 2024 — Dec 2024",
+            "location": "Infopark, Kochi, India",
+            "description": "Prepared geotechnical and infrastructure formwork drawings using AutoCAD || Assisted in revisions and updates for ongoing infrastructure projects || Supported drawing coordination and documentation tasks || Gained practical exposure to engineering workflows and construction processes",
+            "tech": [
+                "AutoCAD ",
+                " Geotechnical Drawings ",
+                " Infrastructure Formwork Drawings ",
+                " Navisworks"
+            ],
+            "visible": true,
+            "certificate": "",
+            "photos": "",
+            "pdf": ""
+        },
+        {
+            "timestamp": "",
             "id": 8,
             "title": "Intern — Traffic Survey Project",
             "company": "KSCSTE National Transportation Planning and Research Centre (NATPAC)",
@@ -133,28 +152,9 @@
         {
             "timestamp": "",
             "id": 2,
-            "title": "Trainee Engineer",
-            "company": "Paradigm IT Private Limited",
-            "period": "Jul 2024 — Dec 2024",
-            "location": "Infopark, Kochi, India",
-            "description": "Prepared geotechnical and infrastructure formwork drawings using AutoCAD || Assisted in revisions and updates for ongoing infrastructure projects || Supported drawing coordination and documentation tasks || Gained practical exposure to engineering workflows and construction processes",
-            "tech": [
-                "AutoCAD ",
-                " Geotechnical Drawings ",
-                " Infrastructure Formwork Drawings ",
-                " Navisworks"
-            ],
-            "visible": true,
-            "certificate": "",
-            "photos": "",
-            "pdf": ""
-        },
-        {
-            "timestamp": "",
-            "id": 1,
             "title": "Junior Engineer",
             "company": "Paradigm IT Private Limited",
-            "period": "Dec 2024 — Present",
+            "period": "Dec 2024 — Apr 2026",
             "location": "Infopark, Kochi, India",
             "description": "Preparing construction-ready AutoCAD and Revit drawings for infrastructure works || Contributing to BIM-based modeling and detailing processes || Supporting geotechnical and soil-related documentation using site data || Coordinating with design and rebar teams to align drawings with project requirements",
             "tech": [
@@ -163,6 +163,26 @@
                 " BIM Modelling ",
                 " BIM 360 ",
                 " Autodesk Construction Cloud (ACC)"
+            ],
+            "visible": true,
+            "certificate": "",
+            "photos": "",
+            "pdf": ""
+        },
+        {
+            "timestamp": "2026-06-20T06:21:51.381Z",
+            "id": 1,
+            "title": "Senior Engineer",
+            "company": "Paradigm IT Private Limited",
+            "period": "Apr 2026 - Present",
+            "location": "Infopark, Kochi, India",
+            "description": "Revit-based BIM modeling and detailing for infrastructure and engineering projects || Preparing and reviewing construction-ready drawings CAD detailing and technical documentation || Performing drawing checks and quality control to ensure compliance with project standards and design requirements || Coordinating with design structural and rebar teams to maintain accuracy and consistency across project deliverables || Supporting project execution through model updates clash resolution and detailed construction documentation",
+            "tech": [
+                "AutoCAD ",
+                " Revit ",
+                " BIM 360 ",
+                " Autodesk Construction Cloud (ACC) ",
+                " Microsoft Excel"
             ],
             "visible": true,
             "certificate": "",
